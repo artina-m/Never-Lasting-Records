@@ -2,9 +2,66 @@
 <html>
 <head>
     <title>CS 3300 Project 2 </title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 
 <body>
+    <div>
+    <p>
+        <script>
+            // Olympic Games of interest
+            var mens100m  = {};
+            var womens100m  = {};
+            
+            function parseLine(line) {
+                return {
+                    game: line["Game"],
+                    year: line["Year"],
+                    medal: line["Medal"],
+                    result: Number(line["Result"]),
+                    country: line["Country"],
+                    athlete: line["Athlete"]
+                }
+            }
+            
+            // Create objects for gold, silver, and bronze results.
+            // Update the data object olympicResults to include new results
+            function olympicYearResults (olympicResults, d){
+                if (d.medal == "gold"){
+                    olympicResults[d.year].gold = {result: d.result, athlete: d.athlete, country: d.country};
+                }
+                if (d.medal == "silver"){
+                    olympicResults[d.year].silver = {result: d.result, athlete: d.athlete, country: d.country};
+                }
+                if (d.medal == "bronze"){
+                    olympicResults[d.year].bronze = {result: d.result, athlete: d.athlete, country: d.country};
+                }
+            }
+            
+            d3.csv("olympicData.csv", parseLine, function(error,data){
+                olympicData = data;
+                
+                // Create object for each olympic game (key = year)
+                olympicData.forEach(function(d){
+                    
+                    if (d.game == "100M Men"){ mens100m[d.year]= {} }
+                    
+                    else if (d.game == "100M Women") { womens100m[d.year] = {} }
+                })
+                
+                // Create object for every year's results (keys =  gold, silver and bronze )
+                olympicData.forEach(function(d){
+                    
+                    if (d.game == "100M Men"){ olympicYearResults(mens100m, d); }
+                    
+                    if (d.game == "100M Women"){ olympicYearResults(womens100m, d); }
+                })
+                
+            });
+            
+        </script>
+    </p>
+    </div>
 </body>
 
 </html>
