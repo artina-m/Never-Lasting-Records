@@ -3,6 +3,7 @@
 <head>
     <title>CS 3300 Project 2 </title>
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link rel = "stylesheet" type="text/css" href = "index.css">
 </head>
 
 <body>
@@ -55,9 +56,141 @@
                     if (d.game == "100M Men"){ olympicYearResults(mens100m, d); }
                     
                     if (d.game == "100M Women"){ olympicYearResults(womens100m, d); }
-                })
+                });
+                
+                plotTracks(mens100m)
                 
             });
+            
+        </script>
+    </p>
+        
+    <p id = "trackViz">
+        <script>
+        
+            var width = 650, height = 550;
+            
+            var svg = d3.select("#trackViz").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            ;
+            
+            var svgGroup = svg.append("g");
+
+            
+            var recordTime = 9.63;
+            var recordSpeed = 100/9.63;
+            var distanceBehindBolt = [];
+            
+            function plotTracks(data) {
+                plottingData  = [];
+                years = [];
+                goldStart = [];
+                goldEnd = [];
+                goldY = [];
+                i = 100;
+                
+                silverStart = [];
+                silverEnd = [];
+                silverY = [];
+                j = 102;
+                
+                bronzeStart = [];
+                bronzeEnd = [];
+                bronzeY = [];
+                k = 104;
+                                
+                var xScale = d3.scaleLinear().domain([0,100]).range([100,600]);
+                
+                var yScale = d3.scaleLinear().domain([75,100]).range([100,600]);;
+
+                n = 0;
+                for (y in data){
+                    
+                    var goldSpeed = 100/data[y].gold.result;
+                    var goldDistance = goldSpeed*recordTime;
+                    
+                    plottingData.push({start: 0, end: goldDistance, y: i, color: "gold"});
+
+                    n += 1;
+                    i += 10;
+                    
+                    var silverSpeed = 100/data[y].silver.result;
+                    var silverDistance = silverSpeed*recordTime;
+                    
+                    plottingData.push({start: 0, end: silverDistance, y: j, color: "grey"});
+                    
+                    n += 1;
+                    j += 10;      
+                                        
+                   // var bronzeSpeed = 100/data[y].bronze.result;
+                   // var bronzeDistance = bronzeSpeed*recordTime;
+                    
+                   // bronzeStart.push(0);
+                   // bronzeEnd.push(bronzeDistance);
+                   // bronzeY.push(k);
+                    
+                    k += 15;
+                    
+                    
+                    
+                } 
+                
+                svg.append("text").text("100m")
+                .attr("x", xScale(100))
+                .attr("y", 400)
+                .style("anchor", "middle");
+                
+                svg.append("rect")
+                .attr("x", xScale(0))
+                .attr("y", 100)
+                .attr("width", 500)
+                .attr("height", 250)
+                .style("fill", "none")
+                .style("stroke", "black")
+                .style("stroke-width", 2);
+                
+                var seventy = svg.append("text").text("75m")
+                .attr("x", xScale(75))
+                .attr("y", 400)
+                .style("anchor", "middle");
+                
+                var fifty = svg.append("text").text("50m")
+                .attr("x", xScale(50))
+                .attr("y", 400)
+                .style("anchor", "middle");
+                
+                
+                var goldCircles = svgGroup.selectAll("circle").data(plottingData).enter().append("circle");
+                
+                goldCircles
+                .attr("cx", function(d) {return xScale(d.start)})
+                .attr("cy",function(d) {return d.y})
+                .attr("r", 5)
+                .style("fill", function(d) {return d.color})
+                
+                
+                goldCircles.transition()
+                .duration(2000)
+                    .attr('cx', function(d,i) { return xScale(d.end) })
+                .transition()
+                .duration(5000)
+                    .attr('cx', function(d,i) { return yScale(d.end) });
+                
+                seventy.transition()
+                .duration(2000)
+                    .attr('x', xScale(75) )
+                     .transition()
+                .duration(5000)
+                    .attr('x', yScale(75) )
+                
+                fifty.transition()
+                .duration(2000)
+                    .attr('x', xScale(50) )
+                     .transition()
+                .duration(5000)
+                    .attr('x', yScale(50) )
+            }
             
         </script>
     </p>
