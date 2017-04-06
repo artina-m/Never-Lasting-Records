@@ -10,6 +10,59 @@
     <div>
     <p>
         <script>
+        
+        function plotHistogram(svg, numbers) {
+            console.log(numbers)
+            var width = 400; var height = 250;
+            
+            
+            // Linear scale for x axis
+            var xScale = d3.scaleLinear()
+            .domain([0, 25])
+            .range([50,width-50]);
+            
+            // Create a histogram
+            g = svg.append("g")
+                
+            
+            var yScale = d3.scaleLinear()
+            .domain([9,10.5])
+            .range([height-50,50]);
+            
+        
+            
+            numbers.forEach(function(d,i) {
+            // Create a histogram using svg rectangles
+                    g.append("rect")
+                        .attr("x", xScale(i))
+                        .attr("y", yScale(d))
+                        .attr("width", 10)
+                        .attr("height", yScale(9) - yScale(d))
+                        .attr("fill", "blue")
+                        .style("opacity", .5);
+            });
+                
+            var xAxis = d3.axisBottom(xScale)
+            .tickSize(3);
+            
+            g.append("g").call(xAxis)
+            .attr("transform", "translate(0,150)")
+            .style("font-size", 10);
+            
+            var yAxis = d3.axisLeft(yScale)
+            .tickSize(3);
+            
+            g.append("g").call(yAxis)
+            .attr("transform", "translate(50,0)")
+            .style("font-size", 10);  
+            
+            g.attr("transform","translate(50,550)")
+        
+        }
+    
+        
+        </script>
+        <script>
             // Olympic Games of interest
             var mens100m  = {};
             var womens100m  = {};
@@ -66,9 +119,17 @@
     </p>
         
     <p id = "trackViz">
+
         <script>
         
-            var width = 650, height = 550;
+            var width = 1200, height = 700;
+            
+            var xScale = d3.scaleLinear().domain([0,100]).range([100,1000]);
+                
+            var xScale2 = d3.scaleLinear().domain([80,100]).range([100,1000]);
+            
+            var yScale = d3.scaleLinear().domain([0,25]).range([490,90]);
+            
             
             var svg = d3.select("#trackViz").append("svg")
             .attr("width", width)
@@ -77,120 +138,192 @@
             
             var svgGroup = svg.append("g");
 
-            
             var recordTime = 9.63;
             var recordSpeed = 100/9.63;
-            var distanceBehindBolt = [];
+            var speeds = []; // get speeds
+            var years = []; // get years 
             
             function plotTracks(data) {
                 plottingData  = [];
                 years = [];
+                
                 goldStart = [];
                 goldEnd = [];
                 goldY = [];
-                i = 100;
                 
                 silverStart = [];
                 silverEnd = [];
                 silverY = [];
-                j = 102;
                 
                 bronzeStart = [];
                 bronzeEnd = [];
                 bronzeY = [];
-                k = 104;
                                 
-                var xScale = d3.scaleLinear().domain([0,100]).range([100,600]);
-                
-                var yScale = d3.scaleLinear().domain([75,100]).range([100,600]);;
 
-                n = 0;
+                n = 1;
                 for (y in data){
                     
                     var goldSpeed = 100/data[y].gold.result;
+                    speeds.push(goldSpeed);
                     var goldDistance = goldSpeed*recordTime;
                     
-                    plottingData.push({start: 0, end: goldDistance, y: i, color: "gold"});
-
-                    n += 1;
-                    i += 10;
+                    plottingData.push({start: 0, end: goldDistance, color: "gold", year: y, order: n});
+                    
                     
                     var silverSpeed = 100/data[y].silver.result;
                     var silverDistance = silverSpeed*recordTime;
                     
-                    plottingData.push({start: 0, end: silverDistance, y: j, color: "grey"});
+                    plottingData.push({start: 0, end: silverDistance, color: "grey", year: y, order: n});
                     
-                    n += 1;
-                    j += 10;      
                                         
-                   // var bronzeSpeed = 100/data[y].bronze.result;
-                   // var bronzeDistance = bronzeSpeed*recordTime;
+                   var bronzeSpeed = 100/data[y].bronze.result;
+                   var bronzeDistance = bronzeSpeed*recordTime;
                     
-                   // bronzeStart.push(0);
-                   // bronzeEnd.push(bronzeDistance);
-                   // bronzeY.push(k);
+                    plottingData.push({start: 0, end: bronzeDistance, color: "orange", year: y, order:n});
                     
-                    k += 15;
-                    
-                    
+                    n++;
                     
                 } 
+            
                 
-                svg.append("text").text("100m")
+                // Add track for each olympic year
+                var raceTrack = svgGroup.selectAll("rect").data(plottingData).enter().append("rect");
+                
+                raceTrack.attr("width", 900).attr("height",14 )
+                .attr("x",100).attr("y", function(d) {return(yScale(d.order) - 7)})
+                .style("fill", "lightGrey")
+                .style("opacity", .1);
+                
+                // Finish Line
+                svgGroup.append("rect")
                 .attr("x", xScale(100))
-                .attr("y", 400)
-                .style("anchor", "middle");
+                .attr("y", yScale(25))
+                .attr("width", 50)
+                .attr("height", 400)
+                .style("fill", "white")
+                .style("stroke", "grey")
+                .style("stroke-width", .5);
                 
-                svg.append("rect")
-                .attr("x", xScale(0))
-                .attr("y", 100)
-                .attr("width", 500)
-                .attr("height", 250)
-                .style("fill", "none")
-                .style("stroke", "black")
-                .style("stroke-width", 2);
+                svgGroup.append("text").text("FINISH")
+                .attr("x", -300)
+                .attr("y", 1035)
+                .attr("transform", "rotate(270)")
+                .style("text-anchor", "middle")
+                .style("font-size", 25)
+                .style("font-family", "Roboto")
+                .style("font-weight", 200)
+                .style("fill", "grey");
                 
-                var seventy = svg.append("text").text("75m")
-                .attr("x", xScale(75))
-                .attr("y", 400)
-                .style("anchor", "middle");
+                // Add gold, bronze, and silver medal plots
+                var circles = svgGroup.selectAll("circle").data(plottingData).enter().append("circle");
                 
-                var fifty = svg.append("text").text("50m")
-                .attr("x", xScale(50))
-                .attr("y", 400)
-                .style("anchor", "middle");
-                
-                
-                var goldCircles = svgGroup.selectAll("circle").data(plottingData).enter().append("circle");
-                
-                goldCircles
+                circles
                 .attr("cx", function(d) {return xScale(d.start)})
-                .attr("cy",function(d) {return d.y})
+                .attr("cy",function(d) {return yScale(d.order)})
                 .attr("r", 5)
-                .style("fill", function(d) {return d.color})
+                .style("fill", function(d) {return d.color});
                 
-                
-                goldCircles.transition()
+                circles.transition()
                 .duration(2000)
                     .attr('cx', function(d,i) { return xScale(d.end) })
                 .transition()
                 .duration(5000)
-                    .attr('cx', function(d,i) { return yScale(d.end) });
+                    .attr('cx', function(d,i) { return xScale2(d.end) });
+                
+                
+                // Add y-axis text: years
+                console.log(plottingData);
+                var olympicYears = svg.selectAll("text").data(plottingData).enter().append("text");
+                
+                olympicYears.text(function(d) {return d.year})
+                .attr("x", 50)
+                .attr("y", function(d) {console.log(d.order);return yScale(d.order)})
+                .style("alignment-baseline", "middle")
+                .style("font-size", 12)
+                .style("font-family", "Roboto")
+                .style("font-weight", 200)
+                .style("fill", "grey");
+                
+                
+                // Add titles
+                svg.append("text").text("Olympic 100M Mens")
+                .attr("x", xScale(0))
+                .attr("y", 45)
+                .style("font-size", 25)
+                .style("font-family", "Roboto")
+                .style("font-weight", 600);
+
+                svg.append("text").text("If all Olympians raced the same race")
+                .attr("x", xScale(0))
+                .attr("y", 70)
+                .style("font-size", 16)
+                .style("font-family", "Roboto")
+                .style("font-weight", 400);
+                
+                // Add x-axis text: distance in meters
+                svg.append("text").text("100m")
+                .attr("x", xScale(100))
+                .attr("y", 500)
+                .style("anchor", "middle");
+                
+                svg.append("text").text("2016")
+                .attr("x", 60)
+                .attr("y", yScale(2016))
+                .style("anchor", "left")
+                .style("fill", "blue")
+                .style("opacity", .5);
+                
+                var seventy = svg.append("text").text("80m")
+                .attr("x", xScale(80))
+                .attr("y", 500)
+                .style("anchor", "middle");
+                
+                var ninety = svg.append("text").text("90m")
+                .attr("x", xScale(90))
+                .attr("y", 500)
+                .style("anchor", "middle");
+                
+                var fifty = svg.append("text").text("50m")
+                .attr("x", xScale(50))
+                .attr("y", 500)
+                .style("anchor", "middle");
+                
                 
                 seventy.transition()
                 .duration(2000)
-                    .attr('x', xScale(75) )
+                    .attr('x', xScale(80) )
                      .transition()
                 .duration(5000)
-                    .attr('x', yScale(75) )
+                    .attr('x', xScale2(80) )
+                
+                ninety.transition()
+                .duration(2000)
+                    .attr('x', xScale(90) )
+                     .transition()
+                .duration(5000)
+                    .attr('x', xScale2(90) )
                 
                 fifty.transition()
                 .duration(2000)
                     .attr('x', xScale(50) )
                      .transition()
                 .duration(5000)
-                    .attr('x', yScale(50) )
+                    .attr('x', xScale2(50) )
+                    .style("opacity", -5);
+                
+                plotHistogram(svg, speeds);
+            
             }
+             svg.append("text").text("Have we reached our peak?")
+            .attr("x", xScale(0))
+            .attr("y", 550)
+            .style("font-size", 16)
+            .style("font-family", "Roboto")
+            .style("font-weight", 600);
+            
+            
+            
+            
             
         </script>
     </p>
