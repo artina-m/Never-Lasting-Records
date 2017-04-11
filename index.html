@@ -8,64 +8,10 @@
 
 <body>
     <div>
-    <p>
-        <script>
-        
-        function plotHistogram(svg, numbers) {
-            console.log(numbers)
-            var width = 400; var height = 250;
-            
-            
-            // Linear scale for x axis
-            var xScale = d3.scaleLinear()
-            .domain([0, 25])
-            .range([50,width-50]);
-            
-            // Create a histogram
-            g = svg.append("g")
-                
-            
-            var yScale = d3.scaleLinear()
-            .domain([9,10.5])
-            .range([height-50,50]);
-            
-        
-            
-            numbers.forEach(function(d,i) {
-            // Create a histogram using svg rectangles
-                    g.append("rect")
-                        .attr("x", xScale(i))
-                        .attr("y", yScale(d))
-                        .attr("width", 10)
-                        .attr("height", yScale(9) - yScale(d))
-                        .attr("fill", "blue")
-                        .style("opacity", .5);
-            });
-                
-            var xAxis = d3.axisBottom(xScale)
-            .tickSize(3);
-            
-            g.append("g").call(xAxis)
-            .attr("transform", "translate(0,150)")
-            .style("font-size", 10);
-            
-            var yAxis = d3.axisLeft(yScale)
-            .tickSize(3);
-            
-            g.append("g").call(yAxis)
-            .attr("transform", "translate(50,0)")
-            .style("font-size", 10);  
-            
-            g.attr("transform","translate(50,550)")
-        
-        }
-    
-        
-        </script>
-        
+    <p>     
         <script>
             // Olympic Games of interest
-            var mens100m  = {};
+            var mens100m  = {}; // result (time), athlete, country, speed
             var womens100m  = {};
             
             function parseLine(line) {
@@ -112,8 +58,16 @@
                     if (d.game == "100M Women"){ olympicYearResults(womens100m, d); }
                 });
                 
-                plotTracks(mens100m)
+                // Add speeds to object: 100m / result
+                for (year in mens100m){
+                    mens100m[year].gold.speed = 100.0/mens100m[year].gold.result;
+                    mens100m[year].silver.speed = 100.0/mens100m[year].silver.result;
+                    mens100m[year].bronze.speed = 100.0/mens100m[year].bronze.result;
+                };
+                                
+                plotTracks(mens100m);
                 
+                createPlot(yearScale, speedScale, mens100m);
             });
                         
         </script>
@@ -123,7 +77,7 @@
 
         <script>
             
-            var width = 1400, height = 700;
+            var width = 1400, height = 600;
 
             var xScale = d3.scaleLinear().domain([0,100]).range([100,1000]);
 
@@ -139,36 +93,32 @@
 
             var svgGroup = svg.append("g");
             
-            // Men's Record
+            // 100M Men's Record
             var recordTime = 9.63; 
             var recordSpeed = 100/9.63;
             
             function plotTracks(data) {
-                // Object for each medal for each year with start, end positions, medal type, year, and order
-                var plottingData  = []; 
-                var speeds = []; // Gold speeds
-
+                
+                var plottingData  = []; // Array of objects
+    
                 n = 1;
+                
                 for (y in data){
                     
-                    var goldSpeed = 100/data[y].gold.result;
-                    var goldDistance = goldSpeed*recordTime;
-                    speeds.push(goldSpeed);
-                    plottingData.push({start: 0, end: goldDistance, color: "gold", year: y, order: n});
+                    var goldDistance = data[y].gold.speed*recordTime;
                     
+                    plottingData.push({start: 0, end: goldDistance, speed:data[y].gold.speed, result: data[y].gold.speed.result, color: "gold", year: y, order: n});
+                            
+                    var silverDistance = data[y].silver.speed*recordTime;
+                    plottingData.push({start: 0, end: silverDistance, speed:data[y].silver.speed, result: data[y].silver.result, color: "grey", year: y, order: n});
                     
-                    var silverSpeed = 100/data[y].silver.result;
-                    var silverDistance = silverSpeed*recordTime;
-                    plottingData.push({start: 0, end: silverDistance, color: "grey", year: y, order: n});
-                    
-                   var bronzeSpeed = 100/data[y].bronze.result;
-                   var bronzeDistance = bronzeSpeed*recordTime;
-                    plottingData.push({start: 0, end: bronzeDistance, color: "orange", year: y, order:n});
+                    var bronzeDistance = data[y].bronze.speed*recordTime;
+                    plottingData.push({start: 0, end: bronzeDistance,speed:data[y].bronze.speed, result: data[y].bronze.result, color: "orange", year: y, order:n});
                     
                     n++;
-            } 
+                    
+            }
                             
-                
             // Add track for each olympic year
             var raceTrack = svgGroup.selectAll("g").data(plottingData).enter().append("rect");
 
@@ -201,7 +151,7 @@
             var circles = svgGroup.selectAll("g").data(plottingData)
             .enter().append("circle");
 
-            circles.attr("cx", function(d) {console.log(d);return xScale(d.start)})
+            circles.attr("cx", function(d) {return xScale(d.start)})
             .attr("cy",function(d) {return yScale(d.order)})
             .attr("r", 5)
             .style("fill", function(d) {return d.color});
@@ -295,12 +245,6 @@
                 
             
             }
-             svg.append("text").text("Have we reached our peak?")
-            .attr("x", xScale(0))
-            .attr("y", 550)
-            .style("font-size", 16)
-            .style("font-family", "Roboto")
-            .style("font-weight", 600);
 
         </script>
         
@@ -329,8 +273,110 @@
             .attr("x", 1100).attr("y", 200);
 
         </script>
-
     </p>
+    </div>
+    
+    <div class = "bottomGraph">
+        <p id = "bottomGraph">
+            <script>
+                var width = 1400, height = 600;
+                
+                // Create SVG
+                var svg2 = d3.select("#bottomGraph")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+                var svgGroup2 = svg2.append("g");
+                
+                var speedScale = d3.scaleLinear().domain([9,10.5]).range([500,100]);
+                
+                var yearScale = d3.scaleLinear().domain([1900, 2016]).range([100, 500]);
+                
+                svg2.append("text").text("Pushing the Limits")
+                .attr("x", 100)
+                .attr("y", 70)
+                .style("font-size", 20)
+                .style("font-family", "Roboto")
+                .style("font-weight", 400);
+                
+                var cheetah = 1916.667;
+                var tRex = 11.176;
+                var earth = 447.04;
+                var highway = 31.2928;
+                
+                function createPlot (xScale, yScale, speedData) {
+                    yearData  = []; // Years
+                    resultData = []; // Gold results
+                    
+                    for (year in speedData){
+                        yearData.push(Number(year));
+                        resultData.push(speedData[year].gold.speed);
+                    }
+                    
+                    
+                    var circles = svgGroup2.selectAll("g").data(resultData)
+                    .enter().append("circle")
+                    .attr("cx", function(d,i) {return xScale(yearData[i])})
+                    .attr("cy",function(d) {return yScale(d)})
+                    .attr("r", 5)
+                    .style("fill", "gold");   
+                    
+                    // Add axis
+                    var xAxis = d3.axisBottom(xScale)
+                    .tickSize(3);
+
+                    var yAxis = d3.axisLeft(yScale)
+                    .tickSize(3);
+
+                    svgGroup2.append("g").call(xAxis)
+                    .attr("transform", "translate(0,500)")
+                    .style("font-size", 10);
+
+                    svgGroup2.append("g").call(yAxis)
+                    .attr("transform", "translate(100,0)")
+                    .style("font-size", 10); 
+                    
+                    var model = leastSquares(yearData,resultData);
+                    
+                    var yMin = d3.min(resultData);      
+
+                    var regressionLine = svgGroup2.append("line")
+                    .attr("x1", xScale(1900))
+                    .attr("y1", yScale(model.slope * 1900 + model.intercept))
+                    .attr("x2", xScale(2016))
+                    .attr("y2", yScale(model.slope * 2016 + model.intercept))
+                    .style("stroke", "blue");
+             }
+                
+                
+                function leastSquares(xData,yData) {
+                var model = { intercept: 0, slope: 0 };
+
+                if (xData.length == 0) { return model; }
+
+                var meanX = d3.mean(xData);
+
+                var meanY = d3.mean(yData);
+
+                model.slope = d3.sum(xData, function (d,i) {
+                    return (xData[i] - meanX) * (yData[i] - meanY);
+                });
+                    
+                console.log(model.slope)
+                model.slope /= d3.sum(xData, function (d,i) {
+                    return (xData[i] - meanX) * (xData[i] - meanY);
+                });
+
+                model.intercept = meanY - model.slope * meanX;
+                return model;
+                    
+              }
+
+
+                
+            </script>
+        </p>
     </div>
 </body>
 
