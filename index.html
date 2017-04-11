@@ -67,7 +67,13 @@
                                 
                 plotTracks(mens100m);
                 
-                createPlot(yearScale, speedScale, mens100m);
+                createPlot(mens100m, 0);
+                
+                d3.select("#dataSlider").on("input", function() {
+                updatePlot(+this.value);
+        });
+                
+                //createPlot(mens100m,2);
             });
                         
         </script>
@@ -277,6 +283,10 @@
     </div>
     
     <div class = "bottomGraph">
+        <p id = "sliders">
+             <input type="range" min="0" max="2" id="dataSlider" >
+        </p>
+
         <p id = "bottomGraph">
             <script>
                 var width = 1400, height = 600;
@@ -288,89 +298,54 @@
                 .attr("height", height);
 
                 var svgGroup2 = svg2.append("g");
+                var yLabels = svg2.append("g");
+            
                 
-                var speedScale = d3.scaleLinear().domain([9,10.5]).range([500,100]);
-                
-                var yearScale = d3.scaleLinear().domain([1900, 2016]).range([100, 500]);
-                
-                svg2.append("text").text("Pushing the Limits")
+                svg2.append("text").text("Insert Title")
                 .attr("x", 100)
                 .attr("y", 70)
                 .style("font-size", 20)
                 .style("font-family", "Roboto")
                 .style("font-weight", 400);
                 
+                // Meters per second
                 var cheetah = 1916.667;
                 var tRex = 11.176;
                 var earth = 447.04;
                 var highway = 31.2928;
                 
-                function createPlot (xScale, yScale, speedData) {
-                    yearData  = []; // Years
-                    resultData = []; // Gold results
+                console.log(mens100m)
+                
+                function updatePlot(value) {
+                    createPlot(mens100m,value)
+                }
+                
+                function createPlot (speedData, stage) {
                     
-                    for (year in speedData){
-                        yearData.push(Number(year));
-                        resultData.push(speedData[year].gold.speed);
-                    }
-                    
-                    
-                    var circles = svgGroup2.selectAll("g").data(resultData)
-                    .enter().append("circle")
-                    .attr("cx", function(d,i) {return xScale(yearData[i])})
-                    .attr("cy",function(d) {return yScale(d)})
-                    .attr("r", 5)
-                    .style("fill", "gold");   
-                    
-                    // Add axis
-                    var xAxis = d3.axisBottom(xScale)
-                    .tickSize(3);
-
-                    var yAxis = d3.axisLeft(yScale)
-                    .tickSize(3);
-
-                    svgGroup2.append("g").call(xAxis)
-                    .attr("transform", "translate(0,500)")
-                    .style("font-size", 10);
-
-                    svgGroup2.append("g").call(yAxis)
-                    .attr("transform", "translate(100,0)")
-                    .style("font-size", 10); 
-                    
-                    var model = leastSquares(yearData,resultData);
-                    
-                    var yMin = d3.min(resultData);      
-
-                    var regressionLine = svgGroup2.append("line")
-                    .attr("x1", xScale(1900))
-                    .attr("y1", yScale(model.slope * 1900 + model.intercept))
-                    .attr("x2", xScale(2016))
-                    .attr("y2", yScale(model.slope * 2016 + model.intercept))
-                    .style("stroke", "blue");
-             }
+                   
+              }
                 
                 
                 function leastSquares(xData,yData) {
-                var model = { intercept: 0, slope: 0 };
+                    var model = { intercept: 0, slope: 0 };
 
-                if (xData.length == 0) { return model; }
+                    if (xData.length == 0) { return model; }
 
-                var meanX = d3.mean(xData);
+                    var meanX = d3.mean(xData);
 
-                var meanY = d3.mean(yData);
+                    var meanY = d3.mean(yData);
 
-                model.slope = d3.sum(xData, function (d,i) {
-                    return (xData[i] - meanX) * (yData[i] - meanY);
-                });
-                    
-                console.log(model.slope)
-                model.slope /= d3.sum(xData, function (d,i) {
-                    return (xData[i] - meanX) * (xData[i] - meanY);
-                });
+                    model.slope = d3.sum(xData, function (d,i) {
+                        return (xData[i] - meanX) * (yData[i] - meanY);
+                    });
 
-                model.intercept = meanY - model.slope * meanX;
-                return model;
-                    
+                    console.log(model.slope)
+                    model.slope /= d3.sum(xData, function (d,i) {
+                        return (xData[i] - meanX) * (xData[i] - meanY);
+                    });
+
+                    model.intercept = meanY - model.slope * meanX;
+                    return model;
               }
 
 
