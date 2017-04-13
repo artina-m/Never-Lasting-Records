@@ -4,3 +4,8 @@ svg {
     border: solid lightGrey 1px; 
     margin-left: 50px;
 }
+
+.scatterPlot {
+    background-color: #283747  ;
+}
+
