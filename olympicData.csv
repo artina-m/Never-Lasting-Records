@@ -102,8 +102,8 @@ Game,Year,Medal,Result,Country,Athlete
 100M Women,1936,silver,11.7,POL,Stanislawa WALASIEWICZ
 100M Women,1936,bronze,11.9,GER,Käthe KRAUSS
 100M Women,1928,gold,12.2,USA,Elizabeth ROBINSON
-100M Women,1928,silver,,CAN,Fanny ROSENFELD
-100M Women,1928,bronze,,CAN,Ethel SMITH
+100M Women,1928,silver,0,CAN,Fanny ROSENFELD
+100M Women,1928,bronze,0,CAN,Ethel SMITH
 100M Women,2012,gold,10.75,JAM,Shelly-Ann FRASER-PRYCE
 100M Women,2012,silver,10.78,USA,Carmelita JETER
 100M Women,2012,bronze,10.81,JAM,Veronica CAMPBELL-BROWN
@@ -156,7 +156,8 @@ Game,Year,Medal,Result,Country,Athlete
 200M Butterfly Men,1960,silver,2:14.6,AUS,Neville HAYES
 200M Butterfly Men,1960,bronze,2:15.3,USA,David GILLANDERS
 200M Butterfly Men,2012,gold,1:52.96,RSA,Chad LE CLOS
-200M Butterfly Men,2012,silver,1:52.96,RSA,Chad Guy Bertrand LE CLOS
+200M Butterfly Men,2012,silver,1:53.01,USA,Michael PHELPS
+200M Butterfly Men,2012,bronze,1:53.21,JPN,Takeshi MATSUDA
 200M Butterfly Men,1996,gold,1:56.51,RUS,Denis PANKRATOV
 200M Butterfly Men,1996,silver,1:57.44,USA,Tom MALCHOW
 200M Butterfly Men,1996,bronze,1:57.48,AUS,Scott GOODMAN
@@ -265,7 +266,7 @@ Discus Throw Women,2016,gold,69.21,CRO,Sandra PERKOVIC
 Discus Throw Women,2016,silver,66.73,FRA,Melina ROBERT-MICHON
 Discus Throw Women,2016,bronze,65.34,CUB,Denia CABALLERO
 Discus Throw Women,2008,gold,64.74,USA,Stephanie BROWN TRAFTON
-Discus Throw Women,2008,silver,,,
+Discus Throw Women,2008,silver,0,None,None
 Discus Throw Women,2008,bronze,62.59,UKR,Olena ANTONOVA
 Discus Throw Women,2000,gold,68.4,BLR,Ellina ZVEREVA
 Discus Throw Women,2000,silver,65.71,GRE,Anastasia KELESIDOU
