@@ -66,9 +66,7 @@
                 };
                                 
                 plotTracks(mens100m);
-                
-                console.log(mens100m)
-                
+                                
                 createPlot(mens100m, 0);
                 
                 d3.select("#dataSlider").on("input", function() {
@@ -115,17 +113,17 @@
                     
                     var goldDistance = data[y].gold.speed*recordTime;
                     
-                    plottingData.push({start: 0, end: goldDistance, speed:data[y].gold.speed, result: data[y].gold.speed.result, color: "gold", year: y, order: n});
+                    plottingData.push({start: 0, end: goldDistance, speed:data[y].gold.speed, result: data[y].gold.speed.result, color: "gold", year: y, order: n, medal: "gold", athlete: data[y].gold.athelete, country: data[y].gold.country });
                             
                     var silverDistance = data[y].silver.speed*recordTime;
-                    plottingData.push({start: 0, end: silverDistance, speed:data[y].silver.speed, result: data[y].silver.result, color: "grey", year: y, order: n});
+                    plottingData.push({start: 0, end: silverDistance, speed:data[y].silver.speed, result: data[y].silver.result, color: "grey", year: y, order: n, medal: "silver", athlete: data[y].silver.athelete, country: data[y].silver.country});
                     
                     var bronzeDistance = data[y].bronze.speed*recordTime;
-                    plottingData.push({start: 0, end: bronzeDistance,speed:data[y].bronze.speed, result: data[y].bronze.result, color: "orange", year: y, order:n});
+                    plottingData.push({start: 0, end: bronzeDistance,speed:data[y].bronze.speed, result: data[y].bronze.result, color: "orange", year: y, order:n, medal: "bronze", athlete: data[y].bronze.athelete, country: data[y].bronze.country});
                     
                     n++;
                     
-            }
+                }
                             
             // Add track for each olympic year
             var raceTrack = svgGroup.selectAll("g").data(plottingData).enter().append("rect");
@@ -303,21 +301,30 @@
                 var slider = document.getElementById("dataSlider");
                 slider.defaultValue = 0;
 
-                var svgGroup2 = svg2.append("g").attr("transform", "translate(700,0)");
-                var POI = svg2.append("g").attr("transform", "translate(700,0)");
-                var yLabels = svg2.append("g").attr("transform", "translate(700,0)");;
+                var svgGroup2 = svg2.append("g").attr("transform", "translate(600,50)");
+                var POI = svg2.append("g").attr("transform", "translate(600,50)");
+                var yLabels = svg2.append("g").attr("transform", "translate(600,50)");;
                 
                 var visualGroup = svg2.append("g");
                 var changingVisual = svg2.append("g");
                 
             
                 
-                svg2.append("text").text("Insert Title")
+                svg2.append("text").text("Running Faster, and Faster")
                 .attr("x", 100)
                 .attr("y", 70)
-                .style("font-size", 20)
+                .style("fill", "lightGrey")
+                .style("font-size", 25)
                 .style("font-family", "Roboto")
                 .style("font-weight", 400);
+                
+                svg2.append("text").text("See how humans compare ")
+                .attr("x", 100)
+                .attr("y", 100)
+                .style("fill", "lightGrey")
+                .style("font-size", 16)
+                .style("font-family", "Roboto")
+                .style("font-weight", 200);
                 
                 // Meters per second
                 var cheetah = 1916.667;
@@ -333,55 +340,77 @@
                 
                 visualGroup.append("image")
                         .attr("xlink:href", "sport.svg")
-                        .attr("x", "200")
+                        .attr("x", "180")
                         .attr("y", "200")
-                        .attr("width", "100");
+                        .attr("width", "80");
+                
+                visualGroup.append("text").text("FASTEST MAN")
+                .attr("x", "160")
+                .attr("y", "320")
+                .style("fill", "lightGrey")
+                .style("font-family", "Roboto")
+                .style("font-weight", 200);
                     
                 visualGroup.append("image")
                         .attr("xlink:href", "greater.svg")
                         .attr("x", "300")
                         .attr("y", "225")
-                        .attr("width", "50");
+                        .attr("width", "40");
                 
                 changingVisual.append("image")
-                        .attr("xlink:href","map.svg")
-                        .attr("x", "350")
-                        .attr("y", "150")
-                        .attr("width", "200");
+                        .attr("xlink:href","olympic.svg")
+                        .attr("x", "380")
+                        .attr("y", "160")
+                        .attr("width", "150");
+                
+                visualGroup.append("text").text("OLYMPIC ATHLETES")
+                .attr("x", "380")
+                .attr("y", "320")
+                .style("fill", "lightGrey")
+                .style("font-family", "Roboto")
+                .style("font-weight", 200);
+                
+                visualGroup.append("text").text("2012")
+                .attr("x", "250")
+                .attr("y", "400")
+                .style("fill", "#1ABC9C")
+                .style("font-family", "Roboto")
+                .style("font-weight", 200)
+                .style("font-size", 36);
+                
+                visualGroup.append("text").text(Math.round(100*recordSpeed)/100 + " m/s")
+                .attr("x", "350")
+                .attr("y", "400")
+                .style("fill", "#F7DC6F")
+                .style("font-family", "Roboto")
+                .style("font-weight", 200)
+                .style("font-size", 36);
+                
                 
                 
                 function visual(value) {               
                     
-                    visualGroup.selectAll("text").remove();
                     changingVisual.selectAll("image").remove();
                     
                     if (value == 0){
                         
-                        visualGroup.append("text").text("Olympians")
-                        .attr("x", 600)
-                        .attr("y", 200)
-                        
                         changingVisual.append("image")
-                        .attr("xlink:href", "map.svg")
-                        .attr("x", "350")
+                        .attr("xlink:href", "olympic.svg")
+                        .attr("x", "380")
                         .attr("y", "100")
-                        .attr("width", "200")
+                        .attr("width", "150")
                         .style("opacity", "0");
                         
                         changingVisual.selectAll("image")
                         .transition().duration(200)
-                            .attr("y", 150)
+                            .attr("y", 160)
                             .style("opacity", 1);  
                                                 
                     }
                     
                     else if (value == 1){
                     
-                        
-                        visualGroup.append("text").text("Second Set")
-                        .attr("x", 600)
-                        .attr("y", 200)
-                        
+                    
                         changingVisual.append("image")
                         .attr("xlink:href", "tRex.svg")
                         .attr("x", "350")
@@ -397,9 +426,6 @@
                     }
                     
                     else {
-                        visualGroup.append("text").text("Second Set")
-                        .attr("x", 600)
-                        .attr("y", 200)
                         
                         changingVisual.append("image")
                         .attr("xlink:href", "tRex.svg")
@@ -591,12 +617,12 @@
                 function updateDotColors(d,i, stage) {
                     if (stage == 0){
                         if (d == 10.384215991692626) {return "white"}
-                        else {return "#E74C3C"}
+                        else {return "#1ABC9C"}
                     }
                     else {
                         if (i == resultData.length - 1) {return "white"}
                         if (d == 10.384215991692626) {return "white"}
-                        else {return "#E74C3C"}
+                        else {return "#1ABC9C"}
                     }
                 }
 
