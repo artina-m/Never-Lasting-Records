@@ -3,10 +3,14 @@
 <head>
     <title>CS 3300 Project 2 </title>
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    
     <link rel = "stylesheet" type="text/css" href = "style.css">
 </head>
     
 <body>
+    
+<div id = "linPlot">
+
     <script>
         // Olympic Sports of interest
         var longJumpM = {};     // Long Jump
@@ -45,7 +49,7 @@
         
          // Update the data object olympicResults to include new results
         function olympicYearResults (olympicResults, d){
-            olympicResults[d.year] = {result: d.result, athlete: d.athlete, country: d.country};
+            olympicResults[d.year] = {result: d.result, athlete: d.athlete, country: d.country, game: d.game};
         };
         
             
@@ -62,19 +66,122 @@
                 
                 else if (d.game == "Hammer Throw Mens"){ olympicYearResults(hammerM, d); }
                 
-                else if (d.game == "Hammer Throw Womens"){ olympicYearResults(hammerW, d); }
+                 else if (d.game == "Hammer Throw Womens"){ olympicYearResults(hammerW, d); }
+                
+                else if (d.game == "400m Freestyle Mens"){ olympicYearResults(freestyleM, d); }
+                
+                else if (d.game == "400m Freestyle Womens"){ olympicYearResults(freestyleW, d); }
+                
+                else if (d.game == "Hurdles Mens"){ olympicYearResults(hurdlesM, d); }
+                
+                else if (d.game == "Hurdles Womens"){ olympicYearResults(hurdlesW, d); }
+                
+                else if (d.game == "Shot Put Mens"){ olympicYearResults(shotPutM, d); }
+                
+                else if (d.game == "Shot Put Womens"){ olympicYearResults(shotPutW, d); }
+                
+                else if (d.game == "Triple Jump Mens"){ olympicYearResults(tripleJumpM, d); }
+                
+                else if (d.game == "Triple Jump Womens"){ olympicYearResults(tripleJumpW, d); }
+                
+                else if (d.game == "100m Mens"){ olympicYearResults(trackM, d); }
+                
+                else if (d.game == "100m Womens"){ olympicYearResults(trackW, d); }
+                
+                else if (d.game == "200m Butterfly Mens"){ olympicYearResults(butterflyM, d); }
+                
+                else if (d.game == "200m Butterfly Womens"){ olympicYearResults(butterflyW, d); }
+                
+                else if (d.game == "Discus Mens"){ olympicYearResults(discusM, d); }
+                
+                else if (d.game == "Discus Womens"){ olympicYearResults(discusW, d); }
+                
+                else if (d.game == "High Jump Mens"){ olympicYearResults(highJumpM, d); }
+                
+                else if (d.game == "High Jump Womens"){ olympicYearResults(highJumpW, d); }
+            
+                
             })
             
-            console.log(longJumpM,longJumpW,hammerW)
+            var olympicSports = [longJumpM, longJumpW, hammerM, hammerW, freestyleM,freestyleW,hurdlesM, hurdlesW, shotPutM, shotPutW,tripleJumpM, tripleJumpW, trackM, trackW, butterflyM, butterflyW, discusM, discusW, highJumpM, highJumpW];
+            
+            olympicSports.forEach(function(sport) {
+                plotLinearRegression(sport);
+            })
             
 
-                // Call Back Function region --------------------------------------------
+            // Call Back Function region ----------------------------------------
         });
-                
-        
-        
     
     </script>
+    
+    
+    <script>
+        
+        var width = 1000, height = 200;
+        
+        
+         function leastSquares(xData,yData) {
+            var model = { intercept: 0, slope: 0 };
+
+            if (xData.length == 0) { return model; }
+
+            var meanX = d3.mean(xData);
+
+            var meanY = d3.mean(yData);
+
+            model.slope = d3.sum(xData, function (d,i) {
+                return (xData[i] - meanX) * (yData[i] - meanY);
+            });
+
+            model.slope /= d3.sum(xData, function (d,i) {
+                return (xData[i] - meanX) * (xData[i] - meanY);
+            });
+
+            model.intercept = meanY - model.slope * meanX;
+            return model;
+        }
+        
+        var yearScale = d3.scaleLinear().domain([1860,2016]).range([100,900]);
+        
+        function plotLinearRegression(data) {
+            
+            // Create SVG
+            var svg = d3.select("#linPlot")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+            
+            var svgGroup = svg.append("g");
+            
+            yearData = [];
+            resultData = [];
+            
+            for (year in data) {
+                yearData.push(year);
+                resultData.push(data[year].result)
+            }
+            
+            var resultScale = d3.scaleLinear().domain([d3.min(resultData),d3.max(resultData)]).range([200,0]);
+            
+            
+            var points = svgGroup.selectAll("circle").data(yearData).enter().append("circle");
+            
+            points
+            .attr("cx", function(d) {return yearScale(d)})
+            .attr("cy", function(d,i) {return resultScale(resultData[i])})
+            .attr("r", 3);
+            
+            
+        }
+    
+    
+    
+    
+    
+    </script>
+    
+</div>
 </body>
     
 </html>
