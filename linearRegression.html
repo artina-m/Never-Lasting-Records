@@ -8,6 +8,28 @@
     
 <body>
     <script>
+        // Olympic Sports of interest
+        var longJumpM = {};     // Long Jump
+        var longJumpW = {};
+        var hammerM = {};       // Hammer Throw
+        var hammerW = {};   
+        var freestyleM = {};    // 400m Free Style
+        var freestyleW = {};
+        var hurdlesM = {};      // Hurdles
+        var hurdlesW = {}; 
+        var shotPutM = {};      // Shot Put
+        var shotPutW = {};
+        var tripleJumpM = {};   // Triple Jump
+        var tripleJumpW = {};
+        var trackM = {};        // 100m Track
+        var trackW = {};
+        var butterflyM = {};    // 200m Butterfly
+        var butterflyW = {};
+        var discusM = {};       // Discus Throw
+        var discusW = {};
+        var highJumpM = {};     // High Jump
+        var highJumpW = {};
+        
         
         function parseLine(line) {
                 return {
@@ -20,45 +42,35 @@
                 }
         }
         
-        // Create objects for gold, silver, and bronze results.
-            // Update the data object olympicResults to include new results
-            function olympicYearResults (olympicResults, d){
-                olympicResults[d.year] = {result: d.result, athlete: d.athlete, country: d.country};
-            };
+        
+         // Update the data object olympicResults to include new results
+        function olympicYearResults (olympicResults, d){
+            olympicResults[d.year] = {result: d.result, athlete: d.athlete, country: d.country};
+        };
         
             
-            d3.csv("OlympicRegression.csv", parseLine, function(error,data){
+        d3.csv("OlympicRegression.csv", parseLine, function(error,data){
                 
-                olympicData = data;
+            olympicData = data;
+
+            // Create object for each olympic game (key = year)
+            olympicData.forEach(function(d){
+
+                if (d.game == "Long Jump Mens"){ olympicYearResults(longJumpM, d); }
+
+                else if (d.game == "Long Jump Womens"){ olympicYearResults(longJumpW, d); }
                 
-                // Create object for each olympic game (key = year)
-                olympicData.forEach(function(d){
-                    
-                    if (d.game == "100M Men"){ mens100m[d.year]= {} }
-                    
-                    else if (d.game == "100M Women") { womens100m[d.year] = {} }
-                })
+                else if (d.game == "Hammer Throw Mens"){ olympicYearResults(hammerM, d); }
                 
-                // Create object for every year's results (keys =  gold, silver and bronze )
-                olympicData.forEach(function(d){
-                    
-                    if (d.game == "100M Men"){ olympicYearResults(mens100m, d); }
-                    
-                    if (d.game == "100M Women"){ olympicYearResults(womens100m, d); }
-                });
-                
-                // Add speeds to object: 100m / result
-                for (year in mens100m){
-                    mens100m[year].gold.speed = 100.0/mens100m[year].gold.result;
-                    mens100m[year].silver.speed = 100.0/mens100m[year].silver.result;
-                    mens100m[year].bronze.speed = 100.0/mens100m[year].bronze.result;
-                };
+                else if (d.game == "Hammer Throw Womens"){ olympicYearResults(hammerW, d); }
+            })
+            
+            console.log(longJumpM,longJumpW,hammerW)
+            
 
                 // Call Back Function region --------------------------------------------
         });
                 
-                //createPlot(mens100m,2);
-            });
         
         
     
