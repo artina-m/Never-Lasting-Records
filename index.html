@@ -449,26 +449,25 @@
         <script>
             // Legend: circle colors
             var goldMedal = svgGroup.append("circle")
-            .attr("cx", 1150).attr("cy", 150)
-            .attr("r", 8)
-            .style("fill", "gold");
+                .attr("cx", 1150).attr("cy", 150)
+                .attr("r", 8)
+                .style("fill", "gold");
             
             var silverMedal = svgGroup.append("circle")
-            .attr("cx", 1200).attr("cy", 150)
-            .attr("r", 8)
-            .style("fill", "grey");
+                .attr("cx", 1200).attr("cy", 150)
+                .attr("r", 8)
+                .style("fill", "grey");
             
             var bronzeMedal = svgGroup.append("circle")
-            .attr("cx", 1250).attr("cy", 150)
-            .attr("r",8)
-            .style("fill", "orange");
+                .attr("cx", 1250).attr("cy", 150)
+                .attr("r",8)
+                .style("fill", "orange");
             
             
-            // Record Holder
-            
+            // Record Holder    
             var recordHolder = svgGroup.append("text")
-            .text("Record: 9.63 seconds")
-            .attr("x", 1100).attr("y", 200);
+                .text("Record: 9.63 seconds")
+                .attr("x", 1100).attr("y", 200);
             
             // Filter: by countries
             
@@ -484,8 +483,7 @@
         var svgCountry = d3.select('#plotCountries').append("svg")
             .attr("width", 1400)
             .attr("height", 2300);
-        var svgCountryGroup = svgCountry.append('g');
-        
+        // var svgCountryGroup = svgCountry.append('g');
         
         // Create country array
         var cData = [];
@@ -493,13 +491,18 @@
         // Append country flags
         function plotCountries(data) {
             
+            // For each country in data
             var counter = 0;
             for (c in data) {
                 
+                // Populate cData array
                 cData.push({country: c, total: data[c].total, gold: data[c].gold, silver: data[c].silver, bronze: data[c].bronze, byyear: data[c].byyear})
                 
+                // Create a 'g' for each country
+                var countryGroup = svgCountry.append('g').data(cData);
+                
                 // Append the flag iamges
-                var countries = svgCountryGroup.append('image');
+                var countries = countryGroup.append('image');
                 
                 countries.attr('id', ''+counter+c)
                     .attr('xlink:href', function () {
@@ -514,7 +517,7 @@
                     .attr('width', '25px');
                 
                 // Append the country names
-                var cNames = svgCountryGroup.append('text');
+                var cNames = countryGroup.append('text');
                 
                 cNames
                     .attr('class', 'hover-athlete')
@@ -524,15 +527,13 @@
                 
                 // Append the years
                 for (y=0; y<31; y++) {
-                    // yrs.selectAll('g').data(cData).enter().append('rect')
-                    var yrs = svgCountryGroup.selectAll('g').data(cData).enter().append('rect');
-                    yrs
+                    var countryYears = countryGroup.append('rect')
                         .attr('x', 150+15*y)
                         .attr('y', 60+50*counter)
                         .attr('width', '10px')
                         .attr('height', '10px')
                         .attr('fill', function(d) {
-                        console.log();
+                        
                             var yr = 1896+y*4;
                         
                             // If country won an award that year
@@ -542,7 +543,7 @@
 //                                var n = data[c].byyear[yr].t;
 //                                console.log(n);
 //                                for (z=0; z<n; z++) {
-//                                    yrs.append('rect')
+//                                    countryYears.append('rect')
 //                                        .attr('x', 150+15*y)
 //                                        .attr('y', 60+50*counter - z*15)
 //                                        .attr('width', '10px')
@@ -569,10 +570,15 @@
                 //});
                     
                 }
-                
                 counter += 1;
             
             }
+            
+            // On hover
+//            d3.selectAll(countryGroup)
+//                .on('click', function(d) {
+//                console.log('hover');
+//            })
         }
         
         
