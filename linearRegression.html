@@ -8,9 +8,10 @@
 </head>
     
 <body>
- 
+
     
 <div class = "stickme-container">
+    
     <header class = "stickme-stuck">
         <div class = "info-container">
         </div>
@@ -136,7 +137,7 @@
     
     <script>
         
-        var width = 1000, height = 200;
+        var width = 1000, height = 60;
         
         
          function leastSquares(xData,yData) {
@@ -163,15 +164,15 @@
         
         
         
-        var yearScale = d3.scaleLinear().domain([1860,2016]).range([100,900]);
+        var yearScale = d3.scaleLinear().domain([1890,2016]).range([100,900]);
         
         var svg = d3.select(".info-container")
             .append("svg")
             .attr("width", width)
             .attr("height", 100);
         
-        var xAxis = d3.axisBottom().scale(yearScale);
-        svg.append("g").call(xAxis).attr("transform", "translate(0,80)");
+        var xAxis = d3.axisTop().scale(yearScale);
+        svg.append("g").call(xAxis).attr("transform", "translate(0,100)");
         
         
         
@@ -239,12 +240,12 @@
             var max = d3.max([maxM,maxW]);
             
 
-            var resultScale = d3.scaleLinear().domain([min,max]).range([200,0]);
+            var resultScale = d3.scaleLinear().domain([min,max]).range([60,0]);
             
             console.log(pointDataM);
             
-            plotLine(pointDataM[1], pointDataM[0], svgGroup, resultScale, "blue");
-            plotLine(pointDataW[1], pointDataW[0], svgGroup, resultScale, "red");
+            plotLine(pointDataM[1], pointDataM[0], svgGroup, resultScale, "#5DADE2");
+            plotLine(pointDataW[1], pointDataW[0], svgGroup, resultScale, "#EC7063");
             
             
             

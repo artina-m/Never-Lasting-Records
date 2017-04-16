@@ -15,17 +15,18 @@ svg {
     display: block;
 }
 div {
-    display: inline-block;
+    display: block;
     margin: 0px;
+    width: 1000px;
 }
 
-.stickme-stuck {
+.info-container {
     display: block;
     position: fixed;
     width: 100%;
     height: 100px;
     background-color: white;
-    top: 0;
+    margin-top: 0;
     box-shadow: 0 3px 12px -4px rgba(0,0,0,.2);
 }
 
@@ -40,3 +41,7 @@ body, header {
     margin: 0px;
 }
 
+ body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
