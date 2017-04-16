@@ -1,11 +1,51 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:Thin,Regular');
+/* @import url('https://fonts.googleapis.com/css?family=Roboto:Thin,Regular'); */
+
+body { 
+    margin: 0;
+    padding: 50px;
+    font-family: 'Nunito Sans', Calibri, sans-serif;
+    font-size: 14px;
+    line-height: 21px;
+}
+            
+h4 {    
+    display: inline-block;
+}
+            
+p {
+    margin: 0;
+    padding: 0;
+    width: 500px;
+    /* margin-bottom: 24px; */
+}
+            
+em {
+    /*background-color: rosybrown;*/
+    background-color: black;
+    font-style: italic;
+    color: white;
+}
+
+.hover-athlete {
+    font-size: 11px;
+    font-weight: 700;
+}
+.hover-desc {
+    font-size: 9px;
+    font-weight: 400;
+}
 
 svg {  
-    border: solid lightGrey 1px; 
-    margin-left: 50px;
+    /* margin: 24px 0 24px 0; */
+    margin-right: 50px;
+    border: solid lightgray 1px; 
 }
 
 .scatterPlot {
     background-color: #212F3C  ;
 }
 
+.axis {
+    font-family: 'Nunito Sans', Calibri, sans-serif;
+    font-size: 9px;
+}
