@@ -55,6 +55,7 @@ Hammer Throw Womens,2004,gold,75.02,RUS,Olga KUZENKOVA
 400m Freestyle Mens,2016,gold,3:41.55,AUS,Mack HORTON
 400m Freestyle Mens,2008,gold,3:41.86,KOR,Taehwan PARK
 <<<<<<< HEAD
+<<<<<<< HEAD
 400m Freestyle Mens,2000,gold,3:40.59,AUS,Ian THORPE
 =======
 <<<<<<< HEAD
@@ -63,6 +64,9 @@ Hammer Throw Womens,2004,gold,75.02,RUS,Olga KUZENKOVA
 400m Freestyle Mens,2000,gold,3:40.59,AUS,Ian THORPE
 >>>>>>> 386d772184cef883e2de14fdda61bf9aa0b8c343
 >>>>>>> eileen-branch
+=======
+400m Freestyle Mens,2000,gold,3:40.59,AUS,Ian THORPE
+>>>>>>> origin/master
 400m Freestyle Mens,1992,gold,3:45.00,EUN,Evgueni SADOVYI
 400m Freestyle Mens,1984,gold,3:51.23,USA,George DICARLO
 400m Freestyle Mens,1976,gold,3:51.93,USA,Brian GOODELL
@@ -89,6 +93,7 @@ Hammer Throw Womens,2004,gold,75.02,RUS,Olga KUZENKOVA
 400m Freestyle Womens,2016,gold,3:56.46,USA,Katie LEDECKY
 400m Freestyle Womens,2008,gold,4:03.22,GBR,Rebecca ADLINGTON
 <<<<<<< HEAD
+<<<<<<< HEAD
 400m Freestyle Womens,2000,gold,4:05.80,USA,Brooke BENNETT
 =======
 <<<<<<< HEAD
@@ -97,6 +102,9 @@ Hammer Throw Womens,2004,gold,75.02,RUS,Olga KUZENKOVA
 400m Freestyle Womens,2000,gold,4:05.80,USA,Brooke BENNETT
 >>>>>>> 386d772184cef883e2de14fdda61bf9aa0b8c343
 >>>>>>> eileen-branch
+=======
+400m Freestyle Womens,2000,gold,4:05.80,USA,Brooke BENNETT
+>>>>>>> origin/master
 400m Freestyle Womens,1992,gold,4:07.18,GER,Dagmar HASE
 400m Freestyle Womens,1984,gold,4:07.10,USA,Tiffany COHEN
 400m Freestyle Womens,1976,gold,4:09.89,GDR,Petra THÜMER
@@ -253,6 +261,7 @@ Triple Jump Womens,1996,gold,15.33,UKR,Inessa KRAVETS
 200m Butterfly Mens,2016,gold,1:53.36,USA,Michael PHELPS
 200m Butterfly Mens,2008,gold,1:52.03,USA,Michael PHELPS
 <<<<<<< HEAD
+<<<<<<< HEAD
 200m Butterfly Mens,2000,gold,1:55.35,USA,Tom MALCHOW
 200m Butterfly Mens,1992,gold,1:56.26,USA,Melvin STEWART
 200m Butterfly Mens,1984,gold,1:57.04,AUS,Jon SIEBEN
@@ -276,11 +285,20 @@ Triple Jump Womens,1996,gold,15.33,UKR,Inessa KRAVETS
 200m Butterfly Mens,1960,gold,2:12.80,USA,Mike TROY
 >>>>>>> 386d772184cef883e2de14fdda61bf9aa0b8c343
 >>>>>>> eileen-branch
+=======
+200m Butterfly Mens,2000,gold,1:55.35,USA,Tom MALCHOW
+200m Butterfly Mens,1992,gold,1:56.26,USA,Melvin STEWART
+200m Butterfly Mens,1984,gold,1:57.04,AUS,Jon SIEBEN
+200m Butterfly Mens,1976,gold,1:59.23,USA,Mike BRUNER
+200m Butterfly Mens,1968,gold,2:08.70,USA,Carl ROBIE
+200m Butterfly Mens,1960,gold,2:12.80,USA,Mike TROY
+>>>>>>> origin/master
 200m Butterfly Mens,2012,gold,1:52.96,RSA,Chad LE CLOS
 200m Butterfly Mens,1996,gold,1:56.51,RUS,Denis PANKRATOV
 200m Butterfly Mens,1988,gold,1:56.94,FRG,Michael GROSS
 200m Butterfly Mens,1980,gold,1:59.76,URS,Sergei FESENKO
 200m Butterfly Mens,1972,gold,2:00.70,USA,Mark SPITZ
+<<<<<<< HEAD
 <<<<<<< HEAD
 200m Butterfly Mens,1964,gold,2:06.60,AUS,Kevin BERRY
 200m Butterfly Mens,1956,gold,2:19.30,USA,William YORZYK
@@ -289,12 +307,17 @@ Triple Jump Womens,1996,gold,15.33,UKR,Inessa KRAVETS
 200m Butterfly Mens,1964,gold,2:06.6,AUS,Kevin BERRY
 200m Butterfly Mens,1956,gold,2:19.3,USA,William YORZYK
 >>>>>>> eileen-branch
+=======
+200m Butterfly Mens,1964,gold,2:06.60,AUS,Kevin BERRY
+200m Butterfly Mens,1956,gold,2:19.30,USA,William YORZYK
+>>>>>>> origin/master
 200m Butterfly Womens,2016,gold,2:04.85,ESP,Mireia BELMONTE GARCIA
 200m Butterfly Womens,2008,gold,2:04.18,CHN,Zige LIU
 200m Butterfly Womens,2000,gold,2:05.88,USA,Misty HYMAN
 200m Butterfly Womens,1992,gold,2:08.67,USA,Summer SANDERS
 200m Butterfly Womens,1984,gold,2:06.90,USA,Mary T. MEAGHER
 200m Butterfly Womens,1976,gold,2:11.41,GDR,Andrea POLLACK
+<<<<<<< HEAD
 <<<<<<< HEAD
 200m Butterfly Womens,1968,gold,2:24.70,NED,Ada KOK
 =======
@@ -311,6 +334,9 @@ Triple Jump Womens,1996,gold,15.33,UKR,Inessa KRAVETS
 200m Butterfly Womens,1968,gold,2:24.70,NED,Ada KOK
 >>>>>>> 386d772184cef883e2de14fdda61bf9aa0b8c343
 >>>>>>> eileen-branch
+=======
+200m Butterfly Womens,1968,gold,2:24.70,NED,Ada KOK
+>>>>>>> origin/master
 200m Butterfly Womens,2012,gold,2:04.06,CHN,Liuyang JIAO
 200m Butterfly Womens,1996,gold,2:07.76,AUS,Susan O'NEILL
 200m Butterfly Womens,1988,gold,2:09.51,GDR,Kathleen NORD
