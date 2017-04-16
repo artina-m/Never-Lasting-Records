@@ -45,14 +45,15 @@
             // Create objects for gold, silver, and bronze results.
             // Update the data object olympicResults to include new results
             function olympicYearResults (olympicResults, d){
+                var game = (d.game).replace(/\s/g, '').toLowerCase();
                 if (d.medal == "gold"){
-                    olympicResults[d.year].gold = {result: d.result, athlete: d.athlete, country: d.country};
+                    olympicResults[d.year].gold = {game: game, result: d.result, athlete: d.athlete, country: d.country};
                 }
                 if (d.medal == "silver"){
-                    olympicResults[d.year].silver = {result: d.result, athlete: d.athlete, country: d.country};
+                    olympicResults[d.year].silver = {game: game, result: d.result, athlete: d.athlete, country: d.country};
                 }
                 if (d.medal == "bronze"){
-                    olympicResults[d.year].bronze = {result: d.result, athlete: d.athlete, country: d.country};
+                    olympicResults[d.year].bronze = {game: game, result: d.result, athlete: d.athlete, country: d.country};
                 }
             }
             
@@ -133,13 +134,13 @@
                     
                     var goldDistance = data[y].gold.speed*recordTime;
                     
-                    plottingData.push({start: 0, end: goldDistance, speed:data[y].gold.speed, result: data[y].gold.speed.result, color: "gold", order: n, year: y, medal: "gold", athlete: data[y].gold.athlete, country: data[y].gold.country });
+                    plottingData.push({game: data[y].gold.game, start: 0, end: goldDistance, speed:data[y].gold.speed, result: data[y].gold.speed.result, color: "gold", order: n, year: y, medal: "gold", athlete: data[y].gold.athlete, country: data[y].gold.country });
                             
                     var silverDistance = data[y].silver.speed*recordTime;
-                    plottingData.push({start: 0, end: silverDistance, speed:data[y].silver.speed, result: data[y].silver.result, color: "grey", order: n, year: y, medal: "silver", athlete: data[y].silver.athlete, country: data[y].silver.country});
+                    plottingData.push({game: data[y].silver.game, start: 0, end: silverDistance, speed:data[y].silver.speed, result: data[y].silver.result, color: "grey", order: n, year: y, medal: "silver", athlete: data[y].silver.athlete, country: data[y].silver.country});
                     
                     var bronzeDistance = data[y].bronze.speed*recordTime;
-                    plottingData.push({start: 0, end: bronzeDistance,speed:data[y].bronze.speed, result: data[y].bronze.result, color: "orange", order:n, year: y, medal: "bronze", athlte: data[y].bronze.athelete, country: data[y].bronze.country});
+                    plottingData.push({game: data[y].bronze.game, start: 0, end: bronzeDistance,speed:data[y].bronze.speed, result: data[y].bronze.result, color: "orange", order:n, year: y, medal: "bronze", athlete: data[y].bronze.athlete, country: data[y].bronze.country});
                     
                     n++;
                 }
@@ -168,7 +169,7 @@
                 .attr("transform", "rotate(270)")
                 .style("text-anchor", "middle")
                 .style("font-size", 25)
-                .style("font-family", "Roboto")
+                // .style("font-family", "Roboto")
                 .style("font-weight", 200)
                 .style("fill", "grey");
 
@@ -182,10 +183,10 @@
                 .style("fill", function(d) {return d.color});
 
                 circles.transition()
-                // .duration(2000)
+                 .duration(2000)
                     .attr('cx', function(d,i) { return xScale(d.end) })
                 .transition()
-                // .duration(5000)
+                 .duration(5000)
                     .attr('cx', function(d,i) { return xScale2(d.end) });
 
 
@@ -197,7 +198,7 @@
                 .attr("y", function(d) {return yScale(d.order)})
                 .style("alignment-baseline", "middle")
                 .style("font-size", 12)
-                .style("font-family", "Roboto")
+                // .style("font-family", "Roboto")
                 .style("font-weight", 200)
                 .style("fill", "grey");
 
@@ -207,14 +208,14 @@
                 .attr("x", xScale(0))
                 .attr("y", 45)
                 .style("font-size", 25)
-                .style("font-family", "Roboto")
+                // .style("font-family", "Roboto")
                 .style("font-weight", 600);
 
                 svg.append("text").text("If all Olympians raced the same race")
                 .attr("x", xScale(0))
                 .attr("y", 70)
                 .style("font-size", 16)
-                .style("font-family", "Roboto")
+                // .style("font-family", "Roboto")
                 .style("font-weight", 400);
 
                 // Add x-axis text: distance in meters
@@ -300,35 +301,68 @@
                 // Append the text onto the rectangles
                 var texts = svgGroup.selectAll('g').data(plottingData).enter().append('text');
                 
-                rects.attr('id', function(d) {return 'hover'+d.medal+d.year})
+                rects.attr('id', function(d) {return d.medal+d.year+d.game})
                     .attr('x', function(d) {return xScale2(d.end)-75})
                     .attr('rx', '6px')
                     .attr('ry', '6px')
                     .attr('width', '155px')
-                    .attr('height', '75px')
+                    .attr('height', '70px')
                     .style('fill', 'lightgray')
                     .style('display', 'none');
                 
                 
-                flags.attr('xlink:href', function (d) {return 'img/flags/'+d.country+'.svg'})
+                flags.attr('id', function(d) {return d.medal+d.year+d.game+'flag'})
+                    .attr('xlink:href', function (d) {return 'img/flags/'+d.country+'.svg'})
                     .attr('x', function (d) {return xScale2(d.end)-65})
-                    .attr('width', '');
+                    .attr('width', '25px')
+                    .style('display','none');
                 
-                texts.attr('id', function(d) {return 'text'+d.medal+d.year})
-                    .attr('x', function(d) {return xScale2(d.end)-65})
+                
+                
+                texts.attr('id', function(d) {return d.medal+d.year+d.game+'text'})
+                    .attr('class', 'hover-athlete')
+                    .attr('x', function(d) {return xScale2(d.end)-30})
                     .attr('width', '145px')
                     .attr('height', '65px')
                     // .style('fill', 'indianred')
-                    .style('font-size', '14px')
-                    .style('font-weight', '600')
                     .style('display', 'none')
-                    .text('hallo');
+                    .style('word-breal', 'all')
+                    .text(function(d) {
+                        var ath = d.athlete.split(' ');
+                        var lastname = ath[1].charAt(0) + ath[1].slice(1).toLowerCase();
+                        ath[1] = lastname;
+                        return ath[0]+' '+ath[1];
+                    });
+                
+                texts.append('tspan')
+                    .attr('class', 'hover-desc')
+                    .attr('x', function(d) {return xScale2(d.end)-30})
+                    .attr('dy', '12px')
+                    .text(function(d) {
+                        return 'Country: '+d.country;
+                    });
+                
+                texts.append('tspan')
+                    .attr('class', 'hover-desc')
+                    .attr('x', function (d) {return xScale2(d.end)-30})
+                    .attr('dy', '12px')
+                    .text(function(d) {
+                        return 'Time: '+d.result;
+                });
+                    
+                texts.append('tspan')
+                    .attr('class', 'hover-desc')
+                    .attr('x', function (d) {return xScale2(d.end)-30})
+                    .attr('dy', '12px')
+                    .text(function(d) {
+                        return 'Speed: '+d.speed.toFixed(2)+' m/s';
+                });   
+                
                 
                 objects
-                    .attr('id', function(d) {return ''+d.medal+d.year})
                     .on('mouseenter', function(d) {
                     
-                        var id = d.medal+d.year;
+                        var id = d.medal+d.year+d.game;
                         // console.log('click');
                         // console.log('#hover'+id);
                         // console.log(d3.select('#hover'+id));
@@ -336,22 +370,24 @@
                         // If circles on upper half of graph
                         if (d.year >= 1968) {
                             rects.attr('y', function(d) {return yScale(d.order)+15});
-                            flags.attr('y', function(d) {return yScale(d.order)+30});
-                            texts.attr('y', function(d) {return yScale(d.order)+30});
+                            flags.attr('y', function(d) {return yScale(d.order)+25});
+                            texts.attr('y', function(d) {return yScale(d.order)+35});
                         } else { 
                             // if (d.year <= 1964)
-                            rects.attr('y', function (d) {return yScale(d.order)-75-15});
-                            flags.attr('y', function(d) {return yScale(d.order)-75});
-                            texts.attr('y', function(d) {return yScale(d.order)-75});
+                            rects.attr('y', function (d) {return yScale(d.order)-70-15});
+                            flags.attr('y', function(d) {return yScale(d.order)-70-5});
+                            texts.attr('y', function(d) {return yScale(d.order)-70+5});
                         }
                     
-                        d3.select('#hover'+id).style('display', 'inline');
-                        d3.select('#text'+id).style('display', 'inline');
+                        d3.select('#'+id).style('display', 'inline');
+                        d3.select('#'+id+'flag').style('display', 'inline');
+                        d3.select('#'+id+'text').style('display', 'inline');
                 })
                 .on('mouseleave', function(d) {
-                    var id = d.medal+d.year
-                    d3.select('#text'+id).style('display', 'none');
-                    d3.select('#hover'+id).style('display', 'none');
+                    var id = d.medal+d.year+d.game;
+                    d3.select('#'+id).style('display', 'none');
+                    d3.select('#'+id+'flag').style('display', 'none');
+                    d3.select('#'+id+'text').style('display', 'none');
                 });
             }
             
@@ -382,6 +418,13 @@
             .text("Record: 9.63 seconds")
             .attr("x", 1100).attr("y", 200);
 
+            // Country filters
+            filterCountries();
+            
+            function filterCountries() {
+                
+            }
+            
         </script>
     </p>
     </div>
@@ -419,7 +462,7 @@
                 .attr("y", 70)
                 .style("fill", "lightGrey")
                 .style("font-size", 25)
-                .style("font-family", "Roboto")
+                // .style("font-family", "Roboto")
                 .style("font-weight", 400);
                 
                 svg2.append("text").text("See how humans compare ")
@@ -427,7 +470,7 @@
                 .attr("y", 100)
                 .style("fill", "lightGrey")
                 .style("font-size", 16)
-                .style("font-family", "Roboto")
+                // .style("font-family", "Roboto")
                 .style("font-weight", 200);
                 
                 // Meters per second
@@ -452,7 +495,7 @@
                 .attr("x", "160")
                 .attr("y", "320")
                 .style("fill", "lightGrey")
-                .style("font-family", "Roboto")
+                // .style("font-family", "Roboto")
                 .style("font-weight", 200);
                     
                 visualGroup.append("image")
@@ -471,14 +514,14 @@
                 .attr("x", "380")
                 .attr("y", "320")
                 .style("fill", "lightGrey")
-                .style("font-family", "Roboto")
+                // .style("font-family", "Roboto")
                 .style("font-weight", 200);
                 
                 visualGroup.append("text").text("2012")
                 .attr("x", "250")
                 .attr("y", "400")
                 .style("fill", "#1ABC9C")
-                .style("font-family", "Roboto")
+                // .style("font-family", "Roboto")
                 .style("font-weight", 200)
                 .style("font-size", 36);
                 
@@ -486,7 +529,7 @@
                 .attr("x", "350")
                 .attr("y", "400")
                 .style("fill", "#F7DC6F")
-                .style("font-family", "Roboto")
+                // .style("font-family", "Roboto")
                 .style("font-weight", 200)
                 .style("font-size", 36);
                 

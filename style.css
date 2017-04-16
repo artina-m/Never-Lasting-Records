@@ -1,6 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:Thin,Regular');
+/* @import url('https://fonts.googleapis.com/css?family=Roboto:Thin,Regular'); */
 
 body { 
+    margin: 0;
     padding: 50px;
     font-family: 'Nunito Sans', Calibri, sans-serif;
     font-size: 14px;
@@ -12,8 +13,10 @@ h4 {
 }
             
 p {
+    margin: 0;
+    padding: 0;
     width: 500px;
-    margin-bottom: 24px;
+    /* margin-bottom: 24px; */
 }
             
 em {
@@ -23,8 +26,18 @@ em {
     color: white;
 }
 
+.hover-athlete {
+    font-size: 11px;
+    font-weight: 700;
+}
+.hover-desc {
+    font-size: 9px;
+    font-weight: 400;
+}
+
 svg {  
-    margin: 24px 0 24px 0;
+    /* margin: 24px 0 24px 0; */
+    margin-right: 50px;
     border: solid lightgray 1px; 
 }
 
