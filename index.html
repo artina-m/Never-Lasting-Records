@@ -470,7 +470,9 @@
                 .attr("x", 1100).attr("y", 200);
             
             // Filter: by countries
-            
+            function filterCountries() {
+                
+            }
         </script>
     </p>
     </div>
@@ -513,7 +515,7 @@
                         }  
                     })
                     .attr('x', '50px')
-                    .attr('y', 50+50*counter)
+                    .attr('y', 50+35*counter)
                     .attr('width', '25px');
                 
                 // Append the country names
@@ -522,14 +524,14 @@
                 cNames
                     .attr('class', 'hover-athlete')
                     .attr('x', '90px')
-                    .attr('y', 68+50*counter)
+                    .attr('y', 68+35*counter)
                     .text(c);
                 
                 // Append the years
                 for (y=0; y<31; y++) {
                     var countryYears = countryGroup.append('rect')
                         .attr('x', 150+15*y)
-                        .attr('y', 60+50*counter)
+                        .attr('y', 60+35*counter)
                         .attr('width', '10px')
                         .attr('height', '10px')
                         .attr('fill', function(d) {
