@@ -24,6 +24,9 @@
 </head>
 
 <body>
+    <h1>The Olympians</h1>
+    <h3>If all Olympians entered the same Olympics.</h3>
+    
     <div>
     <p>     
         <script>
@@ -228,10 +231,12 @@
                 circles = svgGroup.selectAll("g").data(plottingData)
                 .enter().append("circle");
 
-                circles.attr("cx", function(d) {return xScale(d.start)})
-                .attr("cy",function(d) {return yScale(d.order)})
-                .attr("r", 5)
-                .style("fill", function(d) {return d.color});
+                circles
+                    .attr('class', 'track-circles')
+                    .attr("cx", function(d) {return xScale(d.start)})
+                    .attr("cy",function(d) {return yScale(d.order)})
+                    .attr("r", 5)
+                    .style("fill", function(d) {return d.color});
 
                 circles.transition()
                  .duration(2000)
@@ -326,6 +331,7 @@
                 plotTracksHover(data, circles);
                 
                 // Calls function for filtering by country
+                filterCountries(data, circles);
                 
             }
             
@@ -470,8 +476,112 @@
                 .attr("x", 1100).attr("y", 200);
             
             // Filter: by countries
-            function filterCountries() {
+            function filterCountries(data, objects) {
+                // Variables
+                var counts = {};
+                var count = 0;
                 
+                // Append the flag iamges
+                var filter = svgGroup.selectAll('g').data(plottingData).enter().append('image');
+                
+                filter
+                    .attr('xlink:href', function (d) {
+                        if (d.country in counts == false) {
+                            counts[d.country] = [count, 1];
+                            count++;
+                            // console.log(counts);
+                            // console.log('Entering');
+                            return 'img/flags/'+d.country+'.svg';
+                        } else {
+                            counts[d.country][1] ++;
+                        }
+                        
+                    })
+                    .attr('x', function(d) {
+                        if (counts[d.country][0] <= 3) {
+                            return 1050;
+                        } else if (counts[d.country][0] > 3 && counts[d.country][0] <= 7) {
+                            return 1125;
+                        } else if (counts[d.country][0] > 7 && counts[d.country][0] <= 11) {
+                            return 1200;
+                        } else {
+                            return 1275;
+                        } 
+                    })
+                    .attr('y', function(d) {
+                        var increment;
+                        if (counts[d.country][0] <= 3) {
+                            increment = counts[d.country][0];
+                        } else if (counts[d.country][0] > 3 && counts[d.country][0] <= 7) {
+                            increment = counts[d.country][0] - 4;
+                        } else if (counts[d.country][0] > 7 && counts[d.country][0] <= 11) {
+                            increment = counts[d.country][0] - 8;
+                        } else {
+                            increment = counts[d.country][0] - 12;
+                        }
+                        return 250+increment*35;
+                        
+                    })
+                    .attr('width', '25px')
+                    .on('mousedown', function(d) {
+                        var click = d.country;
+                        svgGroup.selectAll('.track-circles')
+                            .style('opacity', function(d) {
+                                console.log('Entering circles');
+                                if (d.country != click) {
+                                    return '0.1';
+                                }
+                            })
+                    })
+                    .on('mouseup', function(d) {
+                        svgGroup.selectAll('.track-circles').style('opacity', 1);
+                    })
+                    .style('cursor', 'pointer')
+                    .style('display', function(d) {
+                        if (d.country == 'POR') { return 'none'; }
+                    });        
+                
+                var labels = svgGroup.selectAll('g').data(plottingData).enter().append('text');
+                var countryLabels = [];
+                
+                labels
+                    .attr('class', 'hover-athlete')
+                    .attr('x', function(d) {
+                        if (counts[d.country][0] <= 3) {
+                                return 1050+35;
+                            } else if (counts[d.country][0] > 3 && counts[d.country][0] <= 7) {
+                                return 1125+35;
+                            } else if (counts[d.country][0] > 7 && counts[d.country][0] <= 11) {
+                                return 1200+35;
+                            } else {
+                                return 1275+35;
+                            }
+                    })
+                    .attr('y', function(d) {
+                        var increment;
+                        if (counts[d.country][0] <= 3) {
+                            increment = counts[d.country][0];
+                        } else if (counts[d.country][0] > 3 && counts[d.country][0] <= 7) {
+                            increment = counts[d.country][0] - 4;
+                        } else if (counts[d.country][0] > 7 && counts[d.country][0] <= 11) {
+                            increment = counts[d.country][0] - 8;
+                        } else {
+                            increment = counts[d.country][0] - 12;
+                        }
+                        return 250+increment*35 + 18;
+                    })
+                    // .attr('width', '145px')
+                    // .attr('height', '65px')
+                    // .style('fill', 'indianred')
+                    .text(function(d) {
+                        if (countryLabels.includes(d.country) == false) {
+                            countryLabels.push(d.country);
+                            return d.country;    
+                        } 
+                    })
+                    .style('display', function(d) {
+                        if (d.country == 'POR') { return 'none'; }
+                    });
             }
         </script>
     </p>
