@@ -10,11 +10,191 @@
 <body>
 
     
-<div class = "stickme-container">
-    <header class = "stickme-stuck">
-        <div class = "info-container">
-        </div>
-    </header>
+<div class = "regression">
+
+    
+    <div id='plotCountries'></div>
+    
+    <script>
+        
+        // Create svg group for each sport
+        
+        
+        var longJump_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var hammerThrow_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var freestyle_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var hurdles_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var shotPut_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var tripleJump_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var track_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var butterfly_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var discusThrow_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var highJump_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        
+        var yearScale = d3.scaleLinear().domain([1890,2016]).range([200,1000]);
+        
+        var olympicYears = [];
+        for (i = 1896; i < 2017; i = i + 4) {
+            olympicYears.push(i)
+        }
+        
+
+        // Append country flags
+        function plotRegression(data, svgGroup) {
+            
+            var sportData = [];
+            
+            var yearData = [];
+            
+            var counter = 0;
+            
+            for (year in data) {
+                
+                if (data[year].game == "200m Butterfly Mens" || data[year].game == "200m Butterfly Womens" || data[year].game == "400m Freestyle Mens" || data[year].game == "400m Freestyle Womens") {
+                    
+                var result= data[year].result;
+                    
+                var seconds = Number(result.substr(0,1))*60 + Number(result.substr(2,3))
+                    
+                sportData.push(seconds)
+                }
+                
+                else { sportData.push(Number(data[year].result))}
+                
+                
+                yearData.push(Number(year));
+                
+            }
+            
+            var min = d3.min(sportData);
+            var max = d3.max(sportData);
+            console.log(min,max)
+            
+            var resultScale = d3.scaleLinear().domain([min,max]).range([50,0]);
+        
+    
+            
+            // Append the country names
+            var sportName = svgGroup.append('text').text(data["2016"].game)
+                    .attr('class', 'hover-sport')
+                    .attr('x', 60)
+                    .attr('y', 25);
+            
+            // Append the years
+            for (y in olympicYears) {
+                    var sportYears = svgGroup.selectAll("g").data(olympicYears)
+                        .enter().append("rect")
+                        .attr("class", "dataPoints")
+                        .attr('x', function(d) {return yearScale(d)})
+                        .attr('y', 20)
+                        .attr('width', '10px')
+                        .attr('height', '10px')
+                        .attr('fill', function(d) {
+                        
+                            // If country won an award that year
+                            if (yearData.includes(d)) {
+                                return "#8B8EFE";
+                            } else {
+                                return "lightGrey";
+                            }
+                            
+                        });
+        
+                
+            svgGroup.on('mouseenter', function(d) {
+                            resultScale.range([120,20])
+                            
+                            svgGroup.selectAll(".dataPoints")
+            	           .attr("height", function(d,i){
+                                if (yearData.includes(d)){
+                                    var ind = yearData.indexOf(d);
+                                    return(120-resultScale(sportData[ind]))
+                                }
+                            })
+                            .transition()
+            
+                            .attr("y", function(d,i){
+                                if (yearData.includes(d)){
+                                    var ind = yearData.indexOf(d);
+                                    return(resultScale(sportData[ind]))
+                                }
+
+                            });
+                
+                            svgGroup.attr("height", 150);
+                
+
+                    var yAxis = d3.axisLeft(resultScale)
+                    .ticks(6)
+                    .tickSize(0);
+
+                    var axisGroup = svgGroup.append("g").call(yAxis)
+                    .transition()
+                    .attr("class", "axis")
+                    .style("font-size", 10)
+                    .attr("transform", "translate(220,0)") 
+
+                     svgGroup.append("text").text("Gun Ownership %")
+                    .attr("x", -300)
+                    .attr("y", -50)
+                    .attr("transform", "rotate(270)")
+                    .style("text-anchor", "middle");
+                            
+                        });
+                
+                
+                svgGroup.on('mouseleave', function(d) {
+                            resultScale.range([50,0])
+                            
+                            svgGroup.selectAll(".dataPoints")
+            	           .attr("height", 10)
+                            .transition()
+                            .attr("y", 20);
+                
+                            svgGroup.attr("height", 50);
+                    
+                            svgGroup.select(".axis").remove();
+                    
+                
+                            
+                        });
+                        
+                    
+                // Hover over the years
+                // yrs.on('mouseenter', function(d) {
+                    // console.log('mouseeenter');
+                    // console.log(d);
+                    
+                    // d3.select('#'+c+'squares').style('display', 'inline');
+                //});
+                    
+                }
+                counter += 1;
+            
+            }
+            
+            // On hover
+//            d3.selectAll(countryGroup)
+//                .on('click', function(d) {
+//                console.log('hover');
+//            })
+        
+        
+        
+    </script>
+    
+    </div>
+    
     
     
     <div id="linPlot">
@@ -114,6 +294,18 @@
             var olympicSports = [longJumpM, longJumpW, hammerM, hammerW, freestyleM,freestyleW,hurdlesM, hurdlesW, shotPutM, shotPutW,tripleJumpM, tripleJumpW, trackM, trackW, butterflyM, butterflyW, discusM, discusW, highJumpM, highJumpW];
             
             
+            plotRegression(longJumpM,longJump_svg);
+            plotRegression(hammerM, hammerThrow_svg);
+            plotRegression(freestyleM,freestyle_svg);
+            plotRegression(hurdlesM,hurdles_svg);
+            plotRegression(shotPutM,shotPut_svg);
+            plotRegression(tripleJumpM, tripleJump_svg);
+            plotRegression(trackM, track_svg);
+            plotRegression(butterflyM, butterfly_svg);
+            plotRegression(discusM,discusThrow_svg);
+            plotRegression(highJumpM, highJump_svg);
+            
+            
             plotLinearRegression(longJumpM,longJumpW);
             plotLinearRegression(hammerM,hammerW);
             plotLinearRegression(freestyleM,freestyleW);
@@ -125,7 +317,8 @@
             plotLinearRegression(discusM,discusW);
             plotLinearRegression(highJumpM,highJumpW);
             
-            
+            console.log(longJumpM);
+           
             
 
             // Call Back Function region ----------------------------------------
