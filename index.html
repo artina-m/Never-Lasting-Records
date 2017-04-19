@@ -378,7 +378,7 @@
 
                 circles
                     .attr('class', 'track-circles')
-                    .attr("cx", function(d) {return xScale(d.start)})
+                    .attr("cx", function(d) {return xTrackScale(d.start)})
                     .attr("cy",function(d) {return yScale(d.order)})
                     .attr("r", 5)
                     .style("fill", function(d) {return d.color});
@@ -472,7 +472,7 @@
                 else { plotHover(data, plottingData, circles, "track", "womens") }
                 
                 // Calls function for filtering by country
-                filterCountries(data, circles);
+                filterCountries(data, plottingData, circles);
                 
             }
             
@@ -630,7 +630,7 @@
 
         </script>
         
-        <!-- <script>
+        <script>
             // Legend: circle colors
             var goldMedal = svgTrackGroup.append("circle")
                 .attr("cx", 1150).attr("cy", 150)
@@ -649,12 +649,12 @@
             
             
             // Record Holder    
-            var recordHolder = svgGroup.append("text")
+            var recordHolder = svgTrackGroup.append("text")
                 .text("Record: 9.63 seconds")
                 .attr("x", 1100).attr("y", 200);
             
             // Filter: by countries
-            function filterCountries(data, objects) {
+            function filterCountries(data, plottingData, objects) {
                 // Variables
                 var counts = {};
                 var count = 0;
@@ -761,7 +761,7 @@
                         if (d.country == 'POR') { return 'none'; }
                     });
             }
-        </script> -->
+        </script>
     </p>
 
     <p id="poolViz">
