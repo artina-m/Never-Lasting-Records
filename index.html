@@ -26,11 +26,19 @@
 <body>
     <div>
     <p>     
+        <button id="showTrack" class="topButtons"> 100M Track </button>
+        <button id="showPool" class="topButtons"> 200M Butterfly </button>
+        <button id="showDiscus" class="topButtons"> Discus Throw </button>
+
         <script>
             // Olympic Games of interest
             var mens100m  = {}; // result (time), athlete, country, speed
             var womens100m  = {};
-            
+            var mens200mFly = {}; 
+            var womens200mFly = {};
+            var mensDiscus = {};
+            var womensDiscus = {};
+
             // Olympic Games by country
             // key: country
             // data: # medals, # gold, # silver, # bronze
@@ -38,14 +46,22 @@
             var countryData = {};
             
             function parseLine(line) {
-                return {
+                var csvLine = {
                     game: line["Game"],
                     year: line["Year"],
                     medal: line["Medal"],
-                    result: Number(line["Result"]),
+                    result: line["Result"],
                     country: line["Country"],
                     athlete: line["Athlete"]
                 }
+                if (csvLine.game == "200M Butterfly Men" || csvLine.game == "200M Butterfly Women") {
+                    var time = csvLine.result.replace(/^0+(?!\.|$)/, ''); // remove leading zeros of time result e.g. "01:55.35"
+                    time = Number(time.charAt(0)) * 60 + Number(time.substr(2)); // # of minutes * 60 seconds + seconds.milliseconds
+                    csvLine.result = time;
+                } else {
+                    csvLine.result = Number(csvLine.result);
+                }
+                return csvLine;
             }
             
             // Create objects for gold, silver, and bronze results.
@@ -69,11 +85,17 @@
                 // Create object for each olympic game (key = year)
                 olympicData.forEach(function(d){
                     
-                    if (d.game == "100M Men") { 
-                        mens100m[d.year]= {} 
-                    } else if (d.game == "100M Women") { 
-                        womens100m[d.year] = {} 
-                    }
+                    if (d.game == "100M Men"){ mens100m[d.year]= {} }
+                    
+                    else if (d.game == "100M Women") { womens100m[d.year] = {} }
+
+                    else if (d.game == "200M Butterfly Men") { mens200mFly[d.year] = {} }
+
+                    else if (d.game == "200M Butterfly Women") { womens200mFly[d.year] = {} }
+
+                    else if (d.game == "Discus Throw Men") { mensDiscus[d.year] = {} }
+
+                    else if (d.game == "Discus Throw Women") { womensDiscus[d.year] = {} }
                     
                     // Populate countryData
                     
@@ -115,11 +137,17 @@
                 // Create object for every year's results (keys =  gold, silver and bronze )
                 olympicData.forEach(function(d){
                     
-                    if (d.game == "100M Men"){ 
-                        olympicYearResults(mens100m, d); 
-                    } else if (d.game == "100M Women") { 
-                        olympicYearResults(womens100m, d); 
-                    }
+                    if (d.game == "100M Men"){ olympicYearResults(mens100m, d); }
+                    
+                    if (d.game == "100M Women"){ olympicYearResults(womens100m, d); }
+
+                    if (d.game == "200M Butterfly Men"){ olympicYearResults(mens200mFly, d); }
+                    
+                    if (d.game == "200M Butterfly Women"){ olympicYearResults(womens200mFly, d); }
+
+                    if (d.game == "Discus Throw Men"){ olympicYearResults(mensDiscus, d); }
+                    
+                    if (d.game == "Discus Throw Women"){ olympicYearResults(womensDiscus, d); }
                     
                 });
                 
@@ -129,15 +157,110 @@
                     mens100m[year].silver.speed = 100.0/mens100m[year].silver.result;
                     mens100m[year].bronze.speed = 100.0/mens100m[year].bronze.result;
                 };
-                                
+                
+                // Add speeds to 100m Womens object: 100m / result
+                for (year in womens100m){
+                    womens100m[year].gold.speed = 100.0/womens100m[year].gold.result;
+                    womens100m[year].silver.speed = 100.0/womens100m[year].silver.result;
+                    womens100m[year].bronze.speed = 100.0/womens100m[year].bronze.result;
+                };
+
+                // Add speeds to 200m Mens Butterfly object: 200m / result
+                for (year in mens200mFly){
+                    mens200mFly[year].gold.speed = 200.0/mens200mFly[year].gold.result;
+                    mens200mFly[year].silver.speed = 200.0/mens200mFly[year].silver.result;
+                    mens200mFly[year].bronze.speed = 200.0/mens200mFly[year].bronze.result;
+                };
+
+                // Add speeds to 200m Mens Butterfly object: 200m / result
+                for (year in womens200mFly){
+                    womens200mFly[year].gold.speed = 200.0/womens200mFly[year].gold.result;
+                    womens200mFly[year].silver.speed = 200.0/womens200mFly[year].silver.result;
+                    womens200mFly[year].bronze.speed = 200.0/womens200mFly[year].bronze.result;
+                };
+
+                // shows when page is first loaded
                 plotTracks(mens100m);
+
+                // show mens track 
+                d3.select("#buttonTrackMen").on("click", function() {
+                    svgTrack.selectAll("text").remove();
+                    svgTrackGroup.selectAll("*").remove();
+                    plotTracks(mens100m);
+                });
+
+                // show womens track
+                d3.select("#buttonTrackWomen").on("click", function() {
+                    svgTrack.selectAll("text").remove();
+                    svgTrackGroup.selectAll("*").remove();
+                    plotTracks(womens100m);
+                });
+                
+                // show mens swim
+                d3.select("#buttonPoolMen").on("click", function() {
+                    svgPool.selectAll("text").remove();
+                    svgPoolGroup.selectAll("*").remove();
+                    plotPoolLanes(mens200mFly);
+                });
+
+                // show womens swim
+                d3.select("#buttonPoolWomen").on("click", function() {
+                    svgPool.selectAll("text").remove();
+                    svgPoolGroup.selectAll("*").remove();
+                    plotPoolLanes(womens200mFly);
+                });
+
+                // show mens discus
+                d3.select("#buttonDiscusMen").on("click", function() {
+                    svgDiscus.selectAll("text").remove();
+                    svgDiscusGroup.selectAll("*").remove();
+                    plotDiscusThrows(mensDiscus);
+                });
+
+                // show womens discus
+                d3.select("#buttonDiscusWomen").on("click", function() {
+                    svgDiscus.selectAll("text").remove();
+                    svgDiscusGroup.selectAll("*").remove();
+                    plotDiscusThrows(womensDiscus);
+                });
+
+                // only show track
+                d3.select("#showTrack").on("click", function() {
+                    svgTrack.selectAll("text").remove();
+                    svgTrackGroup.selectAll("*").remove();
+                    plotTracks(mens100m);
+                    document.getElementById("trackViz").style.display = "inline";
+                    document.getElementById("poolViz").style.display = "none";
+                    document.getElementById("discusViz").style.display = "none";
+                })
+
+                // only show pool
+                d3.select("#showPool").on("click", function() {
+                    svgPool.selectAll("text").remove();
+                    svgPoolGroup.selectAll("*").remove();
+                    plotPoolLanes(mens200mFly);
+                    document.getElementById("trackViz").style.display = "none";
+                    document.getElementById("poolViz").style.display = "inline";
+                    document.getElementById("discusViz").style.display = "none";
+                })
+
+                // only show discus
+                d3.select("#showDiscus").on("click", function() {
+                    svgDiscus.selectAll("text").remove();
+                    svgDiscusGroup.selectAll("*").remove();
+                    plotDiscusThrows(mensDiscus);
+                    document.getElementById("trackViz").style.display = "none";
+                    document.getElementById("poolViz").style.display = "none";
+                    document.getElementById("discusViz").style.display = "inline";
+                })
+
                 plotCountries(countryData);
                 
                 createPlot(mens100m, 0);
                 
                 d3.select("#dataSlider").on("input", function() {
-                updatePlot(+this.value);
-        });
+                    updatePlot(+this.value);
+                });
                 
                 //createPlot(mens100m,2);
             });
@@ -147,195 +270,236 @@
         
     <p id = "trackViz">
 
+        <button id="buttonTrackMen"> Men </button>
+        <button id="buttonTrackWomen"> Women </button>
+
         <script>
             
             var width = 1400, height = 600;
 
-            var xScale = d3.scaleLinear().domain([0,100]).range([100,1000]);
+            var xTrackScale = d3.scaleLinear().domain([0,100]).range([100,1000]);
+            var xTrackScale2 = d3.scaleLinear().domain([80,100]).range([100,1000]); // zoom into points
 
-            var xScale2 = d3.scaleLinear().domain([80,100]).range([100,1000]); // zoom into points
-
-            var yScale = d3.scaleLinear().domain([0,25]).range([490,90]);
+            var yScaleMen = d3.scaleLinear().domain([0,25]).range([490,90]);
+            var yScaleWomen = d3.scaleLinear().domain([0,21]).range([490,90]);
 
             // Create SVG
-            var svg = d3.select("#trackViz")
+            var svgTrack = d3.select("#trackViz")
             .append("svg")
             .attr("width", width)
             .attr("height", height);
 
-            var svgGroup = svg.append("g");
+            var svgTrackGroup = svgTrack.append("g");
             
-            // Initialize 100M Men's Record
-            var recordTime = 9.63; 
-            var recordSpeed = 100/9.63;
+            // 100M Men's Record
+            var recordTimeMen = 9.63; 
+            var recordSpeedMen = 100/recordTimeMen;
             
-            // Initialize 100M Men's variables
-            var plottingData  = [];
-            var countries = [];
-            var circles;
+            // 100M Women's Record
+            var recordTimeWomen = 10.71;
+            var recordSpeedWomen = 100/recordTimeWomen;
             
-            // Plots 100M Men's Record
             function plotTracks(data) {
-    
+                
+                var plottingData  = [];
+
                 n = 1;
+
+                var recordTime;
+
+                if (data == mens100m) {
+                    recordTime = recordTimeMen
+                } else {
+                    recordTime = recordTimeWomen } 
                 
                 for (y in data) {
                     
-                    var goldDistance = data[y].gold.speed*recordTime;
-                    
-                    plottingData.push({game: data[y].gold.game, start: 0, end: goldDistance, speed:data[y].gold.speed, result: data[y].gold.speed.result, color: "gold", order: n, year: y, medal: "gold", athlete: data[y].gold.athlete, country: data[y].gold.country });
-                            
-                    var silverDistance = data[y].silver.speed*recordTime;
-                    
-                    plottingData.push({game: data[y].silver.game, start: 0, end: silverDistance, speed:data[y].silver.speed, result: data[y].silver.result, color: "grey", order: n, year: y, medal: "silver", athlete: data[y].silver.athlete, country: data[y].silver.country});
-                    
                     var bronzeDistance = data[y].bronze.speed*recordTime;
-                    
                     plottingData.push({game: data[y].bronze.game, start: 0, end: bronzeDistance,speed:data[y].bronze.speed, result: data[y].bronze.result, color: "orange", order:n, year: y, medal: "bronze", athlete: data[y].bronze.athlete, country: data[y].bronze.country});
                     
+                    var silverDistance = data[y].silver.speed*recordTime;
+                    plottingData.push({game: data[y].silver.game, start: 0, end: silverDistance, speed:data[y].silver.speed, result: data[y].silver.result, color: "grey", order: n, year: y, medal: "silver", athlete: data[y].silver.athlete, country: data[y].silver.country});
+                    
+                    var goldDistance = data[y].gold.speed*recordTime;
+                    plottingData.push({game: data[y].gold.game, start: 0, end: goldDistance, speed:data[y].gold.speed, result: data[y].gold.result, color: "gold", order: n, year: y, medal: "gold", athlete: data[y].gold.athlete, country: data[y].gold.country });
+                            
                     n++;
                 }
-                            
-                // Add track for each olympic year
-                var raceTrack = svgGroup.selectAll("g").data(plottingData).enter().append("rect");
 
-                raceTrack.attr("width", 900).attr("height",14 )
-                .attr("x",100).attr("y", function(d) {return(yScale(d.order) - 7)})
+                var yScale;
+
+                if (data == mens100m) {
+                    yScale = yScaleMen;
+                } else {
+                    yScale = yScaleWomen;
+                }
+
+                // Add track for each olympic year
+                var raceTrack = svgTrackGroup.selectAll("g").data(plottingData).enter().append("rect");
+
+                raceTrack.attr("width", 900).attr("height", function() {
+                    if (data == mens100m) { return 14 }
+                    else { return 17 }
+                })
+                .attr("x", 100).attr("y", function(d) {
+                    if (data == mens100m) { return yScale(d.order) - 7 }
+                    else { return yScale(d.order) - 17/2 }
+                })
                 .style("fill", "lightGrey")
                 .style("opacity", .1);
 
                 // Finish Line
-                svgGroup.append("rect")
-                .attr("x", xScale(100))
-                .attr("y", yScale(25))
+                svgTrackGroup.append("rect")
+                .attr("x", xTrackScale(100))
+                .attr("y", function() {
+                    if (data == mens100m) { return yScale(25) }
+                    else { return yScale(21) }
+                })
                 .attr("width", 50)
                 .attr("height", 400)
                 .style("fill", "white")
                 .style("stroke", "grey")
                 .style("stroke-width", .5);
 
-                svgGroup.append("text").text("FINISH")
+                svgTrackGroup.append("text").text("FINISH")
                 .attr("x", -300)
                 .attr("y", 1035)
                 .attr("transform", "rotate(270)")
                 .style("text-anchor", "middle")
                 .style("font-size", 25)
-                // .style("font-family", "Roboto")
+                .style("font-family", "Roboto")
                 .style("font-weight", 200)
                 .style("fill", "grey");
 
                 // Add gold, bronze, and silver medal plots
-                circles = svgGroup.selectAll("g").data(plottingData)
+                var circles = svgTrackGroup.selectAll("g").data(plottingData)
                 .enter().append("circle");
 
-                circles.attr("cx", function(d) {return xScale(d.start)})
+                circles.attr("cx", function(d) {return xTrackScale(d.start)})
                 .attr("cy",function(d) {return yScale(d.order)})
                 .attr("r", 5)
                 .style("fill", function(d) {return d.color});
 
                 circles.transition()
-                 .duration(2000)
-                    .attr('cx', function(d,i) { return xScale(d.end) })
+                .ease(d3.easeLinear)
+                .duration(2000)
+                    .attr('cx', function(d,i) { return xTrackScale(d.end) })
                 .transition()
-                 .duration(5000)
-                    .attr('cx', function(d,i) { return xScale2(d.end) });
+                .duration(1000)
+                .transition()
+                 .duration(4000)
+                    .attr('cx', function(d,i) { return xTrackScale2(d.end) });
 
 
                 // Add y-axis text: years
-                var olympicYears = svg.selectAll("g").data(plottingData).enter().append("text");
+                var olympicYears = svgTrack.selectAll("g").data(plottingData).enter().append("text");
 
                 olympicYears.text(function(d) {return d.year})
                 .attr("x", 50)
                 .attr("y", function(d) {return yScale(d.order)})
                 .style("alignment-baseline", "middle")
                 .style("font-size", 12)
-                // .style("font-family", "Roboto")
                 .style("font-weight", 200)
                 .style("fill", "grey");
 
-
                 // Add titles
-                svg.append("text").text("Olympic 100M Mens")
-                .attr("x", xScale(0))
+                svgTrack.append("text").text(function() {
+                    if (data == mens100m) { return "Olympic 100M Mens" }
+                    else { return "Olympic 100M Womens" }
+                })
+                .attr("x", xTrackScale(0))
                 .attr("y", 45)
                 .style("font-size", 25)
-                // .style("font-family", "Roboto")
                 .style("font-weight", 600);
 
-                svg.append("text").text("If all Olympians raced the same race")
-                .attr("x", xScale(0))
+                svgTrack.append("text").text("If all Olympians raced the same race")
+                .attr("x", xTrackScale(0))
                 .attr("y", 70)
                 .style("font-size", 16)
-                // .style("font-family", "Roboto")
                 .style("font-weight", 400);
 
                 // Add x-axis text: distance in meters
-                svg.append("text").text("100m")
-                .attr("x", xScale(100))
+                svgTrack.append("text").text("100m")
+                .attr("x", xTrackScale(100))
                 .attr("y", 500)
                 .style("anchor", "middle");
 
-                svg.append("text").text("2016")
-                .attr("x", 60)
-                .attr("y", yScale(2016))
-                .style("anchor", "left")
-                .style("fill", "blue")
-                .style("opacity", .5);
-
-                var seventy = svg.append("text").text("80m")
-                .attr("x", xScale(80))
+                var eighty = svgTrack.append("text").text("80m")
+                .attr("x", xTrackScale(80))
                 .attr("y", 500)
                 .style("anchor", "middle");
 
-                var ninety = svg.append("text").text("90m")
-                .attr("x", xScale(90))
+                var ninety = svgTrack.append("text").text("90m")
+                .attr("x", xTrackScale(90))
                 .attr("y", 500)
                 .style("anchor", "middle");
 
-                var fifty = svg.append("text").text("50m")
-                .attr("x", xScale(50))
+                var fifty = svgTrack.append("text").text("50m")
+                .attr("x", xTrackScale(50))
                 .attr("y", 500)
                 .style("anchor", "middle");
 
-                seventy.transition()
-                .duration(2000)
-                    .attr('x', xScale(80) )
-                     .transition()
-                .duration(5000)
-                    .attr('x', xScale2(80) )
+                eighty.transition()
+                .duration(3000)
+                    .attr('x', xTrackScale(80) )
+                .transition()
+                    .duration(4000)
+                    .ease(d3.easeLinear)
+                    .attr('x', xTrackScale2(80) )
 
                 ninety.transition()
-                .duration(2000)
-                    .attr('x', xScale(90) )
-                     .transition()
-                .duration(5000)
-                    .attr('x', xScale2(90) )
+                .duration(3000)
+                    .attr('x', xTrackScale(90) )
+                .transition()
+                    .duration(4000)
+                    .ease(d3.easeLinear)
+                    .attr('x', xTrackScale2(90) )
 
                 fifty.transition()
-                .duration(2000)
-                    .attr('x', xScale(50) )
-                     .transition()
-                .duration(5000)
-                    .attr('x', xScale2(50) )
+                .duration(3000)
+                    .attr('x', xTrackScale(50) )
+                .transition()
+                    .duration(4000)
+                    .ease(d3.easeLinear)
+                    .attr('x', xTrackScale2(50) )
                     .style("opacity", -5);
                 
-                // Initialize variables
-                var countries = [];
-                
                 // Calls function for plotting descriptions
-                plotTracksHover(data, circles);
+                if (data == mens100m) { plotHover(data, plottingData, circles, "track", "mens") }
+                else { plotHover(data, plottingData, circles, "track", "womens") }
                 
                 // Calls function for filtering by country
                 
             }
             
-            function plotTracksHover(data, objects) {
+            function plotHover(data, plottingData, objects, event, gender) {
                 
+                var countries = [];
+
+                if (event == "track") {
+                    svgGroup = svgTrackGroup;
+                    xScale2 = xTrackScale2;
+                    if (gender == "mens" ) { yScale = yScaleMen }
+                    else { yScale = yScaleWomen }
+                }
+                else if (event == "pool") {
+                    svgGroup = svgPoolGroup;
+                    xScale2 = xPoolScale2;
+                    if (gender == "mens" ) { yScale = yPoolScaleMen }
+                    else { yScale = yPoolScaleWomen }
+                }
+                else {
+                    svgGroup = svgDiscusGroup
+                    xScale2 = xDiscusScale2;
+                    if (gender == "mens" ) { yScale = yDiscusScaleMen }
+                    else { yScale = yDiscusScaleWomen }
+                }
+
                 // Append the rectangles
                 var rects = svgGroup.selectAll('g').data(plottingData).enter().append('rect');
                 
                 // Append the flag iamges
-                var flags = svgGroup.selectAll('g'). data(plottingData).enter().append('image');
+                var flags = svgGroup.selectAll('g').data(plottingData).enter().append('image');
                 
                 // Populate list of countries
                 for (key in data) {
@@ -362,7 +526,11 @@
                     .attr('ry', '6px')
                     .attr('width', '155px')
                     .attr('height', '70px')
-                    .style('fill', 'lightgray')
+                    .style('fill', function(d) {
+                        if (d.medal == "gold") { return "gold" }
+                        else if (d.medal == "silver") { return "grey" }
+                        else { return "orange" }
+                    })
                     .style('display', 'none');
                 
                 
@@ -394,22 +562,34 @@
                     .text(function(d) {
                         return 'Country: '+d.country;
                     });
+
                 
-                texts.append('tspan')
-                    .attr('class', 'hover-desc')
-                    .attr('x', function (d) {return xScale2(d.end)-30})
-                    .attr('dy', '12px')
-                    .text(function(d) {
-                        return 'Time: '+d.result;
-                });
-                    
-                texts.append('tspan')
-                    .attr('class', 'hover-desc')
-                    .attr('x', function (d) {return xScale2(d.end)-30})
-                    .attr('dy', '12px')
-                    .text(function(d) {
-                        return 'Speed: '+d.speed.toFixed(2)+' m/s';
-                });   
+                if (event == "discus") {
+                    texts.append('tspan')
+                        .attr('class', 'hover-desc')
+                        .attr('x', function (d) {return xScale2(d.end)-30})
+                        .attr('dy', '12px')
+                        .text(function(d) {
+                            return 'Distance: '+d.result.toFixed(2)+' m';
+                        }); 
+                } else {    
+
+                    texts.append('tspan')
+                        .attr('class', 'hover-desc')
+                        .attr('x', function (d) {return xScale2(d.end)-30})
+                        .attr('dy', '12px')
+                        .text(function(d) {
+                            return 'Time: '+d.result.toFixed(2)+ ' s';
+                    }); 
+
+                    texts.append('tspan')
+                        .attr('class', 'hover-desc')
+                        .attr('x', function (d) {return xScale2(d.end)-30})
+                        .attr('dy', '12px')
+                        .text(function(d) {
+                            return 'Speed: '+d.speed.toFixed(2)+' m/s';
+                        }); 
+                } 
                 
                 
                 objects
@@ -446,19 +626,19 @@
 
         </script>
         
-        <script>
+        <!-- <script>
             // Legend: circle colors
-            var goldMedal = svgGroup.append("circle")
+            var goldMedal = svgTrackGroup.append("circle")
                 .attr("cx", 1150).attr("cy", 150)
                 .attr("r", 8)
                 .style("fill", "gold");
             
-            var silverMedal = svgGroup.append("circle")
+            var silverMedal = svgTrackGroup.append("circle")
                 .attr("cx", 1200).attr("cy", 150)
                 .attr("r", 8)
                 .style("fill", "grey");
             
-            var bronzeMedal = svgGroup.append("circle")
+            var bronzeMedal = svgTrackGroup.append("circle")
                 .attr("cx", 1250).attr("cy", 150)
                 .attr("r",8)
                 .style("fill", "orange");
@@ -473,7 +653,446 @@
             function filterCountries() {
                 
             }
+        </script> -->
+    </p>
+
+    <p id="poolViz">
+
+        <button id="buttonPoolMen"> Men </button>
+        <button id="buttonPoolWomen"> Women </button>
+
+        <script>
+            var xPoolScale = d3.scaleLinear().domain([0,200]).range([100,1000]);
+
+            var xPoolScale2 = d3.scaleLinear().domain([150,200]).range([100,1000]); // zoom into points
+
+            var yPoolScaleMen = d3.scaleLinear().domain([0,16]).range([490,90]);
+            var yPoolScaleWomen = d3.scaleLinear().domain([0,13]).range([490,90]);
+
+            // Create SVG
+            var svgPool = d3.select("#poolViz")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+            var svgPoolGroup = svgPool.append("g");
+            
+            // 200M Butterfly Men's Record
+            var recordTimeFlyMen = 112.03;
+            var recordSpeedFlyMen = 200/recordTimeFlyMen;
+
+            // 200M Butterfly Women's Record
+            var recordTimeFlyWomen = 124.06;
+            var recordSpeedFlyWomen = 200/recordTimeFlyWomen;
+
+            function plotPoolLanes(data) {
+                
+                var plottingData  = []; // Array of objects
+    
+                n = 1;
+                
+                var recordTimeFly;
+
+                if (data == mens200mFly) {
+                    recordTimeFly = recordTimeFlyMen
+                } else {
+                    recordTimeFly = recordTimeFlyWomen } 
+
+                for (y in data) {
+
+                    var bronzeDistance = data[y].bronze.speed*recordTimeFly;
+                    plottingData.push({game: data[y].bronze.game, start: 0, end: bronzeDistance,speed:data[y].bronze.speed, result: data[y].bronze.result, color: "orange", order:n, year: y, medal: "bronze", athlete: data[y].bronze.athlete, country: data[y].bronze.country});
+                    
+                    var silverDistance = data[y].silver.speed*recordTimeFly;
+                    plottingData.push({game: data[y].silver.game, start: 0, end: silverDistance, speed:data[y].silver.speed, result: data[y].silver.result, color: "grey", order: n, year: y, medal: "silver", athlete: data[y].silver.athlete, country: data[y].silver.country});
+                    
+                    var goldDistance = data[y].gold.speed*recordTimeFly;
+                    plottingData.push({game: data[y].gold.game, start: 0, end: goldDistance, speed:data[y].gold.speed, result: data[y].gold.result, color: "gold", order: n, year: y, medal: "gold", athlete: data[y].gold.athlete, country: data[y].gold.country });
+
+                    n++;     
+                }
+
+                var yPoolScale;
+
+                if (data == mens200mFly) {
+                    yPoolScale = yPoolScaleMen;
+                } else {
+                    yPoolScale = yPoolScaleWomen;
+                }
+
+                // Add track for each olympic year
+                var poolLanes = svgPoolGroup.selectAll("g").data(plottingData).enter().append("rect");
+
+                poolLanes.attr("width", 900).attr("height", function() {
+                    if (data == mens200mFly) { return 24 }
+                    else { return 30 }
+                })
+                .attr("x", 100).attr("y", function(d) {
+                    if (data == mens200mFly) { return yPoolScale(d.order) - 12 }
+                    else { return yPoolScale(d.order) - 15 }
+                })
+                .style("fill", "skyblue")
+                .style("opacity", .1);
+
+                // Finish Line
+                svgPoolGroup.append("rect")
+                .attr("x", xPoolScale(200))
+                .attr("y", function() {
+                    if (data == mens200mFly) { return yPoolScale(16) }
+                    else { return yPoolScale(13) }
+                })
+                .attr("width", 50)
+                .attr("height", 400)
+                .style("fill", "white")
+                .style("stroke", "grey")
+                .style("stroke-width", .5);
+
+                svgPoolGroup.append("text").text("FINISH")
+                .attr("x", -300)
+                .attr("y", 1035)
+                .attr("transform", "rotate(270)")
+                .style("text-anchor", "middle")
+                .style("font-size", 25)
+                .style("font-family", "Roboto")
+                .style("font-weight", 200)
+                .style("fill", "grey");
+
+                // Add gold, bronze, and silver medal plots
+                var circles = svgPoolGroup.selectAll("g").data(plottingData)
+                .enter().append("circle");
+
+                circles.attr("cx", function(d) {return xPoolScale(d.start)})
+                .attr("cy",function(d) {return yPoolScale(d.order)})
+                .attr("r", 5)
+                .style("fill", function(d) {return d.color});
+
+                circles.transition()
+                .duration(2000)
+                    .ease(d3.easeLinear)
+                    .attr('cx', function(d,i) { return xPoolScale(d.end) })
+                .transition()
+                    .duration(1000)
+                .transition()
+                .duration(4000)
+                    .attr('cx', function(d,i) { return xPoolScale2(d.end) });
+
+
+                // Add y-axis text: years
+                var olympicYears = svgPool.selectAll("g").data(plottingData).enter().append("text");
+
+                olympicYears.text(function(d) {return d.year})
+                .attr("x", 50)
+                .attr("y", function(d) {return yPoolScale(d.order)})
+                .style("alignment-baseline", "middle")
+                .style("font-size", 12)
+                .style("font-family", "Roboto")
+                .style("font-weight", 200)
+                .style("fill", "grey");
+
+
+                // Add titles
+                svgPool.append("text").text(function() {
+                    if (data == mens200mFly) { return "Olympic 200M Butterfly Mens" }
+                    else { return "Olympic 200M Butterfly Womens" }
+                })
+                .attr("x", xPoolScale(0))
+                .attr("y", 45)
+                .style("font-size", 25)
+                .style("font-family", "Roboto")
+                .style("font-weight", 600);
+
+                // Add x-axis text: distance in meters
+                svgPool.append("text").text("200m")
+                .attr("x", xPoolScale(200))
+                .attr("y", 500)
+                .style("anchor", "middle");
+
+                var hundred = svgPool.append("text").text("100m")
+                .attr("x", xPoolScale(100))
+                .attr("y", 500)
+                .style("anchor", "middle");
+
+                var oneFifty = svgPool.append("text").text("150m")
+                .attr("x", xPoolScale(150))
+                .attr("y", 500)
+                .style("anchor", "middle");
+
+                var oneSeventyFive = svgPool.append("text").text("175m")
+                .attr("x", xPoolScale(175))
+                .attr("y", 500)
+                .style("anchor", "middle");
+
+
+                hundred.transition()
+                .duration(3000)
+                    .attr('x', xPoolScale(100) )
+                .transition()
+                    .duration(4000)
+                    .ease(d3.easeLinear)
+                    .attr('x', xPoolScale2(100) )
+                    .style("opacity", -5)
+
+                oneFifty.transition()
+                .duration(3000)
+                    .attr('x', xPoolScale(150) )
+                .transition()
+                    .duration(4000)
+                    .ease(d3.easeLinear)
+                    .attr('x', xPoolScale2(150) )
+
+                oneSeventyFive.transition()
+                .duration(3000)
+                    .attr('x', xPoolScale(175) )
+                .transition()
+                    .duration(4000)
+                    .ease(d3.easeLinear)
+                    .attr('x', xPoolScale2(175) )
+
+                if (data == mens200mFly) { plotHover(data, plottingData, circles, "pool", "mens") }
+                else { plotHover(data, plottingData, circles, "pool", "womens") }
+                
+            }
+
         </script>
+
+    </p>
+
+    <p id="discusViz">
+
+        <button id="buttonDiscusMen"> Men </button>
+        <button id="buttonDiscusWomen"> Women </button>
+
+        <script>
+        
+            var xDiscusScale = d3.scaleLinear().domain([0,70]).range([100,1000]);
+
+            var xDiscusScale2 = d3.scaleLinear().domain([25,70]).range([100,1000]); // zoom into points
+
+            var yDiscusScaleMen = d3.scaleLinear().domain([0,20]).range([490,90]);
+            var yDiscusScaleWomen = d3.scaleLinear().domain([0,18]).range([490,90]);
+
+            // Create SVG
+            var svgDiscus = d3.select("#discusViz")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+            var svgDiscusGroup = svgDiscus.append("g");
+
+            function plotDiscusThrows(data) {
+                
+                var plottingData  = []; // Array of objects
+    
+                n = 1;
+                
+                for (y in data) {
+
+                    plottingData.push({game: data[y].bronze.game, start: 0, end: data[y].bronze.result, result: data[y].bronze.result, color: "orange", order:n, year: y, medal: "bronze", athlete: data[y].bronze.athlete, country: data[y].bronze.country});
+                    
+                    plottingData.push({game: data[y].silver.game, start: 0, end: data[y].silver.result, result: data[y].silver.result, color: "grey", order: n, year: y, medal: "silver", athlete: data[y].silver.athlete, country: data[y].silver.country});
+                    
+                    plottingData.push({game: data[y].gold.game, start: 0, end: data[y].gold.result, result: data[y].gold.result, color: "gold", order: n, year: y, medal: "gold", athlete: data[y].gold.athlete, country: data[y].gold.country });
+
+                    n++;     
+                }
+
+                var yDiscusScale;
+
+                if (data == mensDiscus) {
+                    yDiscusScale = yDiscusScaleMen;
+                } else {
+                    yDiscusScale = yDiscusScaleWomen;
+                }
+
+                // Add track for each olympic year
+                var discusPath = svgDiscusGroup.selectAll("g").data(plottingData).enter().append("rect");
+
+                discusPath.attr("width", 900).attr("height", function() {
+                    if (data == mensDiscus) { return 19 }
+                    else { return 21 }
+                })
+                .attr("x", 100).attr("y", function(d) {
+                    if (data == mensDiscus) { return yDiscusScale(d.order) - 19/2 }
+                    else { return yDiscusScale(d.order) - 21/2 }
+                })
+                .style("fill", "lightgreen")
+                .style("opacity", .1);
+
+                // Finish Line
+                svgDiscusGroup.append("rect")
+                .attr("x", xDiscusScale(70))
+                .attr("y", function() {
+                    if (data == mensDiscus) { return yDiscusScale(20) }
+                    else { return yDiscusScale(18) }
+                })
+                .attr("width", 50)
+                .attr("height", 400)
+                .style("fill", "white")
+                .style("stroke", "grey")
+                .style("stroke-width", .5);
+
+                svgDiscusGroup.append("text").text("FINISH")
+                .attr("x", -300)
+                .attr("y", 1035)
+                .attr("transform", "rotate(270)")
+                .style("text-anchor", "middle")
+                .style("font-size", 25)
+                .style("font-family", "Roboto")
+                .style("font-weight", 200)
+                .style("fill", "grey");
+
+                // paths that circles will move along
+                var motionPaths = svgDiscusGroup.selectAll("g").data(plottingData)
+                .enter().append("path")
+                .attr("d", function(d) {
+                    // M xStart yStart Q xControl yControl xEnd yEnd
+                    return "M " + xDiscusScale(d.start) + " " + yDiscusScale(d.order) +  
+                            " Q " + xDiscusScale(d.result/2) + " " + (yDiscusScale(d.order) - d.result * 3.5) + 
+                            " " +  xDiscusScale(d.result) + " " + yDiscusScale(d.order);
+                })
+                .attr("id", function(d) { return d.color + d.year }) // e.g. "gold2016"
+                .attr("class", "trajectory")
+                .style("fill", "none")
+                .style("stroke", "lightgrey")
+                
+                animateLines();
+                
+                // Add gold, bronze, and silver medal circles
+                var circles = svgDiscusGroup.selectAll("g").data(plottingData)
+                .enter().append("circle");
+
+                circles.attr("cx", function(d) {return xDiscusScale(d.start)})
+                .attr("cy",function(d) {return yDiscusScale(d.order)})
+                .attr("class", "firstCircles")
+                .attr("r", 5)
+                .style("fill", function(d) {return d.color});
+
+                // move circles along path
+                circles.transition()
+                    .duration(3000)
+                    .ease(d3.easeLinear)
+                    .attrTween("transform", function(d) {
+                        var path = d3.select("#" + d.color + d.year);
+                        return translateAlong(path.node());
+                    })
+
+                // remove first circles
+                svgDiscusGroup.selectAll("circle").transition()
+                .delay(3250)
+                .on('end', function(d) {
+                    svgDiscusGroup.selectAll(".firstCircles").remove()
+                })
+
+                // secretly plot circles at ending points
+                var secondCircles = svgDiscusGroup.selectAll("g").data(plottingData)
+                .enter().append("circle");
+
+                secondCircles.attr("cx", function(d) {return xDiscusScale(d.end)})
+                .attr("cy",function(d) {return yDiscusScale(d.order)})
+                .attr("r", 5)
+                .style("fill", function(d) {return d.color})
+                .style("opacity", 0)
+
+                // make circles visible and then rescale
+                secondCircles.transition()
+                    .delay(3500)
+                    .duration(1)
+                    .style("opacity", 1)
+                .transition()
+                    .duration(4000)
+                    .ease(d3.easeLinear)
+                    .attr("cx", function(d) {
+                        return xDiscusScale2(d.end)
+                    })
+
+                function animateLines() {
+                    d3.selectAll(".trajectory").each(function(d,i) {
+                        var totalLength = d3.select("#" + d.color + d.year).node().getTotalLength();
+                        d3.select("#" + d.color + d.year).attr("stroke-dasharray", totalLength + " " + totalLength)
+                        .attr("stroke-dashoffset", totalLength)
+                        .transition()
+                            .duration(3000)
+                            .ease(d3.easeLinear)
+                            .attr("stroke-dashoffset", 0)
+                            .style("stroke-width", 1)
+                        .transition() // make lines disappear
+                            .duration(1000)
+                            .style("opacity", 0) 
+
+                    })
+                }
+
+                function translateAlong(path) {
+                    var l = path.getTotalLength();
+                    return function(t) {
+                        var p = path.getPointAtLength(t * l);
+                        var init = path.getPointAtLength(0)
+                        return "translate(" + (p.x - init.x) + "," + (p.y - init.y) + ")";
+                    };
+                } 
+
+                // Add y-axis text: years
+                var olympicYears = svgDiscus.selectAll("g").data(plottingData).enter().append("text");
+
+                olympicYears.text(function(d) {return d.year})
+                .attr("x", 50)
+                .attr("y", function(d) {return yDiscusScale(d.order)})
+                .style("alignment-baseline", "middle")
+                .style("font-size", 12)
+                .style("font-family", "Roboto")
+                .style("font-weight", 200)
+                .style("fill", "grey");
+
+                // Add titles
+                svgDiscus.append("text").text(function() {
+                    if (data == mensDiscus) { return "Olympic Discus Throw Mens" }
+                    else { return "Olympic Discus Throw Womens" }
+                })
+                .attr("x", xDiscusScale(0))
+                .attr("y", 45)
+                .style("font-size", 25)
+                .style("font-family", "Roboto")
+                .style("font-weight", 600);
+
+                // Add x-axis text: distance in meters
+                svgDiscus.append("text").text("70m")
+                .attr("x", xDiscusScale(70))
+                .attr("y", 500)
+                .style("anchor", "middle");
+
+                var fifty = svgDiscus.append("text").text("50m")
+                .attr("x", xDiscusScale(50))
+                .attr("y", 500)
+                .style("anchor", "middle");
+
+                var twentyFive = svgDiscus.append("text").text("25m")
+                .attr("x", xDiscusScale(25))
+                .attr("y", 500)
+                .style("anchor", "middle");
+
+                twentyFive.transition()
+                .duration(4000)
+                    .attr('x', xDiscusScale(25) )
+                .transition()
+                    .duration(4000)
+                    .ease(d3.easeLinear)
+                    .attr('x', xDiscusScale2(25) )
+
+                fifty.transition()
+                .duration(4000)
+                    .attr('x', xDiscusScale(50) )
+                .transition()
+                    .duration(4000)
+                    .ease(d3.easeLinear)
+                    .attr('x', xDiscusScale2(50) )
+
+                if (data == mensDiscus) { plotHover(data, plottingData, secondCircles, "discus", "mens") }
+                else { plotHover(data, plottingData, secondCircles, "discus", "womens") }
+
+            }
+
+        </script>
+
     </p>
     </div>
     
@@ -683,7 +1302,7 @@
                 .style("font-weight", 200)
                 .style("font-size", 36);
                 
-                visualGroup.append("text").text(Math.round(100*recordSpeed)/100 + " m/s")
+                visualGroup.append("text").text(Math.round(100*recordSpeedMen)/100 + " m/s")
                 .attr("x", "350")
                 .attr("y", "400")
                 .style("fill", "#F7DC6F")

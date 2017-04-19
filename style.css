@@ -49,3 +49,36 @@ svg {
     font-family: 'Nunito Sans', Calibri, sans-serif;
     font-size: 9px;
 }
+
+button {
+    background-color: white;
+    border: solid lightgrey 1px;
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: 100;
+    height: 50px;
+    margin-bottom: 10px;
+    width: 100px;
+}
+
+button:hover {
+    background-color: lightgrey;
+    color:white;
+}
+
+.topButtons {
+    height: 60px;
+    width: 150px;
+}
+
+#showTrack {
+    margin-left: 50px;
+}
+
+#buttonTrackMen, #buttonPoolMen, #buttonDiscusMen {
+    margin-left: 50px;
+}
+
+#poolViz, #discusViz {
+    display: none;
+}

@@ -102,8 +102,8 @@ Game,Year,Medal,Result,Country,Athlete
 100M Women,1936,silver,11.7,POL,Stanislawa WALASIEWICZ
 100M Women,1936,bronze,11.9,GER,Käthe KRAUSS
 100M Women,1928,gold,12.2,USA,Elizabeth ROBINSON
-100M Women,1928,silver,0,CAN,Fanny ROSENFELD
-100M Women,1928,bronze,0,CAN,Ethel SMITH
+100M Women,1928,silver,12.3,CAN,Fanny ROSENFELD
+100M Women,1928,bronze,12.3,CAN,Ethel SMITH
 100M Women,2012,gold,10.75,JAM,Shelly-Ann FRASER-PRYCE
 100M Women,2012,silver,10.78,USA,Carmelita JETER
 100M Women,2012,bronze,10.81,JAM,Veronica CAMPBELL-BROWN
@@ -266,7 +266,6 @@ Discus Throw Women,2016,gold,69.21,CRO,Sandra PERKOVIC
 Discus Throw Women,2016,silver,66.73,FRA,Melina ROBERT-MICHON
 Discus Throw Women,2016,bronze,65.34,CUB,Denia CABALLERO
 Discus Throw Women,2008,gold,64.74,USA,Stephanie BROWN TRAFTON
-Discus Throw Women,2008,silver,0,None,None
 Discus Throw Women,2008,bronze,62.59,UKR,Olena ANTONOVA
 Discus Throw Women,2000,gold,68.4,BLR,Ellina ZVEREVA
 Discus Throw Women,2000,silver,65.71,GRE,Anastasia KELESIDOU
