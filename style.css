@@ -166,3 +166,38 @@ svg {
 #poolViz, #discusViz {
     display: none;
 }
+
+.hover-sport {
+
+    font-family: 'Nunito Sans', Calibri, sans-serif;
+    font-weight: 200;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+.groupText {
+    font-family: 'Nunito Sans', Calibri, sans-serif;
+    font-weight: 200;
+    
+}
+
+.graphAxis {
+    font-family: 'Nunito Sans', Calibri, sans-serif;
+    font-weight: 200;
+}
+
+.axis path{
+    stroke: lightGrey;
+    
+}
+
+.axis text{
+    fill: grey;
+}
+
+
+.info-containter {
+    display: block;
+}
+
+
