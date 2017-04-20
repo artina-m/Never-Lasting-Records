@@ -821,25 +821,6 @@
                             d3.select('#'+id+'text').style('display', 'inline');
                         }
                         // If game is pool
-                        else if (event == 'pool') {
-                            // If circles on upper half of graph
-                            if (d.year >= 1988) {
-                                rects.attr('y', function(d) {return yScale(d.order)+15-72});
-                                flags.attr('y', function(d) {return yScale(d.order)+25-72});
-                                texts.attr('y', function(d) {return yScale(d.order)+35-72});
-                            } else { 
-                                // if (d.year <= 1984)
-                                rects.attr('y', function (d) {return yScale(d.order)-70-15-72});
-                                flags.attr('y', function(d) {return yScale(d.order)-70-5-72});
-                                texts.attr('y', function(d) {return yScale(d.order)-70+5-72});
-                            }
-
-                            d3.select('#'+id).style('display', 'inline');
-                            d3.select('#'+id+'flag').style('display', 'inline');
-                            d3.select('#'+id+'text').style('display', 'inline');
-                        }
-
-                        // If game is pool
                         else {
                             // If circles on upper half of graph
                             if (d.year >= 1976) {
@@ -857,6 +838,7 @@
                             d3.select('#'+id+'flag').style('display', 'inline');
                             d3.select('#'+id+'text').style('display', 'inline');
                         }
+
                         
                 })
                 .on('mouseleave', function(d) {
@@ -1787,6 +1769,29 @@
                     else{ return 0}
                     });
                 
+                svgGroup.selectAll(".dataPoints")
+                .on('mouseenter', function(d){
+                    if (yearData.includes(d)){
+                        var ind = yearData.indexOf(d);
+                        var top = (resultScale(sportData[ind]))
+                        
+                    
+                        svgGroup.append("text").text(d)
+                            .attr("class", "hoverYear")
+                            .attr("x", yearScale(d) -10)
+                            .attr("y", 200)
+                            .attr("fill", "black");
+                    }
+                    
+                })
+                .on('mouseleave', function(d){
+                        
+                    
+                        svgGroup.selectAll(".hoverYear").remove();
+    
+                    
+                });
+                
                 // Enlarge svg
                 svgGroup.transition().duration(1000).attr("height", 200);
                 
@@ -1847,7 +1852,7 @@
                         .attr("height", 0).style("opacity", 0);
                     
                     // Reshape bar charts
-                    svgGroup.selectAll(".dataPoints")                            
+                    svgGroup.selectAll(".dataPoints")                
                     .transition().duration(500)
                     .attr("y", 20)
                     .style("opacity", 1)
@@ -1874,8 +1879,8 @@
     </div>
     <div class = "bottomHeader">
         <br><br><br>
-        <h3>Has athletic performance reached its peak?</h3>
-        <h3>Will humans ever stop breaking records?</h3>
+        <h2 class = "subtext2">Has athletic performance reached its peak?</h2>
+        <h2 class = "subtext2">Will humans ever stop breaking records?</h2>
         
         <script>
             var bottomSvg = d3.select('.bottomHeader').append("svg")
