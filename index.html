@@ -820,7 +820,27 @@
                             d3.select('#'+id+'flag').style('display', 'inline');
                             d3.select('#'+id+'text').style('display', 'inline');
                         }
+
                         // If game is pool
+                        else if (event == 'pool') {
+                            // If circles on upper half of graph
+                            if (d.year >= 1984) {
+                                rects.attr('y', function(d) {return yScale(d.order)+15-72});
+                                flags.attr('y', function(d) {return yScale(d.order)+25-72});
+                                texts.attr('y', function(d) {return yScale(d.order)+35-72});
+                            } else { 
+                                // if (d.year <= 1984)
+                                rects.attr('y', function (d) {return yScale(d.order)-70-15-72});
+                                flags.attr('y', function(d) {return yScale(d.order)-70-5-72});
+                                texts.attr('y', function(d) {return yScale(d.order)-70+5-72});
+                            }
+
+                            d3.select('#'+id).style('display', 'inline');
+                            d3.select('#'+id+'flag').style('display', 'inline');
+                            d3.select('#'+id+'text').style('display', 'inline');
+                        }
+
+                        // If game is discus
                         else {
                             // If circles on upper half of graph
                             if (d.year >= 1976) {
