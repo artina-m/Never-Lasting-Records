@@ -1593,125 +1593,16 @@
     </p>
     </div>
     
-    <div id='plotCountries'></div>
-    <script>
-        // Country data visualization
-        
-        // Create SVG
-        // var svgCountry = d3.select('#plotCountries').append("svg")
-            // .attr("width", 1400)
-            // .attr("height", 2300);
-        // var svgCountryGroup = svgCountry.append('g');
-        
-        // Create country array
-        var cData = [];
-        
-        // Append country flags
-        function plotCountries(data) {
-            
-            // For each country in data
-            var counter = 0;
-            for (c in data) {
-                
-                // Populate cData array
-                cData.push({country: c, total: data[c].total, gold: data[c].gold, silver: data[c].silver, bronze: data[c].bronze, byyear: data[c].byyear})
-                
-                // Create a 'g' for each country
-                var countryGroup = svgCountry.append('g').data(cData);
-                
-                // Append the flag iamges
-                var countries = countryGroup.append('image');
-                
-                countries.attr('id', ''+counter+c)
-                    .attr('xlink:href', function () {
-                        if (c=='EUN' || c=='None') {
-                            return ;
-                        } else {
-                            return 'img/flags/'+c+'.svg';
-                        }  
-                    })
-                    .attr('x', '50px')
-                    .attr('y', 50+35*counter)
-                    .attr('width', '25px');
-                
-                // Append the country names
-                var cNames = countryGroup.append('text');
-                
-                cNames
-                    .attr('class', 'hover-athlete')
-                    .attr('x', '90px')
-                    .attr('y', 68+35*counter)
-                    .text(c);
-                
-                // Append the years
-                for (y=0; y<31; y++) {
-                    var countryYears = countryGroup.append('rect')
-                        .attr('x', 150+15*y)
-                        .attr('y', 60+35*counter)
-                        .attr('width', '10px')
-                        .attr('height', '10px')
-                        .attr('fill', function(d) {
-                        
-                            var yr = 1896+y*4;
-                        
-                            // If country won an award that year
-                            if (data[c].byyear[yr]) {
-                                
-                                // If country won more than one award that year
-//                                var n = data[c].byyear[yr].t;
-//                                console.log(n);
-//                                for (z=0; z<n; z++) {
-//                                    countryYears.append('rect')
-//                                        .attr('x', 150+15*y)
-//                                        .attr('y', 60+50*counter - z*15)
-//                                        .attr('width', '10px')
-//                                        .attr('height', '10px')
-//                                        .attr('fill', 'salmon');
-//                                        // .style('display', 'none');
-//                                } 
-                                
-                                return 'salmon';
-                            } else {
-                                return 'lightgray';
-                            }
-                        })
-                        .on('mouseenter', function(d) {
-                            // console.log(d);
-                        });
-                    
-                // Hover over the years
-                // yrs.on('mouseenter', function(d) {
-                    // console.log('mouseeenter');
-                    // console.log(d);
-                    
-                    // d3.select('#'+c+'squares').style('display', 'inline');
-                //});
-                    
-                }
-                counter += 1;
-            
-            }
-            
-            // On hover
-//            d3.selectAll(countryGroup)
-//                .on('click', function(d) {
-//                console.log('hover');
-//            })
-        }
-        
-        
-        
-    </script>
-    
+    <br><br><br>
+   <h3>Faster and Stronger</h3>
+    <h2>Athletes are continually breaking records. See Olympian's today compare.</h2>
     
     <div class = "diagrams">
 
-    
-    <div id='plotCountries'></div>
-    
+        
     <script>
         
-        var yearScale = d3.scaleLinear().domain([1896,2016]).range([300,800]);
+        var yearScale = d3.scaleLinear().domain([1896,2016]).range([350,900]);
         
         // Create top axis 
         
@@ -1730,12 +1621,14 @@
         for (y = 1896; y < 2017; y = y + 8){
             graphAxis.append("text").text(y)
             .attr("class", "graphAxis")
-            .attr("x", yearScale(y)).attr("y", 35)
+            .attr("x", yearScale(y)).attr("y", 30)
             .style("text-anchor", "right")
             .style("font-size", 12)
-            .attr("fill", "grey");   
+            .attr("fill", "grey") 
+
             
         }
+
                 
         // Create svg group for each sport
         
@@ -1870,6 +1763,7 @@
                     }
                     else{ return 0}
                     });
+                
                 // Enlarge svg
                 svgGroup.transition().duration(1000).attr("height", 200);
                 
@@ -1912,7 +1806,7 @@
                 .call(yAxis)
                 .attr("fill", "blue")
                 .style("font-size", 10)
-                .attr("transform", "translate(280,0)");
+                .attr("transform", "translate(300,0)");
                  });
                 
                 
