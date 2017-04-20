@@ -1532,14 +1532,14 @@
 
                 // Add titles
                 svgDiscus.append("text").text(function() {
-                    if (data == mensDiscus) { return "Olympic Discus Throw Mens" }
-                    else { return "Olympic Discus Throw Womens" }
+                    if (data == mensDiscus) { return "Olympic Discus Throw Men's" }
+                    else { return "Olympic Discus Throw Women's" }
                 })
-                .attr("x", xDiscusScale(0))
-                .attr("y", 45)
-                .style("font-size", 25)
-                .style("font-family", "Roboto")
-                .style("font-weight", 600);
+                    .attr("x", xDiscusScale(0))
+                    .attr("y", 45)
+                    .style("font-size", 25)
+                    .style("font-family", "Roboto")
+                    .style("font-weight", 600);
 
                 // Add x-axis text: distance in meters
                 svgDiscus.append("text").text("70m")

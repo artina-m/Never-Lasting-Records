@@ -22,7 +22,7 @@ body {
 h1,h2,h3,h4,h5,h5,p {
     margin-left: auto;
     margin-right: auto;
-    width: 640px;
+    width: 800px;
 }
 
 h1 {
@@ -33,7 +33,7 @@ h1 {
 }
 
 h2 {
-    margin-bottom: 60px;
+    margin-bottom: 50px;
     font-weight: 200;
     text-align: center;
 }
@@ -116,7 +116,7 @@ p, .subtitle {
     height: 1px;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 60px;
+    margin-bottom: 50px;
     background-color: lightgray;
 }
 
