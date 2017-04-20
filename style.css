@@ -74,6 +74,15 @@ p, .subtitle {
     font-weight: 600;
 }
 
+.hover-athlete {
+    font-size: 11px;
+    font-weight: 700;
+}
+.hover-desc {
+    font-size: 9px;
+    font-weight: 400;
+}
+
 /*--------------------DIVS--------------------*/
 
 .filter-game {
@@ -144,15 +153,6 @@ svg {
 }
 
 /*--------------------MISCELLANEOUS--------------------*/
-
-.hover-athlete {
-    font-size: 11px;
-    font-weight: 700;
-}
-.hover-desc {
-    font-size: 9px;
-    font-weight: 400;
-}
 
 .scatterPlot {
     background-color: #212F3C  ;
