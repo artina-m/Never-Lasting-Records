@@ -594,13 +594,21 @@
                     .attr("y", 45);
                     // .style("font-size", 25)
                     // .style("font-weight", 600);
-
+                
+                svgTrack.selectAll(".subtitle").remove();
                 
                 // Add description
-                svgTrack.append('foreignObject').text("The 100 metres at the Summer Olympics has been contested since the first edition of the multi-sport event. The men's 100 m has been present on the Olympic athletics programme since 1896 and the women's 100 m has been held continuously since its introduction at the 1928 Games. The 100 metres is considered one of the blue ribbon events of the Olympics and is among the highest profile competitions at the games. It is the most prestigious 100 m race at elite level and is the shortest sprinting competition.")
+                svgTrack.append('foreignObject')
                     .attr('class', 'subtitle')
                     .attr("x", 160)
                     .attr("y", 70)
+                    .text(function() {
+                    if (data == womens100m){ 
+                        return "What would happen if all Olympic runners from 1928 - 2016 raced each other in the 100 meters? Even though the 100m is finished after 15 seconds it is one of the highest profile competitions at the games. Since the first women's Olympic the record  it has been broken 18 times and equalled 17 further times. The current Olympic record is held by Elaine Thompson at 10.71 seconds.";}
+                    else {
+                        return "What would happen if all Olympic runners from 1900 - 2016 raced each other in the 100 meters? Even though the 100m is finished after 10 seconds it is one of the highest profile competitions at the games. Since the first women's Olympic the record has been broken 13 times and matched 24 times. The current Olympic record is held by Usain Boldt at 9.63 seconds.";
+                    }});
+                    
                     // .style("font-size", 16)
                     // .style("font-weight", 400);
 
@@ -1324,10 +1332,17 @@
                         else { return "Olympic 200M Butterfly Women's" }
                     });
 
-                svgPool.append('foreignObject').text("Swimming has been a sport at every modern Summer Olympics. It has been open to women since 1912. Along with track & field athletics and gymnastics, it is one of the most popular spectator sports at the Games. Swimming has the second largest number of events (after Athletics).")
+                svgPool.selectAll(".subtitle").remove();
+                svgPool.append('foreignObject')
                     .attr('class', 'subtitle')
                     .attr("x", 160)
                     .attr("y", 70)
+                    .text(function() {
+                    if (data == mens200mFly){ 
+                        return "What would happen if all Olympic swimmers from 1956- 2016 raced each other in the 200 meter Butterfly event? The Butterfly made its debut in the Olympics in 1956.Since then the event has produced world-renowned athletes including Michael Phelps who holds the record at 113.03 seconds.";}
+                    else {
+                        return "What would happen if all Olympic swimmers from 1968- 2016 raced each other in the 200 meter Butterfly event? The Butterfly made its debut in the Olympics in 1968, 22 years later after the Men’s Butterfly. The current record holder is Liuyang JIAO 124.06 seconds.";
+                    }});
                 
                 // Add x-axis text: distance in meters
                 svgPool.append("text").text("200m")
