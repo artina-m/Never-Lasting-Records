@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CS 3300 Project 2 </title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    
+    <link rel = "stylesheet" type="text/css" href = "linRegress.css">
+</head>
+    
+<body>
+
+    
+<div class = "regression">
+
+    
+    <div id='plotCountries'></div>
+    
+    <script>
+        
+        // Create svg group for each sport
+        
+        
+        var longJump_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var hammerThrow_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var freestyle_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var hurdles_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var shotPut_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var tripleJump_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var track_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var butterfly_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var discusThrow_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var highJump_svg = d3.select('.regression').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        
+        var yearScale = d3.scaleLinear().domain([1890,2016]).range([200,1000]);
+        
+        var olympicYears = [];
+        for (i = 1896; i < 2017; i = i + 4) {
+            olympicYears.push(i)
+        }
+        
+
+        // Append country flags
+        function plotRegression(data, svgGroup) {
+            
+            var sportData = [];
+            
+            var yearData = [];
+            
+            var counter = 0;
+            
+            for (year in data) {
+                
+                if (data[year].game == "200m Butterfly Mens" || data[year].game == "200m Butterfly Womens" || data[year].game == "400m Freestyle Mens" || data[year].game == "400m Freestyle Womens") {
+                    
+                var result= data[year].result;
+                    
+                var seconds = Number(result.substr(0,1))*60 + Number(result.substr(2,3))
+                    
+                sportData.push(seconds)
+                }
+                
+                else { sportData.push(Number(data[year].result))}
+                
+                
+                yearData.push(Number(year));
+                
+            }
+            
+            var min = d3.min(sportData);
+            var max = d3.max(sportData);
+            console.log(min,max)
+            
+            var resultScale = d3.scaleLinear().domain([min,max]).range([50,0]);
+        
+    
+            
+            // Append the country names
+            var sportName = svgGroup.append('text').text(data["2016"].game)
+                    .attr('class', 'hover-sport')
+                    .attr('x', 60)
+                    .attr('y', 25);
+            
+            // Append the years
+            for (y in olympicYears) {
+                    var sportYears = svgGroup.selectAll("g").data(olympicYears)
+                        .enter().append("rect")
+                        .attr("class", "dataPoints")
+                        .attr('x', function(d) {return yearScale(d)})
+                        .attr('y', 20)
+                        .attr('width', '10px')
+                        .attr('height', '10px')
+                        .attr('fill', function(d) {
+                        
+                            // If country won an award that year
+                            if (yearData.includes(d)) {
+                                return "#8B8EFE";
+                            } else {
+                                return "lightGrey";
+                            }
+                            
+                        });
+        
+                
+            svgGroup.on('mouseenter', function(d) {
+                            resultScale.range([120,20])
+                            
+                            svgGroup.selectAll(".dataPoints")
+            	           .attr("height", function(d,i){
+                                if (yearData.includes(d)){
+                                    var ind = yearData.indexOf(d);
+                                    return(120-resultScale(sportData[ind]))
+                                }
+                            })
+                            .transition()
+            
+                            .attr("y", function(d,i){
+                                if (yearData.includes(d)){
+                                    var ind = yearData.indexOf(d);
+                                    return(resultScale(sportData[ind]))
+                                }
+
+                            });
+                
+                            svgGroup.attr("height", 150);
+                
+
+                    var yAxis = d3.axisLeft(resultScale)
+                    .ticks(6)
+                    .tickSize(0);
+
+                    var axisGroup = svgGroup.append("g").call(yAxis)
+                    .attr("class", "axis")
+                    .style("font-size", 10)
+                    .attr("transform", "translate(220,0)") 
+
+                     svgGroup.append("text").text("Gun Ownership %")
+                    .attr("x", -300)
+                    .attr("y", -50)
+                    .attr("transform", "rotate(270)")
+                    .style("text-anchor", "middle");
+                            
+                        });
+                
+                
+                svgGroup.on('mouseleave', function(d) {
+                            resultScale.range([50,0])
+                            
+                            svgGroup.selectAll(".dataPoints")
+            	           .attr("height", 10)
+                            .transition()
+                            .attr("y", 20);
+                
+                            svgGroup.attr("height", 50);
+                    
+                            svgGroup.select(".axis").remove();
+                    
+                
+                            
+                        });
+                        
+                    
+                // Hover over the years
+                // yrs.on('mouseenter', function(d) {
+                    // console.log('mouseeenter');
+                    // console.log(d);
+                    
+                    // d3.select('#'+c+'squares').style('display', 'inline');
+                //});
+                    
+                }
+                counter += 1;
+            
+            }
+            
+            // On hover
+//            d3.selectAll(countryGroup)
+//                .on('click', function(d) {
+//                console.log('hover');
+//            })
+        
+        
+        
+    </script>
+    
+    </div>
+    
+    
+    
+    <div id="linPlot">
+        
+        <script>
+        // Olympic Sports of interest
+        var longJumpM = {};     // Long Jump
+        var longJumpW = {};
+        var hammerM = {};       // Hammer Throw
+        var hammerW = {};   
+        var freestyleM = {};    // 400m Free Style
+        var freestyleW = {};
+        var hurdlesM = {};      // Hurdles
+        var hurdlesW = {}; 
+        var shotPutM = {};      // Shot Put
+        var shotPutW = {};
+        var tripleJumpM = {};   // Triple Jump
+        var tripleJumpW = {};
+        var trackM = {};        // 100m Track
+        var trackW = {};
+        var butterflyM = {};    // 200m Butterfly
+        var butterflyW = {};
+        var discusM = {};       // Discus Throw
+        var discusW = {};
+        var highJumpM = {};     // High Jump
+        var highJumpW = {};
+        
+        
+        function parseLine(line) {
+                return {
+                    game: line["Game"],
+                    year: line["Year"],
+                    medal: line["Medal"],
+                    result: (line["Result"]),
+                    country: line["Country"],
+                    athlete: line["Athlete"]
+                }
+        }
+        
+        
+         // Update the data object olympicResults to include new results
+        function olympicYearResults (olympicResults, d){
+            olympicResults[d.year] = {result: d.result, athlete: d.athlete, country: d.country, game: d.game};
+        };
+        
+            
+        d3.csv("OlympicRegression.csv", parseLine, function(error,data){
+                
+            olympicData = data;
+
+            // Create object for each olympic game (key = year)
+            olympicData.forEach(function(d){
+
+                if (d.game == "Long Jump Mens"){ olympicYearResults(longJumpM, d); }
+
+                else if (d.game == "Long Jump Womens"){ olympicYearResults(longJumpW, d); }
+                
+                else if (d.game == "Hammer Throw Mens"){ olympicYearResults(hammerM, d); }
+                
+                 else if (d.game == "Hammer Throw Womens"){ olympicYearResults(hammerW, d); }
+                
+                else if (d.game == "400m Freestyle Mens"){ olympicYearResults(freestyleM, d); }
+                
+                else if (d.game == "400m Freestyle Womens"){ olympicYearResults(freestyleW, d); }
+                
+                else if (d.game == "Hurdles Mens"){ olympicYearResults(hurdlesM, d); }
+                
+                else if (d.game == "Hurdles Womens"){ olympicYearResults(hurdlesW, d); }
+                
+                else if (d.game == "Shot Put Mens"){ olympicYearResults(shotPutM, d); }
+                
+                else if (d.game == "Shot Put Womens"){ olympicYearResults(shotPutW, d); }
+                
+                else if (d.game == "Triple Jump Mens"){ olympicYearResults(tripleJumpM, d); }
+                
+                else if (d.game == "Triple Jump Womens"){ olympicYearResults(tripleJumpW, d); }
+                
+                else if (d.game == "100m Mens"){ olympicYearResults(trackM, d); }
+                
+                else if (d.game == "100m Womens"){ olympicYearResults(trackW, d); }
+                
+                else if (d.game == "200m Butterfly Mens"){ olympicYearResults(butterflyM, d); }
+                
+                else if (d.game == "200m Butterfly Womens"){ olympicYearResults(butterflyW, d); }
+                
+                else if (d.game == "Discus Throw Mens"){ olympicYearResults(discusM, d); }
+                
+                else if (d.game == "Discus Throw Womens"){ olympicYearResults(discusW, d); }
+                
+                else if (d.game == "High Jump Mens"){ olympicYearResults(highJumpM, d); }
+                
+                else if (d.game == "High Jump Womens"){ olympicYearResults(highJumpW, d); }
+            
+                
+            })
+            
+            var olympicSports = [longJumpM, longJumpW, hammerM, hammerW, freestyleM,freestyleW,hurdlesM, hurdlesW, shotPutM, shotPutW,tripleJumpM, tripleJumpW, trackM, trackW, butterflyM, butterflyW, discusM, discusW, highJumpM, highJumpW];
+            
+            
+            plotChart(longJumpM,longJump_svg,"sportImg/long-jump.svg", "Meters", "Farther", "#0283D9");
+            plotChart(hammerM, hammerThrow_svg,"sportImg/hammer-throw.svg", "Meters","Farther","#1175D2" );
+            plotChart(freestyleM,freestyle_svg,"sportImg/swimmer.svg", "Seconds","Faster" ,"#2068CC");
+            plotChart(hurdlesM,hurdles_svg, "sportImg/track-field.svg","Seconds","Faster" ,"#2F5BC5");
+            plotChart(shotPutM,shotPut_svg,"sportImg/shot-put.svg", "Meters","Farther" ,"#3E4EBF");
+            plotChart(tripleJumpM, tripleJump_svg,"sportImg/long-jump.svg", "Meters","Farther", "#4D41B9");
+            plotChart(trackM, track_svg,"sportImg/sprint.svg", "Seconds","Faster", "#5C34B2");
+            plotChart(butterflyM, butterfly_svg,"sportImg/swimmer.svg", "Seconds","Faster", "#6B27AC");
+            plotChart(discusM,discusThrow_svg,"sportImg/man-throwing-something.svg", "Meters","Farther", "#7A1AA5");
+            plotChart(highJumpM, highJump_svg,"sportImg/high-jump.svg", "Meters", "Farther","#890D9F");
+           
+            
+
+            // Call Back Function region ----------------------------------------
+        });
+    
+    </script>
+    
+    <div class = "diagrams">
+
+    
+    <div id='plotCountries'></div>
+    
+    <script>
+        
+        var yearScale = d3.scaleLinear().domain([1896,2016]).range([300,800]);
+        
+        // Create top axis 
+        
+        var graphAxis = d3.select('.diagrams').append("svg")
+        .attr("width", 1400).attr("height", 60);
+        
+        var gAxis = d3.axisTop(yearScale)
+        .ticks(10)
+        .tickSize(2);
+        
+        graphAxis.append("line")
+        .attr("x1", yearScale(1896)).attr("y1", 45)
+        .attr("x2", yearScale(2016)+20).attr("y2", 45)
+        .attr("stroke-width", .2).attr("stroke", "grey");
+        
+        for (y = 1896; y < 2017; y = y + 8){
+            graphAxis.append("text").text(y)
+            .attr("class", "graphAxis")
+            .attr("x", yearScale(y)).attr("y", 35)
+            .style("text-anchor", "right")
+            .style("font-size", 12)
+            .attr("fill", "grey");   
+            
+        }
+                
+        // Create svg group for each sport
+        
+        var longJump_svg = d3.select('.diagrams').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var hammerThrow_svg = d3.select('.diagrams').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var freestyle_svg = d3.select('.diagrams').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var hurdles_svg = d3.select('.diagrams').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var shotPut_svg = d3.select('.diagrams').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var tripleJump_svg = d3.select('.diagrams').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var track_svg = d3.select('.diagrams').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var butterfly_svg = d3.select('.diagrams').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var discusThrow_svg = d3.select('.diagrams').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        var highJump_svg = d3.select('.diagrams').append("svg")
+        .attr("width", 1400).attr("height", 50);
+        
+        
+        var olympicYears = [];
+        for (i = 1896; i < 2017; i = i + 4) {
+            olympicYears.push(i)
+        }
+                
+        function plotChart(data, svgGroup,sportImage, measure,progress, color) {
+            
+            var sportData = [];
+            
+            var yearData = [];
+            
+            var counter = 0;
+            
+            for (year in data) {
+                
+                if (data[year].game == "200m Butterfly Mens" || data[year].game == "200m Butterfly Womens" || data[year].game == "400m Freestyle Mens" || data[year].game == "400m Freestyle Womens") {
+                    
+                var result= data[year].result;
+                    
+                var seconds = Number(result.substr(0,1))*60 + Number(result.substr(2,3))
+                    
+                sportData.push(seconds)
+                }
+                
+                else { sportData.push(Number(data[year].result))}
+                
+                
+                yearData.push(Number(year));
+                
+            }
+            
+            var min = d3.min(sportData);
+            var max = d3.max(sportData);
+            console.log(min,max)
+            
+            var resultScale = d3.scaleLinear().domain([min,max]).range([50,0]);
+        
+    
+            
+            // Append the country names
+            var sportName = svgGroup.append('text').text(data["2016"].game)
+                    .attr('class', 'hover-sport')
+                    .attr('x', 80)
+                    .attr('y', 30);
+            
+            
+            var sportImage = svgGroup.append('image')
+                    .attr("xlink:href", sportImage)
+                    .attr('x', 25)
+                    .attr('y', 15)
+                    .attr("width", 30);    
+            
+            // Append the years
+            for (y in olympicYears) {
+                    var sportYears = svgGroup.selectAll("g").data(olympicYears)
+                        .enter().append("rect")
+                        .attr("class", "dataPoints")
+                        .attr('x', function(d) {return yearScale(d)})
+                        .attr('y', 20)
+                        .attr('width', '15px')
+                        .attr('height', '15px')
+                        .attr('fill', function(d) {
+                        
+                            // If country won an award that year
+                            if (yearData.includes(d)) {
+                                return color;
+                            } else {
+                                return "#F0F3F4";
+                            }
+                            
+                        })
+                    .attr('stroke', function(d) {
+                        
+                            // If country won an award that year
+                            if (yearData.includes(d)) {
+                                return "none";
+                            } else {
+                                return "#F0F3F4";
+                            }
+                            
+                        });
+        
+            svgGroup.append("rect").attr("class", "back").attr("x", yearScale(1896)).attr("y", 20).attr("width", 515).attr("height", 0).attr("fill", "#F0F3F4");
+                
+            svgGroup.on('mouseenter', function(d) {
+                
+                // Rescale
+                resultScale.range([180,20])
+                // Reshape bar charts
+                svgGroup.selectAll(".dataPoints")
+               .attr("height", function(d,i){
+                    if (yearData.includes(d)){
+                        var ind = yearData.indexOf(d);
+                        return(180-resultScale(sportData[ind]))
+                        }
+                    })
+                .transition().duration(1000)
+                .attr("y", function(d,i){
+                    if (yearData.includes(d)){
+                        var ind = yearData.indexOf(d);
+                        return(resultScale(sportData[ind]))
+                    }
+                    })
+                .style("opacity", function(d,i){
+                    if (yearData.includes(d)){
+                        return 1;
+                    }
+                    else{ return 0}
+                    });
+                // Enlarge svg
+                svgGroup.transition().duration(1000).attr("height", 200);
+                
+                svgGroup.select(".back").transition().attr("height", 160).style("opacity", 1);
+                // Change text
+                svgGroup.select(".hover-sport")
+                .attr("fill", color)
+                .style("font-weight", 600);
+                svgGroup.append("text").attr("class", "groupText")
+                .attr("x", 80).attr("y", 50)
+                .text(measure).attr("fill", color);
+                
+                // Add percent change metric
+        
+                var firstResult = sportData[0];
+                var firstYear = yearData[0];
+                var currentResult = sportData[sportData.length-1]
+                
+                var percentChange = ((currentResult-firstResult)/firstResult) * 100;
+                percentChange = Math.abs(Math.round(percentChange*100)/100);
+                
+                svgGroup.append("text").attr("class","groupText")
+                .attr("x", 80).attr("y", 100)
+                .text(percentChange + " %")
+                .style("font-size", 20);
+                
+                 svgGroup.append("text").attr("class","groupText")
+                .attr("x", 80).attr("y", 120)
+                .text(progress + " since " + firstYear)
+                .style("font-size", 16);
+                
+                // Add y axis
+                
+                var yAxis = d3.axisLeft(resultScale)
+                .ticks(6)
+                .tickSize(0);
+                var axisGroup = svgGroup.append("g")
+                .attr("class", "axis")
+                .call(yAxis)
+                .attr("fill", "blue")
+                .style("font-size", 10)
+                .attr("transform", "translate(280,0)");
+                 });
+                
+                
+                svgGroup.on('mouseleave', function(d) {
+                    
+                    // Change scale back
+                    
+                    resultScale.range([50,0])
+                    
+                    // Reshape SVG
+                    svgGroup.transition().duration(1000)
+                        .attr("height", 50);
+                    
+                    svgGroup.select(".back").transition().duration(500)
+                        .attr("height", 0).style("opacity", 0);
+                    
+                    // Reshape bar charts
+                    svgGroup.selectAll(".dataPoints")                            
+                    .transition().duration(500)
+                    .attr("y", 20)
+                    .style("opacity", 1)
+                    .transition()
+                    .attr("height", 15);
+                    
+                    // Remove elements
+                    svgGroup.select(".axis").remove();
+                    svgGroup.selectAll(".groupText").remove();
+                    svgGroup.select(".hover-sport")
+                    .style("font-weight", 200)
+                    .attr("fill", "black");
+                    
+                });
+                    
+                }
+            
+                counter += 1;
+            
+            }
+                    
+    </script>
+    
+    </div>
+    
+</div>
+
+</body>
+    
+</html>
