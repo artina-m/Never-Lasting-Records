@@ -27,6 +27,10 @@
     <h1>The Olympians</h1>
     <h2>We asked ourselves, "what if all Olympians raced the same race?"</h2>
     
+    <div class='br'></div>
+    
+    <h3 class='title'>Visualization</h3>
+    
     <div class = 'filter-game'>
         <button id="showTrack" class="seg-nav left"><h4>100M Track</h4></button>
         <button id="showPool" class="seg-nav"><h4>200M Butterfly</h4></button>
@@ -376,26 +380,32 @@
                 raceTrack
                     .attr("width", 640)
                     .attr("height", function() {
-                        if (data == mens100m) { return 14 }
-                        else { return 17 }
+                        return 14;
+                        // if (data == mens100m) { return 14 }
+                        // else { return 17 }
                     })
                     .attr("x", 120)
                     .attr("y", function(d) {
-                        if (data == mens100m) { return yScale(d.order) - 7 + 120 }
-                        else { return yScale(d.order) - 17/2 + 120 }
+                        return yScale(d.order) - 8 + 120;
+                        // if (data == mens100m) { return yScale(d.order) - 7 + 120 }
+                        // else { return yScale(d.order) - 17/2 + 120 }
                     })
-                    .style("fill", "lightGrey")
-                    .style("opacity", .1);
+                    .style("fill", "lightgray")
+                    .style("opacity", .05);
 
                 // Finish Line
                 svgTrackGroup.append("rect")
                     .attr("x", xTrackScale(100))
                     .attr("y", function() {
-                        if (data == mens100m) { return yScale(24.4) +120 }
-                        else { return yScale(21) +120 }
+                        if (data == mens100m) { return yScale(24.5) + 120 }
+                        else if (data == womens100m) { return yScale(20.4) + 120 }
+                        else { return yScale(21) + 120 }
                     })
                     .attr("width", 1.5)
-                    .attr("height", 381)
+                    .attr("height", function() {
+                        if (data == mens100m) { return 382 }
+                        else { return 375 }
+                    })
                     .style("fill", 'lightcoral')
                     .style("stroke", "grey")
                     .style("stroke-width", 0);
@@ -412,21 +422,24 @@
                 .enter().append("circle");
 
                 circles
-                    .attr('class', 'track-circles')
+                    .attr('class', 'filter-circles')
                     .attr("cx", function(d) {return xTrackScale(d.start)})
-                    .attr("cy",function(d) {return yScale(d.order) +120 })
+                    .attr("cy",function(d) {return yScale(d.order) - 1 + 120 })
                     .attr("r", 5)
-                    .style("fill", function(d) {return d.color});
+                    .style("fill", function(d) {return d.color})
+                    .style('opacity', 0.85)
+                    .style('cursor', 'crosshair');
 
                 circles
                 .transition()
-                    .ease(d3.easeLinear)
+                    .ease(d3.easePoly)
                     .duration(2000)
                     .attr('cx', function(d,i) { return xTrackScale(d.end) })
+                // .transition()
+                    // .duration(1000)
                 .transition()
-                    .duration(1000)
-                .transition()
-                    .duration(4000)
+                    .ease(d3.easePoly)
+                    .duration(2000)
                     .attr('cx', function(d,i) { return xTrackScale2(d.end) });
 
 
@@ -436,7 +449,7 @@
                 olympicYears.text(function(d) {return d.year})
                     .attr('class', 'axis-label')
                     .attr("x", 72)
-                    .attr("y", function(d) {return yScale(d.order) +120})
+                    .attr("y", function(d) {return yScale(d.order) + 120})
                     .style("alignment-baseline", "middle");
                     // .style("font-size", 12)
                     // .style("font-weight", 200)
@@ -448,14 +461,19 @@
                     else { return "Olympic 100M Women's" }
                 })
                     .attr('class', 'title')
-                    .attr("x", xTrackScale(0))
+                    .attr('x', function() {
+                        if (data == mens100m) { return 367.67; }
+                        else { return 348.6; }
+                    })
                     .attr("y", 45);
                     // .style("font-size", 25)
                     // .style("font-weight", 600);
 
-                svgTrack.append('foreignObject').text("The 100 metres at the Summer Olympics has been contested since the first edition of the multi-sport event. The men's 100 m has been present on the Olympic athletics programme since 1896 and the women's 100 m has been held continuously since its introduction at the 1928 Games. The 100 metres is considered one of the blue ribbon events of the Olympics and is among the highest profile competitions at the games.")
+                
+                // Add description
+                svgTrack.append('foreignObject').text("The 100 metres at the Summer Olympics has been contested since the first edition of the multi-sport event. The men's 100 m has been present on the Olympic athletics programme since 1896 and the women's 100 m has been held continuously since its introduction at the 1928 Games. The 100 metres is considered one of the blue ribbon events of the Olympics and is among the highest profile competitions at the games. It is the most prestigious 100 m race at elite level and is the shortest sprinting competition.")
                     .attr('class', 'subtitle')
-                    .attr("x", xTrackScale(0))
+                    .attr("x", 160)
                     .attr("y", 70)
                     // .style("font-size", 16)
                     // .style("font-weight", 400);
@@ -485,28 +503,34 @@
                     .attr("y", 624)
                     .style("anchor", "middle");
 
-                eighty.transition()
-                .duration(3000)
+                eighty
+                .transition()
+                    .duration(2000)
+                    .ease(d3.easePoly)
                     .attr('x', xTrackScale(80) )
                 .transition()
-                    .duration(4000)
-                    .ease(d3.easeLinear)
+                    .duration(2000)
+                    .ease(d3.easePoly)
                     .attr('x', xTrackScale2(80) )
 
-                ninety.transition()
-                .duration(3000)
+                ninety
+                .transition()
+                    .duration(2000)
+                    .ease(d3.easePoly)
                     .attr('x', xTrackScale(90) )
                 .transition()
-                    .duration(4000)
-                    .ease(d3.easeLinear)
+                    .duration(2000)
+                    .ease(d3.easePoly)
                     .attr('x', xTrackScale2(90) )
 
-                fifty.transition()
-                .duration(3000)
+                fifty
+                    .transition()
+                    .duration(2000)
+                    .ease(d3.easePoly)
                     .attr('x', xTrackScale(50) )
                 .transition()
-                    .duration(4000)
-                    .ease(d3.easeLinear)
+                    .duration(2000)
+                    .ease(d3.easePoly)
                     .attr('x', xTrackScale2(50) )
                     .style("opacity", -5);
                 
@@ -516,6 +540,9 @@
                 
                 // Calls function for filtering by country
                 filterCountries(data, plottingData, circles);
+                
+                // Calls function for filtering by medal
+                filterMedals(data, plottingData, circles, 'track');
                 
             }
             
@@ -649,21 +676,43 @@
                         // console.log('#hover'+id);
                         // console.log(d3.select('#hover'+id));
                     
-                        // If circles on upper half of graph
-                        if (d.year >= 1968) {
-                            rects.attr('y', function(d) {return yScale(d.order)+15+120});
-                            flags.attr('y', function(d) {return yScale(d.order)+25+120});
-                            texts.attr('y', function(d) {return yScale(d.order)+35+120});
-                        } else { 
-                            // if (d.year <= 1964)
-                            rects.attr('y', function (d) {return yScale(d.order)-70-15+120});
-                            flags.attr('y', function(d) {return yScale(d.order)-70-5+120});
-                            texts.attr('y', function(d) {return yScale(d.order)-70+5+120});
+                        // If game is track
+                        if (event == 'track') {
+                            // If circles on upper half of graph
+                            if (d.year >= 1968) {
+                                rects.attr('y', function(d) {return yScale(d.order)+15+120});
+                                flags.attr('y', function(d) {return yScale(d.order)+25+120});
+                                texts.attr('y', function(d) {return yScale(d.order)+35+120});
+                            } else { 
+                                // if (d.year <= 1964)
+                                rects.attr('y', function (d) {return yScale(d.order)-70-15+120});
+                                flags.attr('y', function(d) {return yScale(d.order)-70-5+120});
+                                texts.attr('y', function(d) {return yScale(d.order)-70+5+120});
+                            }
+
+                            d3.select('#'+id).style('display', 'inline');
+                            d3.select('#'+id+'flag').style('display', 'inline');
+                            d3.select('#'+id+'text').style('display', 'inline');
                         }
-                    
-                        d3.select('#'+id).style('display', 'inline');
-                        d3.select('#'+id+'flag').style('display', 'inline');
-                        d3.select('#'+id+'text').style('display', 'inline');
+                        // If game is pool
+                        else if (event == 'pool') {
+                            // If circles on upper half of graph
+                            if (d.year >= 1988) {
+                                rects.attr('y', function(d) {return yScale(d.order)+15-72});
+                                flags.attr('y', function(d) {return yScale(d.order)+25-72});
+                                texts.attr('y', function(d) {return yScale(d.order)+35-72});
+                            } else { 
+                                // if (d.year <= 1984)
+                                rects.attr('y', function (d) {return yScale(d.order)-70-15-72});
+                                flags.attr('y', function(d) {return yScale(d.order)-70-5-72});
+                                texts.attr('y', function(d) {return yScale(d.order)-70+5-72});
+                            }
+
+                            d3.select('#'+id).style('display', 'inline');
+                            d3.select('#'+id+'flag').style('display', 'inline');
+                            d3.select('#'+id+'text').style('display', 'inline');
+                        }
+                        
                 })
                 .on('mouseleave', function(d) {
                     var id = d.medal+d.year+d.game;
@@ -676,22 +725,7 @@
         </script>
         
         <script>
-            // Legend: circle colors
-            var goldMedal = svgTrackGroup.append("circle")
-                .attr("cx", 1150).attr("cy", 150)
-                .attr("r", 8)
-                .style("fill", "gold");
-            
-            var silverMedal = svgTrackGroup.append("circle")
-                .attr("cx", 1200).attr("cy", 150)
-                .attr("r", 8)
-                .style("fill", "grey");
-            
-            var bronzeMedal = svgTrackGroup.append("circle")
-                .attr("cx", 1250).attr("cy", 150)
-                .attr("r",8)
-                .style("fill", "orange");
-            
+            // Legends, keys, and filters
             
             // Record Holder    
             var recordHolder = svgTrackGroup.append("text")
@@ -721,40 +755,71 @@
                         
                     })
                     .attr('x', function(d) {
-                        if (counts[d.country][0] <= 7) {
-                            return 804;
-                        } else {
-                            return 876;
-                        } 
+                        if (data == mens100m || data == womens100m) {
+                            if (counts[d.country][0] <= 8) {
+                                return 804;
+                            } else {
+                                return 876;
+                            }   
+                        } else if (data == mens200mFly) {
+                            if (counts[d.country][0] <= 7) {
+                                return 804;
+                            } else {
+                                return 876;
+                            }  
+                        } else if (data == womens200mFly) {
+                            if (counts[d.country][0] <= 4) {
+                                return 804;
+                            } else {
+                                return 876;
+                            }
+                        }
+                                      
                     })
                     .attr('y', function(d) {
                         var increment;
-                        if (counts[d.country][0] <= 7) {
-                            increment = counts[d.country][0];
-                        } else {
-                            increment = counts[d.country][0] - 8;
+                        if (data == mens100m || data == womens100m) {
+                            if (counts[d.country][0] <= 8) {
+                                increment = counts[d.country][0];
+                            } else {
+                                increment = counts[d.country][0] - 9;
+                            }
+                            return 258+increment*24;
+                        } else if (data == mens200mFly) {
+                            if (counts[d.country][0] <= 7) {
+                                increment = counts[d.country][0];
+                            } else {
+                                increment = counts[d.country][0] - 8;
+                            }
+                            return 258+increment*24-48;
+                        } else if (data == womens200mFly) {
+                            if (counts[d.country][0] <= 4) {
+                                increment = counts[d.country][0];
+                            } else {
+                                increment = counts[d.country][0] - 5;
+                            }
+                            return 258+increment*24-48;
                         }
-                        return 258+increment*36;
+                        
                         
                     })
                     .attr('width', '18px')
                     .on('mousedown', function(d) {
                         var click = d.country;
-                        svgGroup.selectAll('.track-circles')
+                        d3.selectAll('.filter-circles')
                             .style('opacity', function(d) {
-                                console.log('Entering circles');
                                 if (d.country != click) {
                                     return '0.1';
                                 }
                             })
                     })
                     .on('mouseup', function(d) {
-                        svgGroup.selectAll('.track-circles').style('opacity', 1);
+                        svgGroup.selectAll('.filter-circles').style('opacity', 1);
                     })
                     .style('cursor', 'pointer')
                     .style('display', function(d) {
-                        if (d.country == 'POR') { return 'none'; }
-                        else if (counts[d.country][0] >= 16) { return 'none'; }
+                        // if (d.country == 'POR') { return 'none'; }
+                        // else if (counts[d.country][0] >= 16) { return 'none'; }
                     });        
                 
                 // Filter by countries
@@ -762,7 +827,14 @@
                 labelCountries
                     .attr('class', 'axis-title')
                     .attr('x', 804)
-                    .attr('y', 234)
+                    .attr('y', function() {
+                        if (data == mens100m || data == womens100m) {
+                            return 234;
+                        } else if (data == mens200mFly || data == womens200mFly) {
+                            return 186;
+                        }
+                        
+                    })
                     .text('Filter by Country');
                 
                 var labels = svgGroup.selectAll('g').data(plottingData).enter().append('text');
@@ -771,11 +843,27 @@
                 labels
                     .attr('class', 'country-label')
                     .attr('x', function(d) {
-                        if (counts[d.country][0] <= 7) {
-                            return 804 + 24;
-                        } else {
-                            return 876 + 24;
+                        if (data == mens100m || data == womens100m) {
+                            if (counts[d.country][0] <= 8) {
+                                return 804 + 24;
+                            } else {
+                                return 876 + 24;
+                            }
+                        } else if (data == mens200mFly) {
+                            if (counts[d.country][0] <= 7) {
+                                return 804 + 24;
+                            } else {
+                                return 876 + 24;
+                            }
                         } 
+                        else if (data == womens200mFly) {
+                            if (counts[d.country][0] <= 4) {
+                                return 804 + 24;
+                            } else {
+                                return 876 + 24;
+                            }
+                        }
+                         
 //                        if (counts[d.country][0] <= 3) {
 //                                return 1050+35;
 //                            } else if (counts[d.country][0] > 3 && counts[d.country][0] <= 7) {
@@ -788,12 +876,29 @@
                     })
                     .attr('y', function(d) {
                         var increment;
-                        if (counts[d.country][0] <= 7) {
-                            increment = counts[d.country][0];
-                        } else {
-                            increment = counts[d.country][0] - 8;
+                        if (data == mens100m || data == womens100m) {
+                            if (counts[d.country][0] <= 8) {
+                                increment = counts[d.country][0];
+                            } else {
+                                increment = counts[d.country][0] - 9;
+                            }
+                            return 258+increment*24 + 14;
+                        } else if (data == mens200mFly) {
+                            if (counts[d.country][0] <= 7) {
+                                increment = counts[d.country][0];
+                            } else {
+                                increment = counts[d.country][0] - 8;
+                            }
+                            return 258+increment*24 + 14 - 48;
+                        } else if (data == womens200mFly) {
+                            if (counts[d.country][0] <= 4) {
+                                increment = counts[d.country][0];
+                            } else {
+                                increment = counts[d.country][0] - 5;
+                            }
+                            return 258+increment*24 + 14 - 48;
                         }
-                        return 258+increment*36 + 14;
+                        
 //                        var increment;
 //                        if (counts[d.country][0] <= 3) {
 //                            increment = counts[d.country][0];
@@ -816,27 +921,93 @@
                         } 
                     })
                     .style('display', function(d) {
-                        if (d.country == 'POR') { return 'none'; }
-                        else if (counts[d.country][0] >= 16) { return 'none'; }
+                        // if (d.country == 'POR') { return 'none'; }
+                        // else if (counts[d.country][0] >= 16) { return 'none'; }
+                    });
+            }
+            
+            function filterMedals(data, plottingData, objects, game) {
+
+                // Select svgGroup that corresponds to the game
+                var svgGroupSelect;
+                if (game == 'track') {
+                    svgGroupSelect = svgTrackGroup;
+                } else if (game == 'pool') {
+                    svgGroupSelect =  svgPoolGroup;
+                } else {
+                    svgGroupSelect = svgDiscusGroup;
+                }
+                
+                // Create medals
+                var goldMedal = svgGroupSelect.append('circle')
+                    .attr('cx', 813).attr('cy', 540)
+                    .attr('r', 5)
+                    .style('fill', 'gold')
+                    .style('opacity', 0.85)
+                    .style('cursor', 'pointer')
+                    .on('mousedown', function(d) {
+                        d3.selectAll('.filter-circles').style('opacity', function(d) {
+                            if (d.medal != 'gold') {
+                                return '0.1';
+                            }
+                        })
+                    })
+                    .on('mouseup', function(d) {
+                        d3.selectAll('.filter-circles').style('opacity', 1);
+                    });
+                
+                var silverMedal = svgGroupSelect.append("circle")
+                    .attr('cx', 849).attr("cy", 540)
+                    .attr("r", 5)
+                    .style("fill", "grey")
+                    .style('opacity', 0.85)
+                    .style('cursor', 'pointer')
+                    .on('mousedown', function(d) {
+                        d3.selectAll('.filter-circles').style('opacity', function(d) {
+                            if (d.medal != 'silver') {
+                                return '0.1';
+                            }
+                        })
+                    })
+                    .on('mouseup', function(d) {
+                        d3.selectAll('.filter-circles').style('opacity', 1);
+                    });
+            
+                var bronzeMedal = svgGroupSelect.append("circle")
+                    .attr("cx", 885).attr("cy", 540)
+                    .attr("r", 5)
+                    .style("fill", "orange")
+                    .style('opacity', 0.85)
+                    .style('cursor', 'pointer')
+                    .on('mousedown', function(d) {
+                        d3.selectAll('.filter-circles').style('opacity', function(d) {
+                            if (d.medal != 'bronze') {
+                                return '0.1';
+                            }
+                        })
+                    })
+                    .on('mouseup', function(d) {
+                        d3.selectAll('.filter-circles').style('opacity', 1);
                     });
             }
         </script>
     </div>
 
     <p id="poolViz">
-        <script>
-            var xPoolScale = d3.scaleLinear().domain([0,200]).range([100,1000]);
+        <script>           
+            var xPoolScale = d3.scaleLinear().domain([0,200]).range([120,720]);
+            var xPoolScale2 = d3.scaleLinear().domain([150,200]).range([120,720]); // zoom into points
 
-            var xPoolScale2 = d3.scaleLinear().domain([150,200]).range([100,1000]); // zoom into points
-
-            var yPoolScaleMen = d3.scaleLinear().domain([0,16]).range([490,90]);
-            var yPoolScaleWomen = d3.scaleLinear().domain([0,13]).range([490,90]);
+            var yPoolScaleMen = d3.scaleLinear().domain([0,25]).range([490,90]);
+            var yPoolScaleWomen = d3.scaleLinear().domain([0,21]).range([490,90]);
+            // var yPoolScaleMen = d3.scaleLinear().domain([0,16]).range([490,90]);
+            // var yPoolScaleWomen = d3.scaleLinear().domain([0,13]).range([490,90]);
 
             // Create SVG
             var svgPool = d3.select("#poolViz")
-            .append("svg")
-            .attr("width", width)
-            .attr("height", height);
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height);
 
             var svgPoolGroup = svgPool.append("g");
             
@@ -850,11 +1021,10 @@
 
             function plotPoolLanes(data) {
                 
+                // Initialize variables
                 var plottingData  = []; // Array of objects
-    
-                n = 1;
-                
                 var recordTimeFly;
+                var n = 1;
 
                 if (data == mens200mFly) {
                     recordTimeFly = recordTimeFlyMen
@@ -886,133 +1056,160 @@
                 // Add track for each olympic year
                 var poolLanes = svgPoolGroup.selectAll("g").data(plottingData).enter().append("rect");
 
-                poolLanes.attr("width", 900).attr("height", function() {
-                    if (data == mens200mFly) { return 24 }
-                    else { return 30 }
-                })
-                .attr("x", 100).attr("y", function(d) {
-                    if (data == mens200mFly) { return yPoolScale(d.order) - 12 }
-                    else { return yPoolScale(d.order) - 15 }
-                })
-                .style("fill", "skyblue")
-                .style("opacity", .1);
-
+                poolLanes
+                    .attr('width', 640)
+                    .attr('height', function() {
+                        return 14;
+                        // if (data == mens200mFly) { return 24 }
+                        // else { return 30 }
+                    })
+                    .attr('x', 120)
+                    .attr('y', function(d) {
+                        return yPoolScale(d.order) - 8 - 72;
+                        // if (data == mens200mFly) { return yPoolScale(d.order) - 12 }
+                        // else { return yPoolScale(d.order) - 15 }
+                    })
+                    .style("fill", 'lightblue')
+                    .style("opacity", .05);
+                
                 // Finish Line
                 svgPoolGroup.append("rect")
-                .attr("x", xPoolScale(200))
-                .attr("y", function() {
-                    if (data == mens200mFly) { return yPoolScale(16) }
-                    else { return yPoolScale(13) }
-                })
-                .attr("width", 50)
-                .attr("height", 400)
-                .style("fill", "white")
-                .style("stroke", "grey")
-                .style("stroke-width", .5);
+                    .attr("x", xPoolScale(200))
+                    .attr("y", function() {
+                        if (data == mens200mFly) { return yPoolScale(15.5) - 72 }
+                        else { return yPoolScale(12.4) - 72 }
+                    })
+                    .attr("width", 1.5)
+                    .attr("height", function() {
+                        if (data == mens200mFly) { return 238 }
+                        else { return 223 }
+                    })
+                    .style("fill", 'lightcoral')
+                    .style("stroke", "grey")
+                    .style("stroke-width", 0);
 
-                svgPoolGroup.append("text").text("FINISH")
-                .attr("x", -300)
-                .attr("y", 1035)
-                .attr("transform", "rotate(270)")
-                .style("text-anchor", "middle")
-                .style("font-size", 25)
-                .style("font-family", "Roboto")
-                .style("font-weight", 200)
-                .style("fill", "grey");
+                svgPoolGroup.append("text").text("Finish")
+                    .attr('class', 'finish')
+                    .attr("x", -288)
+                    .attr("y", 744)
+                    .attr("transform", "rotate(270)")
+                    .style("text-anchor", "middle");
 
                 // Add gold, bronze, and silver medal plots
                 var circles = svgPoolGroup.selectAll("g").data(plottingData)
                 .enter().append("circle");
 
-                circles.attr("cx", function(d) {return xPoolScale(d.start)})
-                .attr("cy",function(d) {return yPoolScale(d.order)})
-                .attr("r", 5)
-                .style("fill", function(d) {return d.color});
+                circles
+                    .attr('class', 'filter-circles')
+                    .attr("cx", function(d) {return xPoolScale(d.start)})
+                    .attr("cy",function(d) {return yPoolScale(d.order) - 1 - 72})
+                    .attr("r", 5)
+                    .style("fill", function(d) {return d.color})
+                    .style('opacity', 0.85)
+                    .style('cursor', 'crosshair');
 
-                circles.transition()
-                .duration(2000)
-                    .ease(d3.easeLinear)
+                circles
+                .transition()
+                    .duration(2000)
+                    .ease(d3.easePoly)
                     .attr('cx', function(d,i) { return xPoolScale(d.end) })
+                // .transition()
+                    // .duration(1000)
                 .transition()
-                    .duration(1000)
-                .transition()
-                .duration(4000)
+                    .duration(2000)
+                    .ease(d3.easePoly)
                     .attr('cx', function(d,i) { return xPoolScale2(d.end) });
-
 
                 // Add y-axis text: years
                 var olympicYears = svgPool.selectAll("g").data(plottingData).enter().append("text");
-
+                
                 olympicYears.text(function(d) {return d.year})
-                .attr("x", 50)
-                .attr("y", function(d) {return yPoolScale(d.order)})
-                .style("alignment-baseline", "middle")
-                .style("font-size", 12)
-                .style("font-family", "Roboto")
-                .style("font-weight", 200)
-                .style("fill", "grey");
-
+                    .attr('class', 'axis-label')
+                    .attr("x", 72)
+                    .attr("y", function(d) {return yPoolScale(d.order) - 72})
+                    .style("alignment-baseline", "middle");
 
                 // Add titles
-                svgPool.append("text").text(function() {
-                    if (data == mens200mFly) { return "Olympic 200M Butterfly Mens" }
-                    else { return "Olympic 200M Butterfly Womens" }
-                })
-                .attr("x", xPoolScale(0))
-                .attr("y", 45)
-                .style("font-size", 25)
-                .style("font-family", "Roboto")
-                .style("font-weight", 600);
+                svgPool.append('text')
+                    .attr('class', 'title')
+                    .attr('x', function() {
+                        if (data == mens200mFly) { return 318.665; }
+                        else { return 299.595; }
+                    })
+                    .attr('y', 45)
+                    .text(function() {
+                        if (data == mens200mFly) { return "Olympic 200M Butterfly Men's" }
+                        else { return "Olympic 200M Butterfly Women's" }
+                    });
 
+                svgPool.append('foreignObject').text("Swimming has been a sport at every modern Summer Olympics. It has been open to women since 1912. Along with track & field athletics and gymnastics, it is one of the most popular spectator sports at the Games. Swimming has the second largest number of events (after Athletics).")
+                    .attr('class', 'subtitle')
+                    .attr("x", 160)
+                    .attr("y", 70)
+                
                 // Add x-axis text: distance in meters
                 svgPool.append("text").text("200m")
-                .attr("x", xPoolScale(200))
-                .attr("y", 500)
-                .style("anchor", "middle");
+                    .attr('class', 'axis-label')
+                    .attr("x", xPoolScale(200))
+                    .attr("y", 432)
+                    .style("anchor", "middle");
 
                 var hundred = svgPool.append("text").text("100m")
-                .attr("x", xPoolScale(100))
-                .attr("y", 500)
-                .style("anchor", "middle");
+                    .attr('class', 'axis-label')
+                    .attr("x", xPoolScale(100))
+                    .attr("y", 432)
+                    .style("anchor", "middle");
 
                 var oneFifty = svgPool.append("text").text("150m")
-                .attr("x", xPoolScale(150))
-                .attr("y", 500)
-                .style("anchor", "middle");
+                    .attr('class', 'axis-label')
+                    .attr("x", xPoolScale(150))
+                    .attr("y", 432)
+                    .style("anchor", "middle");
 
                 var oneSeventyFive = svgPool.append("text").text("175m")
-                .attr("x", xPoolScale(175))
-                .attr("y", 500)
-                .style("anchor", "middle");
+                    .attr('class', 'axis-label')
+                    .attr("x", xPoolScale(175))
+                    .attr("y", 432)
+                    .style("anchor", "middle");
 
 
-                hundred.transition()
-                .duration(3000)
+                hundred
+                .transition()
+                    .duration(2000)
+                    .ease(d3.easePoly)
                     .attr('x', xPoolScale(100) )
                 .transition()
-                    .duration(4000)
-                    .ease(d3.easeLinear)
+                    .duration(2000)
+                    .ease(d3.easePoly)
                     .attr('x', xPoolScale2(100) )
                     .style("opacity", -5)
 
-                oneFifty.transition()
-                .duration(3000)
+                oneFifty
+                .transition()
+                    .duration(2000)
+                    .ease(d3.easePoly)
                     .attr('x', xPoolScale(150) )
                 .transition()
-                    .duration(4000)
-                    .ease(d3.easeLinear)
+                    .duration(2000)
+                    .ease(d3.easePoly)
                     .attr('x', xPoolScale2(150) )
 
-                oneSeventyFive.transition()
-                .duration(3000)
+                oneSeventyFive
+                .transition()
+                    .duration(2000)
+                    .ease(d3.easePoly)
                     .attr('x', xPoolScale(175) )
                 .transition()
-                    .duration(4000)
-                    .ease(d3.easeLinear)
+                    .duration(2000)
+                    .ease(d3.easePoly)
                     .attr('x', xPoolScale2(175) )
 
+                // Calls function for hovering
                 if (data == mens200mFly) { plotHover(data, plottingData, circles, "pool", "mens") }
                 else { plotHover(data, plottingData, circles, "pool", "womens") }
+                
+                // Calls function for filtering by country
+                filterCountries(data, plottingData, circles);
                 
             }
 

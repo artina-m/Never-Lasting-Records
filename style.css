@@ -3,12 +3,10 @@
 body { 
     margin: 0;
     padding: 50px 0 50px 0;
+    color: dimgray;
     font-family: 'Nunito Sans', Calibri, sans-serif;
     font-size: 14px;
     line-height: 21px;
-}
-
-@media only screen and (max-width: 500px) {
 }
 
 /*--------------------TYPOGRAPHY--------------------*/
@@ -37,29 +35,25 @@ h4 {
     font-weight: 200;
     display: inline;
 }
-             
-em {
-    /*background-color: rosybrown;*/
-    background-color: black;
-    font-style: italic;
-    color: white;
-}
 
-.title {
+h3, .title {
+    fill: dimgray;
     font-size: 24px;
     font-weight: 300;
+    text-align: center;
 }
 
-.subtitle {
-    width: 480px;
+p, .subtitle {
+    width: 640px;
     font-size: 14px;
     font-weight: 200;
+    line-height: 24px;
 }
 
 .axis-title {
     fill: gray;
     font-size: 14px;
-    font-weight: 300;
+    font-weight: 600;
 }
 
 .axis-label {
@@ -77,7 +71,7 @@ em {
 .finish {
     fill: lightcoral;
     font-size: 14px;
-    font-weight: 300;
+    font-weight: 600;
 }
 
 /*--------------------DIVS--------------------*/
@@ -91,8 +85,16 @@ em {
 .filter-gender {
     width: 248px;
     margin-left: auto;
+    margin-right: auto;   
+}
+
+.br {
+    width: 640px;
+    height: 1px;
+    margin-left: auto;
     margin-right: auto;
     margin-bottom: 60px;
+    background-color: lightgray;
 }
 
 /*--------------------BUTTONS--------------------*/
@@ -104,8 +106,8 @@ button:hover {
 
 button:focus {
     color: white;
-    background-color: steelblue;
-    border-color: steelblue;
+    background-color: dimgray;
+    border-color: dimgray;
     outline: none;
 }
 
@@ -136,7 +138,7 @@ svg {
     margin-left: auto;
     margin-right: auto;
     display: block;
-    border: solid lightgray 1px; 
+    border: solid lightgray 0px; 
     
 }
 
