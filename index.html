@@ -24,13 +24,23 @@
 </head>
 
 <body>
-    <h1>The Olympians</h1>
-    <h2>We asked ourselves, "what if all Olympians raced the same race?"</h2>
+    <div class = "titleClass">
+        <script>
+            var titleSvg = d3.select('.titleClass').append("svg")
+            .attr("width", 200).attr("height", 180);
+            
+            titleSvg.append("image").attr("xlink:href", "img/titleImage.png")
+                .attr("x", "32%")
+                .attr("y", "20")
+                .attr("width", "350");
+        </script>
+    </div>
+    
+    <h1>Never-Lasting Records</h1>
+    <h2>An Interactive Visualization through Time on Olympic Performance</h2>
     
     <div class='br'></div>
-    
-    <h3 class='title'>Visualization</h3>
-    
+        
     <div class = 'filter-game'>
         <button id="showTrack" class="seg-nav left"><h4>100M Track</h4></button>
         <button id="showPool" class="seg-nav"><h4>200M Butterfly</h4></button>
