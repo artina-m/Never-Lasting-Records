@@ -47,7 +47,7 @@ p, .subtitle {
     width: 640px;
     font-size: 14px;
     font-weight: 200;
-    line-height: 24px;
+    line-height: 0px;
 }
 
 .axis-title {
