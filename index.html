@@ -1161,7 +1161,7 @@
             var xPoolScale2 = d3.scaleLinear().domain([150,200]).range([120,720]); // zoom into points
 
             var yPoolScaleMen = d3.scaleLinear().domain([0,25]).range([490,90]);
-            var yPoolScaleWomen = d3.scaleLinear().domain([0,21]).range([490,90]);
+            var yPoolScaleWomen = d3.scaleLinear().domain([0,21]).range([450,100]);
             // var yPoolScaleMen = d3.scaleLinear().domain([0,16]).range([490,90]);
             // var yPoolScaleWomen = d3.scaleLinear().domain([0,13]).range([490,90]);
 
@@ -1244,7 +1244,7 @@
                     .attr("width", 1.5)
                     .attr("height", function() {
                         if (data == mens200mFly) { return 238 }
-                        else { return 223 }
+                        else { return 196 }
                     })
                     .style("fill", 'lightcoral')
                     .style("stroke", "grey")
@@ -1312,26 +1312,38 @@
                 // Add x-axis text: distance in meters
                 svgPool.append("text").text("200m")
                     .attr('class', 'axis-label')
-                    .attr("x", xPoolScale(200))
-                    .attr("y", 432)
+                    .attr("x", xPoolScale(196))
+                    .attr("y", function() {
+                        if (data == mens200mFly) {return 432}
+                        else {return 396}
+                    })
                     .style("anchor", "middle");
 
                 var hundred = svgPool.append("text").text("100m")
                     .attr('class', 'axis-label')
                     .attr("x", xPoolScale(100))
-                    .attr("y", 432)
+                    .attr("y", function() {
+                        if (data == mens200mFly) {return 432}
+                        else {return 396}
+                    })
                     .style("anchor", "middle");
 
                 var oneFifty = svgPool.append("text").text("150m")
                     .attr('class', 'axis-label')
                     .attr("x", xPoolScale(150))
-                    .attr("y", 432)
+                    .attr("y", function() {
+                        if (data == mens200mFly) {return 432}
+                        else {return 396}
+                    })
                     .style("anchor", "middle");
 
                 var oneSeventyFive = svgPool.append("text").text("175m")
                     .attr('class', 'axis-label')
                     .attr("x", xPoolScale(175))
-                    .attr("y", 432)
+                    .attr("y", function() {
+                        if (data == mens200mFly) {return 432}
+                        else {return 396}
+                    })
                     .style("anchor", "middle");
 
 
@@ -1466,7 +1478,7 @@
                 
                 // Finish Line
                 svgDiscusGroup.append("rect")
-                    .attr("x", xDiscusScale(70))
+                    .attr("x", xDiscusScale(69.4))
                     .attr("y", function() {
                         if (data == mensDiscus) { return yDiscusScale(13.4) }
                         else { return yDiscusScale(18) }
@@ -1503,6 +1515,7 @@
                     .attr("class", "trajectory")
                     .style("fill", "none")
                     .style("stroke", "lightgrey")
+                    .style('opacity', 0.35);
                 
                 animateLines();
                 
@@ -1616,18 +1629,18 @@
                     
                 // Add x-axis text: distance in meters
                 svgDiscus.append("text").text("70m")
-                    .attr("x", xDiscusScale(70))
-                    .attr("y", 500)
+                    .attr("x", xDiscusScale(68))
+                    .attr("y", 500+120)
                     .style("anchor", "middle");
 
                 var fifty = svgDiscus.append("text").text("50m")
                     .attr("x", xDiscusScale(50))
-                    .attr("y", 500)
+                    .attr("y", 500+120)
                     .style("anchor", "middle");
 
                 var twentyFive = svgDiscus.append("text").text("25m")
                     .attr("x", xDiscusScale(25))
-                    .attr("y", 500)
+                    .attr("y", 500+120)
                     .style("anchor", "middle");
 
                 twentyFive
