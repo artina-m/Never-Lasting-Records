@@ -80,12 +80,13 @@ p, .subtitle {
     width: 356px;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 24px;
 }
 
 .filter-gender {
     width: 248px;
     margin-left: auto;
-    margin-right: auto;   
+    margin-right: auto; 
 }
 
 .br {

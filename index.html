@@ -938,6 +938,21 @@
                     svgGroupSelect = svgDiscusGroup;
                 }
                 
+                // Create label
+                var labelMedals = svgGroupSelect.append('text');
+                labelMedals
+                    .attr('class', 'axis-title')
+                    .attr('x', 804)
+                    .attr('y', function() {
+                        if (data == mens100m || data == womens100m) {
+                            return 540-30;
+                        } else if (data == mens200mFly || data == womens200mFly) {
+                            return 600;
+                        }
+                        
+                    })
+                    .text('Filter by Medal');
+                
                 // Create medals
                 var goldMedal = svgGroupSelect.append('circle')
                     .attr('cx', 813).attr('cy', 540)
