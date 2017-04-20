@@ -21,7 +21,7 @@
 
 .axis path{
     stroke: lightGrey;
-    margin: 20;
+    
 }
 
 .axis text{
@@ -32,34 +32,5 @@
 .info-containter {
     display: block;
 }
-div {
-    display: block;
-    margin: 0px;
-    width: 1000px;
-}
-
-.info-container {
-    display: block;
-    position: fixed;
-    width: 100%;
-    height: 100px;
-    background-color: white;
-    margin-top: 0;
-    box-shadow: 0 3px 12px -4px rgba(0,0,0,.2);
-}
-
-#linPlot{
-    margin-top: 120px;
-}
 
 
-
-body, header {
-    display: inline-block;
-    margin: 0px;
-}
-
- body {
-    max-width: 100%;
-    overflow-x: hidden;
-};
