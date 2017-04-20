@@ -1,4 +1,14 @@
-/* @import url('https://fonts.googleapis.com/css?family=Roboto:Thin,Regular'); */
+/*--------------------STYLE GUIDE--------------------*/
+
+/*  h1 : headers (e.g. title of the website)
+    h2 : subheaders (e.g. catchphrase of the website)
+    h4 : links, labels, buttons
+
+    h3 : titles (e.g. title of sections)
+    p : descriptions
+*/
+
+/*--------------------TYPOGRAPHY--------------------*/
 
 body { 
     margin: 0;
@@ -8,8 +18,6 @@ body {
     font-size: 14px;
     line-height: 21px;
 }
-
-/*--------------------TYPOGRAPHY--------------------*/
 
 h1,h2,h3,h4,h5,h5,p {
     margin-left: auto;
@@ -68,20 +76,25 @@ p, .subtitle {
     font-weight: 300;
 }
 
+.athlete-label {
+    color: gray;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.athlete-desc-label {
+    font-size: 9px;
+    font-weight: 400;
+}
+
 .finish {
     fill: lightcoral;
     font-size: 14px;
     font-weight: 600;
 }
 
-.hover-athlete {
-    font-size: 11px;
-    font-weight: 700;
-}
-.hover-desc {
-    font-size: 9px;
-    font-weight: 400;
-}
+
+
 
 /*--------------------DIVS--------------------*/
 

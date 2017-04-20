@@ -432,7 +432,7 @@
         
     <div id = "trackViz">
         <script>
-            var width = 960, height = 640;
+            var width = 960, height = 720;
 
             var xTrackScale = d3.scaleLinear().domain([0,100]).range([120,720]);
             var xTrackScale2 = d3.scaleLinear().domain([80,100]).range([120,720]); // zoom into points
@@ -733,7 +733,7 @@
                     .style('display','none');
 
                 texts.attr('id', function(d) {return d.medal+d.year+d.game+'text'})
-                    .attr('class', 'hover-athlete')
+                    .attr('class', 'athlete-label')
                     .attr('x', function(d) {return xScale2(d.end)-30})
                     .attr('width', '145px')
                     .attr('height', '65px')
@@ -748,7 +748,7 @@
                     });
                 
                 texts.append('tspan')
-                    .attr('class', 'hover-desc')
+                    .attr('class', 'athlete-desc-label')
                     .attr('x', function(d) {return xScale2(d.end)-30})
                     .attr('dy', '12px')
                     .text(function(d) {
@@ -758,7 +758,7 @@
                 
                 if (event == "discus") {
                     texts.append('tspan')
-                        .attr('class', 'hover-desc')
+                        .attr('class', 'athlete-desc-label')
                         .attr('x', function (d) {return xScale2(d.end)-30})
                         .attr('dy', '12px')
                         .text(function(d) {
@@ -767,7 +767,7 @@
                 } else {    
 
                     texts.append('tspan')
-                        .attr('class', 'hover-desc')
+                        .attr('class', 'athlete-desc-label')
                         .attr('x', function (d) {return xScale2(d.end)-30})
                         .attr('dy', '12px')
                         .text(function(d) {
@@ -775,7 +775,7 @@
                     }); 
 
                     texts.append('tspan')
-                        .attr('class', 'hover-desc')
+                        .attr('class', 'athlete-desc-label')
                         .attr('x', function (d) {return xScale2(d.end)-30})
                         .attr('dy', '12px')
                         .text(function(d) {
@@ -1138,7 +1138,7 @@
             var svgPool = d3.select("#poolViz")
                 .append("svg")
                 .attr("width", width)
-                .attr("height", height);
+                .attr("height", height-120);
 
             var svgPoolGroup = svgPool.append("g");
             
@@ -1628,7 +1628,7 @@
                 var cNames = countryGroup.append('text');
                 
                 cNames
-                    .attr('class', 'hover-athlete')
+                    .attr('class', 'athlete-label')
                     .attr('x', '90px')
                     .attr('y', 68+35*counter)
                     .text(c);
