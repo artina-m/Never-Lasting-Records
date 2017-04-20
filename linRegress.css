@@ -1,15 +1,33 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:Thin,Regular');
 
-svg {  
-    border: solid lightGrey 1px; 
-    margin-left: 0px;
+.hover-sport {
+
+    font-family: 'Nunito Sans', Calibri, sans-serif;
+    font-weight: 200;
+    font-size: 18px;
+    line-height: 21px;
 }
 
-.stickme-container {
-    display: block;
-    position: relative;
+.groupText {
+    font-family: 'Nunito Sans', Calibri, sans-serif;
+    font-weight: 200;
     
 }
+
+.graphAxis {
+    font-family: 'Nunito Sans', Calibri, sans-serif;
+    font-weight: 200;
+}
+
+.axis path{
+    stroke: lightGrey;
+    margin: 20;
+}
+
+.axis text{
+    fill: grey;
+}
+
 
 .info-containter {
     display: block;
