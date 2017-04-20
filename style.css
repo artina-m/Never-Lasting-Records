@@ -58,6 +58,10 @@ p, .subtitle {
     line-height: 24px;
 }
 
+p.subtitle {
+    text-align: center;
+}
+
 .axis-title {
     fill: gray;
     font-size: 14px;
@@ -93,8 +97,9 @@ p, .subtitle {
     font-weight: 600;
 }
 
-
-
+.subtext2 {
+    margin-bottom: 20px;
+}
 
 /*--------------------DIVS--------------------*/
 
