@@ -37,7 +37,7 @@
     </div>
     
     <h1>Never-Lasting Records</h1>
-    <h2>An Interactive Visualization through Time on Olympic Performance</h2>
+    <h2>An Interactive Visualization on Olympic Performance and How Athletes are Continually Breaking Records</h2>
     
     <div class='br'></div>
         
@@ -1595,14 +1595,14 @@
     
     <br><br><br>
    <h3>Faster and Stronger</h3>
-    <h2>Athletes are continually breaking records. See Olympian's today compare.</h2>
+   <h2 class = "subtext2">See How Olympians Continue to Push the Limits of Atheltic Performance</h2>
     
     <div class = "diagrams">
 
         
     <script>
         
-        var yearScale = d3.scaleLinear().domain([1896,2016]).range([350,900]);
+        var yearScale = d3.scaleLinear().domain([1896,2016]).range([370,920]);
         
         // Create top axis 
         
@@ -1625,9 +1625,13 @@
             .style("text-anchor", "right")
             .style("font-size", 12)
             .attr("fill", "grey") 
-
-            
         }
+        
+        graphAxis.append("text").text("Olympic Event")
+        .attr("x", 110).attr("y", 35)
+        .attr("fill", "grey")
+        .style("font-weight", 200)
+        .style("font-size", 18);
 
                 
         // Create svg group for each sport
@@ -1696,13 +1700,13 @@
             // Append the country names
             var sportName = svgGroup.append('text').text(data["2016"].game)
                     .attr('class', 'hover-sport')
-                    .attr('x', 80)
+                    .attr('x', 110)
                     .attr('y', 30);
             
             
             var sportImage = svgGroup.append('image')
                     .attr("xlink:href", sportImage)
-                    .attr('x', 25)
+                    .attr('x', 60)
                     .attr('y', 15)
                     .attr("width", 30);    
             
@@ -1736,7 +1740,7 @@
                             
                         });
         
-            svgGroup.append("rect").attr("class", "back").attr("x", yearScale(1896)).attr("y", 20).attr("width", 515).attr("height", 0).attr("fill", "#F0F3F4");
+            svgGroup.append("rect").attr("class", "back").attr("x", yearScale(1896)).attr("y", 20).attr("width", 565).attr("height", 0).attr("fill", "#F0F3F4");
                 
             svgGroup.on('mouseenter', function(d) {
                 
@@ -1773,7 +1777,7 @@
                 .attr("fill", color)
                 .style("font-weight", 600);
                 svgGroup.append("text").attr("class", "groupText")
-                .attr("x", 80).attr("y", 50)
+                .attr("x", 110).attr("y", 50)
                 .text(measure).attr("fill", color);
                 
                 // Add percent change metric
@@ -1787,12 +1791,12 @@
                 percentChange = Math.abs(Math.round(percentChange*100)/100);
                 
                 svgGroup.append("text").attr("class","groupText")
-                .attr("x", 80).attr("y", 100)
+                .attr("x", 110).attr("y", 100)
                 .text(percentChange + " %")
                 .style("font-size", 20);
                 
                  svgGroup.append("text").attr("class","groupText")
-                .attr("x", 80).attr("y", 120)
+                .attr("x", 110).attr("y", 120)
                 .text(progress + " since " + firstYear)
                 .style("font-size", 16);
                 
@@ -1806,7 +1810,7 @@
                 .call(yAxis)
                 .attr("fill", "blue")
                 .style("font-size", 10)
-                .attr("transform", "translate(300,0)");
+                .attr("transform", "translate(340,0)");
                  });
                 
                 

@@ -26,6 +26,7 @@ h1 {
 
 h2 {
     margin-bottom: 50px;
+    line-height: 2;
     font-weight: 200;
     text-align: center;
 }
@@ -81,6 +82,10 @@ p, .subtitle {
 .hover-desc {
     font-size: 9px;
     font-weight: 400;
+}
+
+.subtext2 {
+    margin-bottom: 20px;
 }
 
 /*--------------------DIVS--------------------*/
