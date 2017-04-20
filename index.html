@@ -715,41 +715,92 @@
                         countries.push(c3);
                     }
                 }
-                // console.log(countries);
                 
                 // Append the text onto the rectangles
                 var texts = svgGroup.selectAll('g').data(plottingData).enter().append('text');
                 
                 rects.attr('id', function(d) {return d.medal+d.year+d.game})
                     .attr('x', function(d) {return xScale2(d.end)-75})
+                    .attr('y', function(d) {
+                        if (event == 'track') {
+                            console.log('Entering track rects');
+                            // If circles on upper half of graph
+                            if (d.year >= 1968) {
+                                return yScale(d.order)+15+120;
+                            } else { 
+                                // if (d.year <= 1964)
+                                return yScale(d.order)-70-15+120;
+                            }
+                        } else if (event == 'pool') {
+                            // If circles on upper half of graph
+                            if (d.year >= 1984) {
+                                rects.attr('y', function(d) {return yScale(d.order)+15-72});
+                            } else { 
+                                // if (d.year <= 1984)
+                                rects.attr('y', function (d) {return yScale(d.order)-70-15-72});
+                            }
+                        }
+                    })
                     .attr('rx', '6px')
                     .attr('ry', '6px')
                     .attr('width', '155px')
                     .attr('height', '70px')
                     .style('fill', function(d) {
-//                        if (d.medal == "gold") { return "gold" }
-//                        else if (d.medal == "silver") { return "grey" }
-//                        else { return "orange" }
                         return 'white';
                     })
                     .style('opacity', 0.85)
                     .style('display', 'none');
                 
-                
                 flags.attr('id', function(d) {return d.medal+d.year+d.game+'flag'})
                     .attr('xlink:href', function (d) {return 'img/flags/'+d.country+'.svg'})
                     .attr('x', function (d) {return xScale2(d.end)-65})
+                    .attr('y', function(d) {
+                        if (event == 'track') {
+                            // If circles on upper half of graph
+                            if (d.year >= 1968) {
+                                flags.attr('y', function(d) {return yScale(d.order)+25+120});
+                            } else { 
+                                // if (d.year <= 1964)
+                                flags.attr('y', function(d) {return yScale(d.order)-70-5+120});
+                            }
+                        } else if (event == 'pool') {
+                            // If circles on upper half of graph
+                            if (d.year >= 1984) {
+                                flags.attr('y', function(d) {return yScale(d.order)+25-72});
+                            } else { 
+                                // if (d.year <= 1984)
+                                flags.attr('y', function(d) {return yScale(d.order)-70-5-72});
+                            }
+                        }
+                    })
                     .attr('width', '25px')
-                    .style('display','none');
+                    .style('display', 'none');
 
                 texts.attr('id', function(d) {return d.medal+d.year+d.game+'text'})
                     .attr('class', 'athlete-label')
                     .attr('x', function(d) {return xScale2(d.end)-30})
+                    .attr('y', function(d) {
+                        if (event == 'track') {
+                            // If circles on upper half of graph
+                            if (d.year >= 1968) {
+                                texts.attr('y', function(d) {return yScale(d.order)+35+120});
+                            } else { 
+                                // if (d.year <= 1964)
+                                texts.attr('y', function(d) {return yScale(d.order)-70+5+120});
+                            }
+                        } else if (event == 'pool') {
+                            // If circles on upper half of graph
+                            if (d.year >= 1984) {
+                                texts.attr('y', function(d) {return yScale(d.order)+35-72});
+                            } else { 
+                                // if (d.year <= 1984)
+                                texts.attr('y', function(d) {return yScale(d.order)-70+5-72});
+                            }
+                        }
+                    })
                     .attr('width', '145px')
                     .attr('height', '65px')
-                    // .style('fill', 'indianred')
                     .style('display', 'none')
-                    .style('word-breal', 'all')
                     .text(function(d) {
                         var ath = d.athlete.split(' ');
                         var lastname = ath[1].charAt(0) + ath[1].slice(1).toLowerCase();
@@ -775,7 +826,6 @@
                             return 'Distance: '+d.result.toFixed(2)+' m';
                         }); 
                 } else {    
-
                     texts.append('tspan')
                         .attr('class', 'athlete-desc-label')
                         .attr('x', function (d) {return xScale2(d.end)-30})
@@ -793,6 +843,33 @@
                         }); 
                 } 
                 
+                // Add delay to the winner description
+//                rects.transition()
+//                    .delay(2000)
+//                    .duration(0)
+//                    .style('display', function(d) {
+//                        var time = d.result.toFixed(2);
+//                        if (time == 9.63 || time == 10.71 || time == 112.03 || time == 124.06 || d.athlete == 'Lars RIEDEL' || d.athlete == 'Evelin') { return 'initial'; }
+//                        else { return 'none'; }
+//                    });
+//                
+//                flags.transition()
+//                    .delay(2000)
+//                    .duration(0)
+//                    .style('display', function(d) {
+//                        var time = d.result.toFixed(2);
+//                        if (time == 9.63 || time == 10.71 || time == 112.03 || time == 124.06 || d.athlete == 'Lars RIEDEL' || d.athlete == 'Evelin') { return 'initial'; }
+//                        else { return 'none'; }
+//                    });
+//                
+//                texts.transition()
+//                    .delay(2000)
+//                    .duration(0)
+//                    .style('display', function(d) {
+//                        var time = d.result.toFixed(2);
+//                        if (time == 9.63 || time == 10.71 || time == 112.03 || time == 124.06 || d.athlete == 'Lars RIEDEL' || d.athlete == 'Evelin') { return 'initial'; }
+//                        else { return 'none'; }
+//                    });
                 
                 objects
                     .on('mouseenter', function(d) {
@@ -816,9 +893,9 @@
                                 texts.attr('y', function(d) {return yScale(d.order)-70+5+120});
                             }
 
-                            d3.select('#'+id).style('display', 'inline');
-                            d3.select('#'+id+'flag').style('display', 'inline');
-                            d3.select('#'+id+'text').style('display', 'inline');
+                        d3.select('#'+id).style('display', 'inline');
+                        d3.select('#'+id+'flag').style('display', 'inline');
+                        d3.select('#'+id+'text').style('display', 'inline');
                         }
 
                         // If game is pool
@@ -1481,26 +1558,17 @@
                     .attr("x", xDiscusScale(69.4))
                     .attr("y", function() {
                         if (data == mensDiscus) { return yDiscusScale(13.4) }
-                        else { return yDiscusScale(18) }
+                        else { return yDiscusScale(11.95) }
                     })
                     .attr('width', 1.5)
                     .attr('height', function() {
                         if (data == mensDiscus) { return 374; }
-                        else { return 400; }
+                        else { return 369; }
                     })
                     .style('fill', 'lightcoral')
                     .style("stroke", "grey")
                     .style("stroke-width", 0);
 
-                svgDiscusGroup.append("text").text("FINISH")
-                .attr("x", -300)
-                .attr("y", 1035)
-                .attr("transform", "rotate(270)")
-                .style("text-anchor", "middle")
-                .style("font-size", 25)
-                .style("font-family", "Roboto")
-                .style("font-weight", 200)
-                .style("fill", "grey");
                 
                 // Append paths that circles will move along
                 var motionPaths = svgDiscusGroup.selectAll("g").data(plottingData)
