@@ -1782,9 +1782,8 @@
                 
             }
             
-            var min = d3.min(sportData);
+            var min = d3.min(sportData)-1;
             var max = d3.max(sportData);
-            console.log(min,max)
             
             var resultScale = d3.scaleLinear().domain([min,max]).range([50,0]);
         
@@ -1876,7 +1875,8 @@
         
                 var firstResult = sportData[0];
                 var firstYear = yearData[0];
-                var currentResult = sportData[sportData.length-1]
+                var currentResult = sportData[sportData.length-1];
+                console.log(firstResult,currentResult);
                 
                 var percentChange = ((currentResult-firstResult)/firstResult) * 100;
                 percentChange = Math.abs(Math.round(percentChange*100)/100);
