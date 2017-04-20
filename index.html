@@ -611,15 +611,9 @@
                     .attr("y", 624)
                     .style("anchor", "middle");
 
-                var eighty = svgTrack.append("text").text("80m")
+                var twentyFive = svgTrack.append("text").text("25m")
                     .attr('class', 'axis-label')
-                    .attr("x", xTrackScale(80))
-                    .attr("y", 624)
-                    .style("anchor", "middle");
-
-                var ninety = svgTrack.append("text").text("90m")
-                    .attr('class', 'axis-label')
-                    .attr("x", xTrackScale(90))
+                    .attr("x", xTrackScale(25))
                     .attr("y", 624)
                     .style("anchor", "middle");
 
@@ -629,36 +623,62 @@
                     .attr("y", 624)
                     .style("anchor", "middle");
 
+                var seventyFive = svgTrack.append("text").text("75m")
+                    .attr('class', 'axis-label')
+                    .attr("x", xTrackScale(75))
+                    .attr("y", 624)
+                    .style("anchor", "middle");
+
+                var eighty = svgTrack.append("text").text("80m")
+                    .attr('class', 'axis-label')
+                    .attr("x", xTrackScale(80))
+                    .attr("y", 624)
+                    .style("anchor", "middle")
+                    .style("opacity", 0)
+
+                var ninety = svgTrack.append("text").text("90m")
+                    .attr('class', 'axis-label')
+                    .attr("x", xTrackScale(90))
+                    .attr("y", 624)
+                    .style("anchor", "middle")
+                    .style("opacity", 0)
+
+                twentyFive
+                .transition()
+                    .delay(2000)
+                    .duration(2000)
+                    .attr('x', xTrackScale2(25))
+                    .style("opacity", -5)
+
+                fifty
+                .transition()
+                    .delay(2000)
+                    .duration(2000)
+                    .attr('x', xTrackScale2(50) )
+                    .style("opacity", -5);
+
+                seventyFive
+                .transition()
+                    .delay(2000)
+                    .duration(2000)
+                    .attr('x', xTrackScale2(75))
+                    .style("opacity", -5)
+
                 eighty
                 .transition()
-                    .duration(2000)
-                    .ease(d3.easePoly)
-                    .attr('x', xTrackScale(80) )
-                .transition()
+                    .delay(2000)
                     .duration(2000)
                     .ease(d3.easePoly)
                     .attr('x', xTrackScale2(80) )
+                    .style("opacity", 1)
 
                 ninety
                 .transition()
-                    .duration(2000)
-                    .ease(d3.easePoly)
-                    .attr('x', xTrackScale(90) )
-                .transition()
+                    .delay(2000)
                     .duration(2000)
                     .ease(d3.easePoly)
                     .attr('x', xTrackScale2(90) )
-
-                fifty
-                    .transition()
-                    .duration(2000)
-                    .ease(d3.easePoly)
-                    .attr('x', xTrackScale(50) )
-                .transition()
-                    .duration(2000)
-                    .ease(d3.easePoly)
-                    .attr('x', xTrackScale2(50) )
-                    .style("opacity", -5);
+                    .style("opacity", 1)
                 
                 // Calls function for plotting descriptions
                 if (data == mens100m) { plotHover(data, plottingData, circles, "track", "mens") }
@@ -1312,71 +1332,122 @@
                 // Add x-axis text: distance in meters
                 svgPool.append("text").text("200m")
                     .attr('class', 'axis-label')
-                    .attr("x", xPoolScale(196))
-                    .attr("y", function() {
-                        if (data == mens200mFly) {return 432}
-                        else {return 396}
-                    })
+                    .attr("x", xPoolScale(200))
+                    .attr("y", 432)
+                    .style("anchor", "middle");
+
+                var fifty = svgPool.append("text").text("50m")
+                    .attr('class', 'axis-label')
+                    .attr("x", xPoolScale(50))
+                    .attr("y", 432)
                     .style("anchor", "middle");
 
                 var hundred = svgPool.append("text").text("100m")
                     .attr('class', 'axis-label')
                     .attr("x", xPoolScale(100))
-                    .attr("y", function() {
-                        if (data == mens200mFly) {return 432}
-                        else {return 396}
-                    })
+                    .attr("y", 432)
                     .style("anchor", "middle");
 
                 var oneFifty = svgPool.append("text").text("150m")
                     .attr('class', 'axis-label')
                     .attr("x", xPoolScale(150))
-                    .attr("y", function() {
-                        if (data == mens200mFly) {return 432}
-                        else {return 396}
-                    })
+                    .attr("y", 432)
                     .style("anchor", "middle");
 
                 var oneSeventyFive = svgPool.append("text").text("175m")
                     .attr('class', 'axis-label')
                     .attr("x", xPoolScale(175))
-                    .attr("y", function() {
-                        if (data == mens200mFly) {return 432}
-                        else {return 396}
-                    })
-                    .style("anchor", "middle");
+                    .attr("y", 432)
+                    .style("anchor", "middle")
+                    .style("opacity", 0)
 
+                fifty
+                .transition()
+                    .delay(2000)
+                    .duration(2000)
+                    .attr('x', xPoolScale2(50) )
+                    .style("opacity", -5)
 
                 hundred
                 .transition()
+                    .delay(2000)
                     .duration(2000)
-                    .ease(d3.easePoly)
-                    .attr('x', xPoolScale(100) )
-                .transition()
-                    .duration(2000)
-                    .ease(d3.easePoly)
                     .attr('x', xPoolScale2(100) )
                     .style("opacity", -5)
 
                 oneFifty
                 .transition()
-                    .duration(2000)
-                    .ease(d3.easePoly)
-                    .attr('x', xPoolScale(150) )
-                .transition()
+                    .delay(2000)
                     .duration(2000)
                     .ease(d3.easePoly)
                     .attr('x', xPoolScale2(150) )
 
                 oneSeventyFive
                 .transition()
-                    .duration(2000)
-                    .ease(d3.easePoly)
-                    .attr('x', xPoolScale(175) )
-                .transition()
+                    .delay(2000)
                     .duration(2000)
                     .ease(d3.easePoly)
                     .attr('x', xPoolScale2(175) )
+                    .style("opacity", 1)// Add x-axis text: distance in meters
+                svgPool.append("text").text("200m")
+                    .attr('class', 'axis-label')
+                    .attr("x", xPoolScale(200))
+                    .attr("y", 432)
+                    .style("anchor", "middle");
+
+                var fifty = svgPool.append("text").text("50m")
+                    .attr('class', 'axis-label')
+                    .attr("x", xPoolScale(50))
+                    .attr("y", 432)
+                    .style("anchor", "middle");
+
+                var hundred = svgPool.append("text").text("100m")
+                    .attr('class', 'axis-label')
+                    .attr("x", xPoolScale(100))
+                    .attr("y", 432)
+                    .style("anchor", "middle");
+
+                var oneFifty = svgPool.append("text").text("150m")
+                    .attr('class', 'axis-label')
+                    .attr("x", xPoolScale(150))
+                    .attr("y", 432)
+                    .style("anchor", "middle");
+
+                var oneSeventyFive = svgPool.append("text").text("175m")
+                    .attr('class', 'axis-label')
+                    .attr("x", xPoolScale(175))
+                    .attr("y", 432)
+                    .style("anchor", "middle")
+                    .style("opacity", 0)
+
+                fifty
+                .transition()
+                    .delay(2000)
+                    .duration(2000)
+                    .attr('x', xPoolScale2(50) )
+                    .style("opacity", -5)
+
+                hundred
+                .transition()
+                    .delay(2000)
+                    .duration(2000)
+                    .attr('x', xPoolScale2(100) )
+                    .style("opacity", -5)
+
+                oneFifty
+                .transition()
+                    .delay(2000)
+                    .duration(2000)
+                    .ease(d3.easePoly)
+                    .attr('x', xPoolScale2(150) )
+
+                oneSeventyFive
+                .transition()
+                    .delay(2000)
+                    .duration(2000)
+                    .ease(d3.easePoly)
+                    .attr('x', xPoolScale2(175) )
+                    .style("opacity", 1)
 
                 // Calls function for hovering
                 if (data == mens200mFly) { plotHover(data, plottingData, circles, "pool", "mens") }
