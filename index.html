@@ -2025,7 +2025,7 @@
                         return(180-resultScale(sportData[ind]))
                         }
                     })
-                .transition().duration(1000)
+                .transition().duration(500)
                 .attr("y", function(d,i){
                     if (yearData.includes(d)){
                         var ind = yearData.indexOf(d);
@@ -2061,7 +2061,7 @@
                 });
                 
                 // Enlarge svg
-                svgGroup.transition().duration(1000).attr("height", 200);
+                svgGroup.transition().duration(500).attr("height", 200);
                 
                 svgGroup.select(".back").transition().attr("height", 160).style("opacity", 1);
                 // Change text
