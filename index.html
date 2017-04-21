@@ -1543,65 +1543,7 @@
                     .ease(d3.easePoly)
                     .attr('x', xPoolScale2(175) )
                     .style("opacity", 1)// Add x-axis text: distance in meters
-                svgPool.append("text").text("200m")
-                    .attr('class', 'axis-label')
-                    .attr("x", xPoolScale(200))
-                    .attr("y", 432)
-                    .style("anchor", "middle");
-
-                var fifty = svgPool.append("text").text("50m")
-                    .attr('class', 'axis-label')
-                    .attr("x", xPoolScale(50))
-                    .attr("y", 432)
-                    .style("anchor", "middle");
-
-                var hundred = svgPool.append("text").text("100m")
-                    .attr('class', 'axis-label')
-                    .attr("x", xPoolScale(100))
-                    .attr("y", 432)
-                    .style("anchor", "middle");
-
-                var oneFifty = svgPool.append("text").text("150m")
-                    .attr('class', 'axis-label')
-                    .attr("x", xPoolScale(150))
-                    .attr("y", 432)
-                    .style("anchor", "middle");
-
-                var oneSeventyFive = svgPool.append("text").text("175m")
-                    .attr('class', 'axis-label')
-                    .attr("x", xPoolScale(175))
-                    .attr("y", 432)
-                    .style("anchor", "middle")
-                    .style("opacity", 0)
-
-                fifty
-                .transition()
-                    .delay(2000)
-                    .duration(2000)
-                    .attr('x', xPoolScale2(50) )
-                    .style("opacity", -5)
-
-                hundred
-                .transition()
-                    .delay(2000)
-                    .duration(2000)
-                    .attr('x', xPoolScale2(100) )
-                    .style("opacity", -5)
-
-                oneFifty
-                .transition()
-                    .delay(2000)
-                    .duration(2000)
-                    .ease(d3.easePoly)
-                    .attr('x', xPoolScale2(150) )
-
-                oneSeventyFive
-                .transition()
-                    .delay(2000)
-                    .duration(2000)
-                    .ease(d3.easePoly)
-                    .attr('x', xPoolScale2(175) )
-                    .style("opacity", 1)
+               
 
                 // Calls function for hovering
                 if (data == mens200mFly) { plotHover(data, plottingData, circles, "pool", "mens") }
