@@ -1768,9 +1768,16 @@
                         else { return 307.74; }
                     })
                     .attr("y", 45);
+                
+                svgDiscus.selectAll(".subtitle").remove();
 
                 svgDiscus.append('foreignObject')
-                    .text("The discus throw at the Summer Olympics is one of four track and field throwing events held at the multi-sport event. The men's discus throw has been present on the Olympic athletics programme since 1896 (one of two throws events at the first Olympics, alongside the shot put). The women's event was first contested at the 1928 Olympics, being one of the five athletics events in the inaugural Olympic women's programme.")
+                    .text(function() {
+                    if (data == mensDiscus){ 
+                        return "What would happen if all Discus Throw Olympians from 1896 to 2016 competed against each other? The men’s discus has been part of every modern Olympics. Athletes throw a metal disc weighing 2kg while remaining inside a 2.5-metre diameter circle. The current record is 69.89 m set by Virgilijus Alekna in 2004.";}
+                    else {
+                        return "What would happen if all Discus Throw Olympians from 1896 to 2016 competed against each other? The women’s discus has been part of every modern Olympics. Athletes throw a metal disc weighing 1kg, as far as possible while remaining inside a 2.5-metre diameter circle. The current record is 72.30 m set by Martina Hellmann in 1988.";
+                    }})
                     .attr('class', 'subtitle')
                     .attr("x", 160)
                     .attr("y", 70);
