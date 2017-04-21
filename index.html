@@ -1010,6 +1010,14 @@
                                 return 876;
                             }
                         }
+                    
+                        else {
+                            if (counts[d.country][0] <= 7) {
+                                return 804 ;
+                            } else {
+                                return 876 ;
+                            }
+                        }
                                       
                     })
                     .attr('y', function(d) {
@@ -1036,6 +1044,17 @@
                             }
                             return 258+increment*24-48;
                         }
+                    
+                        else {
+                            if (counts[d.country][0] <= 7) {
+                                increment = counts[d.country][0];
+                            } else {
+                                increment = counts[d.country][0] - 8;
+                            }
+                            return 258+increment*24 + 20;
+                            
+                        }
+                    
                         
                         
                     })
@@ -1069,6 +1088,9 @@
                         } else if (data == mens200mFly || data == womens200mFly) {
                             return 184;
                         }
+                        else{
+                            return 240;
+                        }
                     })
                     .text('Interact')
                     .style("font-size", 18)
@@ -1083,6 +1105,9 @@
                             return 215;
                         } else if (data == mens200mFly || data == womens200mFly) {
                             return 167;
+                        }
+                        else{
+                            return 220;
                         }
                     })
                 .attr("width", "30");
@@ -1114,6 +1139,16 @@
                                 return 876 + 24;
                             }
                         }
+                    
+                        else {
+                            if (counts[d.country][0] <= 7) {
+                                return 804 + 24;
+                            } else {
+                                return 876 + 24;
+                            }
+                        }
+                            
+                        
                          
                     })
                     .attr('y', function(d) {
@@ -1139,6 +1174,15 @@
                                 increment = counts[d.country][0] - 5;
                             }
                             return 258+increment*24 + 14 - 48;
+                        }
+                        else{
+                            if (counts[d.country][0] <= 7) {
+                                increment = counts[d.country][0];
+                            } else {
+                                increment = counts[d.country][0] - 8;
+                            }
+                            return 258+increment*24 + 14 + 20;
+                            
                         }
 
                     })
@@ -1176,7 +1220,7 @@
                         if (data == mens100m || data == womens100m) {return 540-30;} 
                         else if (data == mens200mFly) { return 430;}
                         else if (data == womens200mFly){ return 360 }
-                        else {return 430}
+                        else {return 530}
                            
                        })
                 
@@ -1191,7 +1235,7 @@
                         if (data == mens100m || data == womens100m) {return 540-30;} 
                         else if (data == mens200mFly) { return 430;}
                         else if (data == womens200mFly){ return 360 }
-                        else {return 430}
+                        else {return 530}
                            
                        })                        
                     .text('Silver')
@@ -1204,7 +1248,7 @@
                         if (data == mens100m || data == womens100m) {return 540-30;} 
                         else if (data == mens200mFly) { return 430;}
                         else if (data == womens200mFly){ return 360 }
-                        else {return 430}
+                        else {return 530}
                            
                        })                        
                     .text('Bronze')
@@ -1218,7 +1262,7 @@
                         if (data == mens100m || data == womens100m){return 540}
                         else if (data == mens200mFly) {return 450;}
                         else if (data == womens200mFly) {return 380;}
-                        else {return 450}
+                        else {return 550}
                     })
                     .attr('r', 8)
                     .style('fill', 'gold')
@@ -1240,7 +1284,7 @@
                         if (data == mens100m || data == womens100m){return 540}
                         else if (data == mens200mFly) {return 450;}
                         else if (data == womens200mFly) {return 380;}
-                        else {return 450}
+                        else {return 550}
                     })
                     .attr("r", 8)
                     .style("fill", "grey")
@@ -1262,7 +1306,7 @@
                         if (data == mens100m || data == womens100m){return 540}
                         else if (data == mens200mFly) {return 450;}
                         else if (data == womens200mFly) {return 380;}
-                        else {return 450}
+                        else {return 550}
                     })
                     .attr("r", 8)
                     .style("fill", "orange")
@@ -1877,6 +1921,9 @@
 
                 if (data == mensDiscus) { plotHover(data, plottingData, secondCircles, "discus", "mens") }
                 else { plotHover(data, plottingData, secondCircles, "discus", "womens") }
+                
+                // Calls function for filtering by country
+                filterCountries(data, plottingData, secondCircles);
                 
                 // Calls function for filtering by medal
                 filterMedals(data, plottingData, secondCircles, 'discus');
