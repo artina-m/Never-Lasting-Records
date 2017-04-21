@@ -500,6 +500,7 @@
                     .attr("width", 640)
                     .attr("height", function() {
                         return 14;
+
                     })
                     .attr("x", 120)
                     .attr("y", function(d) {
@@ -1231,7 +1232,6 @@
                     .style("font-weight", 200);
                 
                 
-                
                 // Create medals
                 var goldMedal = svgGroupSelect.append('circle')
                     .attr('cx', 814)
@@ -1423,8 +1423,7 @@
                     .duration(2000)
                     .ease(d3.easePoly)
                     .attr('cx', function(d,i) { return xPoolScale(d.end) })
-                // .transition()
-                    // .duration(1000)
+
                 .transition()
                     .duration(2000)
                     .ease(d3.easePoly)
@@ -2180,7 +2179,7 @@
             }
                     
     </script>
-    
+
     </div>
     <div class = "bottomHeader">
         <br><br><br>
