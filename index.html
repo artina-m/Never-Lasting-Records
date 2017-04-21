@@ -864,34 +864,6 @@
                         }); 
                 } 
                 
-                // Add delay to the winner description
-//                rects.transition()
-//                    .delay(2000)
-//                    .duration(0)
-//                    .style('display', function(d) {
-//                        var time = d.result.toFixed(2);
-//                        if (time == 9.63 || time == 10.71 || time == 112.03 || time == 124.06 || d.athlete == 'Lars RIEDEL' || d.athlete == 'Evelin') { return 'initial'; }
-//                        else { return 'none'; }
-//                    });
-//                
-//                flags.transition()
-//                    .delay(2000)
-//                    .duration(0)
-//                    .style('display', function(d) {
-//                        var time = d.result.toFixed(2);
-//                        if (time == 9.63 || time == 10.71 || time == 112.03 || time == 124.06 || d.athlete == 'Lars RIEDEL' || d.athlete == 'Evelin') { return 'initial'; }
-//                        else { return 'none'; }
-//                    });
-//                
-//                texts.transition()
-//                    .delay(2000)
-//                    .duration(0)
-//                    .style('display', function(d) {
-//                        var time = d.result.toFixed(2);
-//                        if (time == 9.63 || time == 10.71 || time == 112.03 || time == 124.06 || d.athlete == 'Lars RIEDEL' || d.athlete == 'Evelin') { return 'initial'; }
-//                        else { return 'none'; }
-//                    });
-                
                 objects
                     .on('mouseenter', function(d) {
                     
@@ -967,6 +939,7 @@
         </script>
         
         <script>
+            
             // Legends, keys, and filters
             
             
@@ -1056,7 +1029,6 @@
                         }
                     
                         
-                        
                     })
                     .attr('width', '18px')
                     .on('mouseenter', function(d) {
@@ -1097,7 +1069,6 @@
                     .style("font-weight", 200);
                 
 
-            
                 svgGroup.append("image").attr("xlink:href", "img/cursor.svg")
                 .attr("x", "800")
                 .attr('y', function() {
@@ -1968,7 +1939,7 @@
         for (y = 1896; y < 2017; y = y + 8){
             graphAxis.append("text").text(y)
             .attr("class", "graphAxis")
-            .attr("x", yearScale(y)).attr("y", 30)
+            .attr("x", yearScale(y) - 10).attr("y", 30)
             .style("text-anchor", "right")
             .style("font-size", 12)
             .attr("fill", "grey") 
@@ -2121,10 +2092,13 @@
                         var top = (resultScale(sportData[ind]))
                         
                         svgGroup.append("text").text(d)
-                            .attr("class", "hoverYear")
+                            .attr('class', 'hoverYear')
                             .attr("x", yearScale(d) -10)
                             .attr("y", 200)
-                            .attr("fill", "black");
+                            .attr("fill", "grey")
+                            .style("font-size", 12)
+                            .style("font-weight", 200)
+
                     }
                     
                 })
