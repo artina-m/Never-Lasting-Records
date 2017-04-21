@@ -2195,10 +2195,30 @@
                 .attr("y", "20")
                 .attr("width", "350");
             
+            var footerSVG = d3.select('.bottomHeader').append('svg')
+                .attr('width', 960)
+                .attr('height', 60);
+            
+            footerSVG.append('rect')
+                .attr('x', 0)
+                .attr('y', 0)
+                .attr('width', 960)
+                .attr('height', '60px')
+                .style('fill', 'lightgray')
+                .style('opacity', 0.35)
+                .style('stroke', 'white')
+                .style('stroke-weight', 0);
+            
+            footerSVG.append('text')
+                .attr('class', 'axis-label')
+                .attr('x', 450)
+                .attr('y', 32)
+                .attr('text-anchor', 'middle')
+                .text('Made with <3 by Artina, Amber, and Eileen')
+                
+                .style('fill', 'gray');
         </script>
-    
     </div>
-        
 </body>
 
 </html>
