@@ -751,7 +751,6 @@
                     .attr('x', function(d) {return xScale2(d.end)-75})
                     .attr('y', function(d) {
                         if (event == 'track') {
-                            console.log('Entering track rects');
                             // If circles on upper half of graph
                             if (d.year >= 1968) {
                                 return yScale(d.order)+15+120;
@@ -1357,7 +1356,10 @@
 
                 svgPoolGroup.append("text").text("Finish")
                     .attr('class', 'finish')
-                    .attr("x", -288)
+                    .attr("x", function() {
+                        if (data==mens200mFly) {return -288;}
+                        else {return -288+24;}
+                    })
                     .attr("y", 744)
                     .attr("transform", "rotate(270)")
                     .style("text-anchor", "middle");
@@ -1422,35 +1424,55 @@
                     }});
                 
                 // Add x-axis text: distance in meters
-                svgPool.append("text").text("200m")
-                    .attr('class', 'axis-label')
+                svgPool
+                    .append('text')
+                    .text(function() {
+                        d3.selectAll('.x-axis').style('display','none');
+                        return '200m';
+                    })
+                    .attr('class', 'axis-label x-axis')
                     .attr("x", xPoolScale(200))
-                    .attr("y", 432)
+                    .attr("y", function() {
+                        if (data == mens200mFly) {return 432}
+                        else {return 432-36}
+                    })
                     .style("anchor", "middle");
 
                 var fifty = svgPool.append("text").text("50m")
-                    .attr('class', 'axis-label')
+                    .attr('class', 'axis-label x-axis')
                     .attr("x", xPoolScale(50))
-                    .attr("y", 432)
+                    .attr("y", function() {
+                        if (data == mens200mFly) {return 432}
+                        else {return 432-36}
+                    })
                     .style("anchor", "middle");
 
                 var hundred = svgPool.append("text").text("100m")
-                    .attr('class', 'axis-label')
+                    .attr('class', 'axis-label x-axis')
                     .attr("x", xPoolScale(100))
-                    .attr("y", 432)
+                    .attr("y", function() {
+                        if (data == mens200mFly) {return 432}
+                        else {return 432-36}
+                    })
                     .style("anchor", "middle");
 
                 var oneFifty = svgPool.append("text").text("150m")
-                    .attr('class', 'axis-label')
+                    .attr('class', 'axis-label x-axis')
                     .attr("x", xPoolScale(150))
-                    .attr("y", 432)
+                    .attr("y", function() {
+                        if (data == mens200mFly) {return 432}
+                        else {return 432-36}
+                    })
                     .style("anchor", "middle");
 
                 var oneSeventyFive = svgPool.append("text").text("175m")
-                    .attr('class', 'axis-label')
+                    .attr('class', 'axis-label x-axis')
                     .attr("x", xPoolScale(175))
                     .attr("y", 432)
-                    .style("anchor", "middle")
+                    .attr("y", function() {
+                        if (data == mens200mFly) {return 432}
+                        else {return 432-36}
+                    })
                     .style("opacity", 0)
 
                 fifty
@@ -1559,8 +1581,8 @@
             var xDiscusScale = d3.scaleLinear().domain([0,70]).range([120,720]);
             var xDiscusScale2 = d3.scaleLinear().domain([25,70]).range([120,720]); // zoom into points
 
-            var yDiscusScaleMen = d3.scaleLinear().domain([0,20]).range([490,90]);
-            var yDiscusScaleWomen = d3.scaleLinear().domain([0,18]).range([490,90]);
+            var yDiscusScaleMen = d3.scaleLinear().domain([0,20]).range([408,90]);
+            var yDiscusScaleWomen = d3.scaleLinear().domain([0,18]).range([384,90]);
 
             // Create SVG
             var svgDiscus = d3.select("#discusViz")
@@ -1782,18 +1804,21 @@
                     
                 // Add x-axis text: distance in meters
                 svgDiscus.append("text").text("70m")
+                    .attr('class', 'axis-label')
                     .attr("x", xDiscusScale(68))
-                    .attr("y", 500+120)
+                    .attr("y", 420+120)
                     .style("anchor", "middle");
 
                 var fifty = svgDiscus.append("text").text("50m")
+                    .attr('class', 'axis-label')
                     .attr("x", xDiscusScale(50))
-                    .attr("y", 500+120)
+                    .attr("y", 420+120)
                     .style("anchor", "middle");
 
                 var twentyFive = svgDiscus.append("text").text("25m")
+                    .attr('class', 'axis-label')
                     .attr("x", xDiscusScale(25))
-                    .attr("y", 500+120)
+                    .attr("y", 420+120)
                     .style("anchor", "middle");
 
                 twentyFive
@@ -1938,7 +1963,7 @@
     
     <br><br><br>
     <h3>Faster and Stronger</h3>
-    <p class = 'subtitle'>See how Olympians continue to push the limits of atheltic performance</p>
+    <p class = 'subtitle'>See how Olympians continue to push the limits of athletic performance</p>
     
     <div class = "diagrams">
 
