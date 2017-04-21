@@ -1011,8 +1011,14 @@
                             }
                         }
                     
-                        else {
-                            if (counts[d.country][0] <= 7) {
+                        else if (data == mensDiscus) {
+                            if (counts[d.country][0] <= 8) {
+                                return 804 ;
+                            } else {
+                                return 876 ;
+                            }
+                        } else {
+                            if (counts[d.country][0] <= 10) {
                                 return 804 ;
                             } else {
                                 return 876 ;
@@ -1044,15 +1050,20 @@
                             }
                             return 258+increment*24-48;
                         }
-                    
-                        else {
-                            if (counts[d.country][0] <= 7) {
+                        else if (data == mensDiscus) {
+                            if (counts[d.country][0] <= 8) {
                                 increment = counts[d.country][0];
                             } else {
-                                increment = counts[d.country][0] - 8;
+                                increment = counts[d.country][0] - 9;
                             }
                             return 258+increment*24 + 20;
-                            
+                        } else {
+                            if (counts[d.country][0] <= 10) {
+                                increment = counts[d.country][0];
+                            } else {
+                                increment = counts[d.country][0] - 11;
+                            }
+                            return 258+increment*24 + 20;
                         }
                     
                         
@@ -1139,9 +1150,14 @@
                                 return 876 + 24;
                             }
                         }
-                    
-                        else {
-                            if (counts[d.country][0] <= 7) {
+                        else if (data == mensDiscus) {
+                            if (counts[d.country][0] <= 8) {
+                                return 804 + 24;
+                            } else {
+                                return 876 + 24;
+                            }
+                        } else {
+                            if (counts[d.country][0] <= 10) {
                                 return 804 + 24;
                             } else {
                                 return 876 + 24;
@@ -1175,16 +1191,21 @@
                             }
                             return 258+increment*24 + 14 - 48;
                         }
-                        else{
-                            if (counts[d.country][0] <= 7) {
+                        else if (data == mensDiscus) {
+                            if (counts[d.country][0] <= 8) {
                                 increment = counts[d.country][0];
                             } else {
-                                increment = counts[d.country][0] - 8;
+                                increment = counts[d.country][0] - 9;
                             }
-                            return 258+increment*24 + 14 + 20;
-                            
+                            return 258+increment*24 + 34;
+                        } else {
+                            if (counts[d.country][0] <= 10) {
+                                increment = counts[d.country][0];
+                            } else {
+                                increment = counts[d.country][0] - 11;
+                            }
+                            return 258+increment*24 + 34;
                         }
-
                     })
 
                     .text(function(d) {
@@ -1217,11 +1238,11 @@
                     .attr('class', 'axis-title')
                     .attr('x', 804)
                     .attr('y', function() {
-                        if (data == mens100m || data == womens100m) {return 540-30;} 
-                        else if (data == mens200mFly) { return 430;}
-                        else if (data == womens200mFly){ return 360 }
+                        if (data == mens100m || data == womens100m) { return 540-30; } 
+                        else if (data == mens200mFly) { return 430; }
+                        else if (data == womens200mFly){ return 360; }
+                        else if (data == womensDiscus) { return 588; }
                         else {return 530}
-                           
                        })
                 
                         
@@ -1232,9 +1253,10 @@
                     .attr('class', 'axis-title')
                     .attr('x', 848)
                     .attr('y', function() {
-                        if (data == mens100m || data == womens100m) {return 540-30;} 
-                        else if (data == mens200mFly) { return 430;}
-                        else if (data == womens200mFly){ return 360 }
+                        if (data == mens100m || data == womens100m) { return 540-30; } 
+                        else if (data == mens200mFly) { return 430; }
+                        else if (data == womens200mFly){ return 360; }
+                        else if (data == womensDiscus) { return 588; }
                         else {return 530}
                            
                        })                        
@@ -1245,9 +1267,10 @@
                     .attr('class', 'axis-title')
                     .attr('x', 890)
                     .attr('y', function() {
-                        if (data == mens100m || data == womens100m) {return 540-30;} 
+                        if (data == mens100m || data == womens100m) { return 540-30; } 
                         else if (data == mens200mFly) { return 430;}
-                        else if (data == womens200mFly){ return 360 }
+                        else if (data == womens200mFly){ return 360; }
+                        else if (data == womensDiscus) { return 588; }
                         else {return 530}
                            
                        })                        
@@ -1258,10 +1281,12 @@
                 
                 // Create medals
                 var goldMedal = svgGroupSelect.append('circle')
-                    .attr('cx', 820).attr("cy", function(d){
+                    .attr('cx', 814)
+                    .attr("cy", function(d){
                         if (data == mens100m || data == womens100m){return 540}
                         else if (data == mens200mFly) {return 450;}
                         else if (data == womens200mFly) {return 380;}
+                        else if (data == womensDiscus) { return 612; }
                         else {return 550}
                     })
                     .attr('r', 8)
@@ -1280,10 +1305,11 @@
                     });
                 
                 var silverMedal = svgGroupSelect.append("circle")
-                    .attr('cx', 865).attr("cy", function(d){
+                    .attr('cx', 862).attr("cy", function(d){
                         if (data == mens100m || data == womens100m){return 540}
                         else if (data == mens200mFly) {return 450;}
                         else if (data == womens200mFly) {return 380;}
+                        else if (data == womensDiscus) { return 612; }
                         else {return 550}
                     })
                     .attr("r", 8)
@@ -1306,6 +1332,7 @@
                         if (data == mens100m || data == womens100m){return 540}
                         else if (data == mens200mFly) {return 450;}
                         else if (data == womens200mFly) {return 380;}
+                        else if (data == womensDiscus) { return 612; }
                         else {return 550}
                     })
                     .attr("r", 8)
