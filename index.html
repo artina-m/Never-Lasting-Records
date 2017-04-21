@@ -1704,17 +1704,17 @@
                 
                 
                 // Finish Line
+                
                 svgDiscusGroup.append("rect")
                     .attr("x", xDiscusScale(69.4))
                     .attr("y", function() {
-                        if (data == mensDiscus) { return yDiscusScale(13.4) }
-                        else { return yDiscusScale(11.95) }
+                        if (data == mensDiscus) { return yDiscusScale(12) }
+                        else { return yDiscusScale(10.15) }
                     })
                     .attr('width', 1.5)
                     .attr('height', function() {
-                        if (data == mensDiscus) { return 374; }
-                        else { return 369; }
-                    })
+                        if (data == mensDiscus) { return 300; }
+                        else { return 275; }})
                     .style('fill', 'lightcoral')
                     .style("stroke", "grey")
                     .style("stroke-width", 0);
