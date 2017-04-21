@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>INFO 3300 Project 2 </title>
+    <title>Never Lasting Records</title>
     <meta name="description" content="INFO 3300 Project 2">
     <meta charset="utf-8">
     
@@ -760,6 +760,7 @@
                                 rects.attr('y', function (d) {return yScale(d.order)-70-15-72});
                             }
                         }
+                     
                     })
                     .attr('rx', '6px')
                     .attr('ry', '6px')
@@ -938,14 +939,14 @@
                         else {
                             // If circles on upper half of graph
                             if (d.year >= 1976) {
-                                rects.attr('y', function(d) {return yScale(d.order)+15-72});
-                                flags.attr('y', function(d) {return yScale(d.order)+25-72});
-                                texts.attr('y', function(d) {return yScale(d.order)+35-72});
+                                rects.attr('y', function(d) {return yScale(d.order)+15+120});
+                                flags.attr('y', function(d) {return yScale(d.order)+25+120});
+                                texts.attr('y', function(d) {return yScale(d.order)+35+120});
                             } else { 
                                 // if (d.year <= 1984)
-                                rects.attr('y', function (d) {return yScale(d.order)-70-15});
-                                flags.attr('y', function(d) {return yScale(d.order)-70-5});
-                                texts.attr('y', function(d) {return yScale(d.order)-70+5});
+                                rects.attr('y', function (d) {return yScale(d.order)-70+100});
+                                flags.attr('y', function(d) {return yScale(d.order)-70+110});
+                                texts.attr('y', function(d) {return yScale(d.order)-70+120});
                             }
 
                             d3.select('#'+id).style('display', 'inline');
@@ -1829,7 +1830,7 @@
                     if (data == mensDiscus){ 
                         return "What would happen if all Discus Throw Olympians from 1896 to 2016 competed against each other? The men’s discus has been part of every modern Olympics. Athletes throw a metal disc weighing 2kg while remaining inside a 2.5-metre diameter circle. The current record is 69.89 m set by Virgilijus Alekna in 2004.";}
                     else {
-                        return "What would happen if all Discus Throw Olympians from 1896 to 2016 competed against each other? The women’s discus has been part of every modern Olympics. Athletes throw a metal disc weighing 1kg, as far as possible while remaining inside a 2.5-metre diameter circle. The current record is 72.30 m set by Martina Hellmann in 1988.";
+                        return "What would happen if all Discus Throw Olympians from 1928 to 2016 competed against each other? The women’s discus has been part of every modern Olympics. Athletes throw a metal disc weighing 1kg, as far as possible while remaining inside a 2.5-metre diameter circle. The current record is 72.30 m set by Martina Hellmann in 1988.";
                     }})
                     .attr('class', 'subtitle')
                     .attr("x", 160)
