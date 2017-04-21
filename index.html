@@ -500,14 +500,11 @@
                     .attr("width", 640)
                     .attr("height", function() {
                         return 14;
-                        // if (data == mens100m) { return 14 }
-                        // else { return 17 }
+
                     })
                     .attr("x", 120)
                     .attr("y", function(d) {
                         return yScale(d.order) - 8 + 120;
-                        // if (data == mens100m) { return yScale(d.order) - 7 + 120 }
-                        // else { return yScale(d.order) - 17/2 + 120 }
                     })
                     .style("fill", "lightgray")
                     .style("opacity", .05);
@@ -570,9 +567,7 @@
                     .attr("x", 72)
                     .attr("y", function(d) {return yScale(d.order) + 120})
                     .style("alignment-baseline", "middle");
-                    // .style("font-size", 12)
-                    // .style("font-weight", 200)
-                    // .style("fill", "grey");
+
 
                 // Add titles
                 svgTrack.append("text").text(function() {
@@ -585,8 +580,7 @@
                         else { return 348.6; }
                     })
                     .attr("y", 45);
-                    // .style("font-size", 25)
-                    // .style("font-weight", 600);
+
                 
                 svgTrack.selectAll(".subtitle").remove();
                 
@@ -1249,7 +1243,6 @@
                     .style("font-weight", 200);
                 
                 
-                
                 // Create medals
                 var goldMedal = svgGroupSelect.append('circle')
                     .attr('cx', 814)
@@ -1331,8 +1324,7 @@
 
             var yPoolScaleMen = d3.scaleLinear().domain([0,25]).range([490,90]);
             var yPoolScaleWomen = d3.scaleLinear().domain([0,21]).range([450,100]);
-            // var yPoolScaleMen = d3.scaleLinear().domain([0,16]).range([490,90]);
-            // var yPoolScaleWomen = d3.scaleLinear().domain([0,13]).range([490,90]);
+
 
             // Create SVG
             var svgPool = d3.select("#poolViz")
@@ -1391,14 +1383,12 @@
                     .attr('width', 640)
                     .attr('height', function() {
                         return 14;
-                        // if (data == mens200mFly) { return 24 }
-                        // else { return 30 }
+
                     })
                     .attr('x', 120)
                     .attr('y', function(d) {
                         return yPoolScale(d.order) - 8 - 72;
-                        // if (data == mens200mFly) { return yPoolScale(d.order) - 12 }
-                        // else { return yPoolScale(d.order) - 15 }
+
                     })
                     .style("fill", 'lightGrey')
                     .style("opacity", .05);
@@ -1447,8 +1437,7 @@
                     .duration(2000)
                     .ease(d3.easePoly)
                     .attr('cx', function(d,i) { return xPoolScale(d.end) })
-                // .transition()
-                    // .duration(1000)
+
                 .transition()
                     .duration(2000)
                     .ease(d3.easePoly)
@@ -2219,8 +2208,6 @@
                     
     </script>
         
-
-    
     </div>
     <div class = "bottomHeader">
         <br><br><br>
