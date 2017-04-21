@@ -447,6 +447,7 @@
             .append("svg")
             .attr("width", width)
             .attr("height", 650);
+            
 
             var svgTrackGroup = svgTrack.append("g");
             
@@ -743,7 +744,6 @@
                     .attr('x', function(d) {return xScale2(d.end)-75})
                     .attr('y', function(d) {
                         if (event == 'track') {
-                            console.log('Entering track rects');
                             // If circles on upper half of graph
                             if (d.year >= 1968) {
                                 return yScale(d.order)+15+120;
@@ -895,10 +895,7 @@
                     .on('mouseenter', function(d) {
                     
                         var id = d.medal+d.year+d.game;
-                        // console.log('click');
-                        // console.log('#hover'+id);
-                        // console.log(d3.select('#hover'+id));
-                    
+
                         // If game is track
                         if (event == 'track') {
                             // If circles on upper half of graph
@@ -986,8 +983,6 @@
                         if (d.country in counts == false) {
                             counts[d.country] = [count, 1];
                             count++;
-                            // console.log(counts);
-                            // console.log('Entering');
                             return 'img/flags/'+d.country+'.svg';
                         } else {
                             counts[d.country][1] ++;
@@ -1066,16 +1061,31 @@
                 var labelCountries = svgGroup.append('text');
                 labelCountries
                     .attr('class', 'axis-title')
-                    .attr('x', 804)
+                    .attr('x', 840)
                     .attr('y', function() {
                         if (data == mens100m || data == womens100m) {
-                            return 234;
+                            return 233;
                         } else if (data == mens200mFly || data == womens200mFly) {
-                            return 186;
+                            return 184;
                         }
-                        
                     })
-                    .text('Country:');
+                    .text('Interact')
+                    .style("font-size", 18)
+                    .style("font-weight", 200);
+                
+
+            
+                svgGroup.append("image").attr("xlink:href", "img/cursor.svg")
+                .attr("x", "800")
+                .attr('y', function() {
+                        if (data == mens100m || data == womens100m) {
+                            return 215;
+                        } else if (data == mens200mFly || data == womens200mFly) {
+                            return 167;
+                        }
+                    })
+                .attr("width", "30");
+            
                 
                 var labels = svgGroup.selectAll('g').data(plottingData).enter().append('text');
                 var countryLabels = [];
@@ -1170,7 +1180,36 @@
                        })
                 
                         
-                    .text('Medals:');
+                    .text('Gold')
+                    .style("font-weight", 200);
+                
+                svgGroupSelect.append('text')
+                    .attr('class', 'axis-title')
+                    .attr('x', 848)
+                    .attr('y', function() {
+                        if (data == mens100m || data == womens100m) {return 540-30;} 
+                        else if (data == mens200mFly) { return 430;}
+                        else if (data == womens200mFly){ return 360 }
+                        else {return 430}
+                           
+                       })                        
+                    .text('Silver')
+                    .style("font-weight", 200);
+                
+                svgGroupSelect.append('text')
+                    .attr('class', 'axis-title')
+                    .attr('x', 890)
+                    .attr('y', function() {
+                        if (data == mens100m || data == womens100m) {return 540-30;} 
+                        else if (data == mens200mFly) { return 430;}
+                        else if (data == womens200mFly){ return 360 }
+                        else {return 430}
+                           
+                       })                        
+                    .text('Bronze')
+                    .style("font-weight", 200);
+                
+                
                 
                 // Create medals
                 var goldMedal = svgGroupSelect.append('circle')
@@ -1318,7 +1357,7 @@
                         // if (data == mens200mFly) { return yPoolScale(d.order) - 12 }
                         // else { return yPoolScale(d.order) - 15 }
                     })
-                    .style("fill", 'lightblue')
+                    .style("fill", 'lightGrey')
                     .style("opacity", .05);
                 
                 // Finish Line
@@ -1614,10 +1653,9 @@
                         if (data == mens100m) { return 382 }
                         else { return 375 }
                     })
-                    .style("fill", 'lightcoral')
-                    .style("stroke", "grey")
-                    .style("stroke-width", 0);
-
+                    .style("fill", 'lightGrey')
+                    .style("opacity", 0.05);
+                
                 svgTrackGroup.append("text").text("Finish")
                     .attr('class', 'finish')
                     .attr("x", -408)
@@ -1823,7 +1861,8 @@
 
     </p>
     </div>
-    <br> <br>
+    
+    
     
     <div class='br'></div>
     
@@ -2104,6 +2143,8 @@
             }
                     
     </script>
+        
+
     
     </div>
     <div class = "bottomHeader">
