@@ -12,14 +12,6 @@
     
     <link rel = "stylesheet" type="text/css" href = "style.css">
     
-    <!-- Font -->
-        <!--    extra-light 200
-                light 300
-                regular 400
-                semi-bold 600
-                bold 700
-                extra-bold 800
-                black 900-->
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 </head>
 
@@ -37,7 +29,7 @@
     </div>
     
     <h1>Never-Lasting Records</h1>
-    <h2>An interactive visualization on Olympic athletes continue to break records</h2>
+    <h2>An interactive visualization on how Olympic athletes continue to break records</h2>
     
     <div class='br'></div>
         
@@ -60,14 +52,14 @@
     <p>     
         <script>
             // Olympic Games of interest
-            var mens100m  = {}; // result (time), athlete, country, speed
+            var mens100m  = {}; 
             var womens100m  = {};
             var mens200mFly = {}; 
             var womens200mFly = {};
             var mensDiscus = {};
             var womensDiscus = {};
             
-            // Olympic Sports of interest
+            // Olympic Sports of interest for the bar charts
             var longJumpM = {};     // Long Jump
             var longJumpW = {};
             var hammerM = {};       // Hammer Throw
@@ -1825,7 +1817,6 @@
                 filterMedals(data, plottingData, secondCircles, 'discus');
                 
 
-
             }
 
         </script>
@@ -1833,14 +1824,15 @@
     </p>
     </div>
     <br> <br>
-     <div class='br'></div>
+    
+    <div class='br'></div>
     
     
     <h3>Faster and Stronger</h3>
+    
     <p class = 'subtitle'>See how Olympians continue to push the limits of atheltic performance</p>
     
     <div class = "diagrams">
-
         
     <script>
         
@@ -1926,11 +1918,9 @@
                 
                 else { sportData.push(Number(data[year].result))}
                 
-                
                 yearData.push(Number(year));
                 
             }
-            
 
             var min = d3.min(sportData)-1;
             var max = d3.max(sportData);
@@ -1938,8 +1928,7 @@
             var resultScale = d3.scaleLinear().domain([min,max]).range([50,0]);
         
     
-            
-            // Append the country names
+            // Append the sport names
             var sportName = svgGroup.append('text').text(data["2016"].game)
                     .attr('class', 'hover-sport')
                     .attr('x', 110)
@@ -1963,7 +1952,6 @@
                         .attr('height', '15px')
                         .attr('fill', function(d) {
                         
-                            // If country won an award that year
                             if (yearData.includes(d)) {
                                 return color;
                             } else {
@@ -1973,7 +1961,6 @@
                         })
                     .attr('stroke', function(d) {
                         
-                            // If country won an award that year
                             if (yearData.includes(d)) {
                                 return "none";
                             } else {
@@ -1984,10 +1971,13 @@
         
             svgGroup.append("rect").attr("class", "back").attr("x", yearScale(1896)).attr("y", 20).attr("width", 565).attr("height", 0).attr("fill", "#F0F3F4");
                 
+            // Expand bar graph when hovering over each sport
+                
             svgGroup.on('mouseenter', function(d) {
                 
                 // Rescale
                 resultScale.range([180,20])
+                
                 // Reshape bar charts
                 svgGroup.selectAll(".dataPoints")
                .attr("height", function(d,i){
@@ -2010,13 +2000,13 @@
                     else{ return 0}
                     });
                 
+                // Show year when hovering over each bar
                 svgGroup.selectAll(".dataPoints")
                 .on('mouseenter', function(d){
                     if (yearData.includes(d)){
                         var ind = yearData.indexOf(d);
                         var top = (resultScale(sportData[ind]))
                         
-                    
                         svgGroup.append("text").text(d)
                             .attr("class", "hoverYear")
                             .attr("x", yearScale(d) -10)
@@ -2026,10 +2016,8 @@
                     
                 })
                 .on('mouseleave', function(d){
-                        
                     
                         svgGroup.selectAll(".hoverYear").remove();
-    
                     
                 });
                 
@@ -2112,7 +2100,7 @@
                 }
             
                 counter += 1;
-            
+
             }
                     
     </script>
@@ -2135,9 +2123,7 @@
         </script>
     
     </div>
-    
-    
-    
+        
 </body>
 
 </html>
