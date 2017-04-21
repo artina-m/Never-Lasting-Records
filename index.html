@@ -500,14 +500,10 @@
                     .attr("width", 640)
                     .attr("height", function() {
                         return 14;
-                        // if (data == mens100m) { return 14 }
-                        // else { return 17 }
                     })
                     .attr("x", 120)
                     .attr("y", function(d) {
                         return yScale(d.order) - 8 + 120;
-                        // if (data == mens100m) { return yScale(d.order) - 7 + 120 }
-                        // else { return yScale(d.order) - 17/2 + 120 }
                     })
                     .style("fill", "lightgray")
                     .style("opacity", .05);
@@ -554,8 +550,6 @@
                     .ease(d3.easePoly)
                     .duration(2000)
                     .attr('cx', function(d,i) { return xTrackScale(d.end) })
-                // .transition()
-                    // .duration(1000)
                 .transition()
                     .ease(d3.easePoly)
                     .duration(2000)
@@ -570,9 +564,6 @@
                     .attr("x", 72)
                     .attr("y", function(d) {return yScale(d.order) + 120})
                     .style("alignment-baseline", "middle");
-                    // .style("font-size", 12)
-                    // .style("font-weight", 200)
-                    // .style("fill", "grey");
 
                 // Add titles
                 svgTrack.append("text").text(function() {
@@ -585,8 +576,6 @@
                         else { return 348.6; }
                     })
                     .attr("y", 45);
-                    // .style("font-size", 25)
-                    // .style("font-weight", 600);
                 
                 svgTrack.selectAll(".subtitle").remove();
                 
@@ -601,9 +590,6 @@
                     else {
                         return "What would happen if all Olympic medalists from 1900 - 2016 raced each other in the 100 meters? This 10 second race is one of the highest profile competitions at the games. Since the first men's Olympic the record has been broken 13 times and matched 24 times. The current Olympic record is held by Usain Boldt at 9.63 seconds.";
                     }});
-                    
-                    // .style("font-size", 16)
-                    // .style("font-weight", 400);
 
                 // Add x-axis text: distance in meters
                 svgTrack.append("text").text("100m")
@@ -1056,8 +1042,6 @@
                     })
                     .style('cursor', 'pointer')
                     .style('display', function(d) {
-                        // if (d.country == 'POR') { return 'none'; }
-                        // else if (counts[d.country][0] >= 16) { return 'none'; }
                     });        
                 
                 // Filter by countries
@@ -1186,9 +1170,7 @@
                         } 
                     })
                     .style('display', function(d) {
-                        // if (d.country == 'POR') { return 'none'; }
-                        // else if (counts[d.country][0] >= 16) { return 'none'; }
-                    });
+                        });
             }
             
             function filterMedals(data, plottingData, objects, game) {
@@ -1331,8 +1313,6 @@
 
             var yPoolScaleMen = d3.scaleLinear().domain([0,25]).range([490,90]);
             var yPoolScaleWomen = d3.scaleLinear().domain([0,21]).range([450,100]);
-            // var yPoolScaleMen = d3.scaleLinear().domain([0,16]).range([490,90]);
-            // var yPoolScaleWomen = d3.scaleLinear().domain([0,13]).range([490,90]);
 
             // Create SVG
             var svgPool = d3.select("#poolViz")
@@ -1391,14 +1371,10 @@
                     .attr('width', 640)
                     .attr('height', function() {
                         return 14;
-                        // if (data == mens200mFly) { return 24 }
-                        // else { return 30 }
                     })
                     .attr('x', 120)
                     .attr('y', function(d) {
                         return yPoolScale(d.order) - 8 - 72;
-                        // if (data == mens200mFly) { return yPoolScale(d.order) - 12 }
-                        // else { return yPoolScale(d.order) - 15 }
                     })
                     .style("fill", 'lightGrey')
                     .style("opacity", .05);
@@ -1631,11 +1607,9 @@
                 // Calls function for hovering
                 if (data == mens200mFly) { plotHover(data, plottingData, circles, "pool", "mens") }
                 else { plotHover(data, plottingData, circles, "pool", "womens") }
-
                 
                 // Calls function for filtering by country
                 filterCountries(data, plottingData, circles);
-                
                                 
                 // Calls function for filtering by medal
                 filterMedals(data, plottingData, circles, 'pool');
@@ -1694,14 +1668,10 @@
                     .attr("width", 640)
                     .attr("height", function() {
                         return 14;
-                        // if (data == mensDiscus) { return 19 }
-                        // else { return 21 }
                     })
                     .attr("x", 120)
                     .attr("y", function(d) {
                         return yDiscusScale(d.order) - 8 +120;
-                        // if (data == mensDiscus) { return yDiscusScale(d.order) - 19/2 }
-                        // else { return yDiscusScale(d.order) - 21/2 }
                     })
                     .style("fill", "darkseagreen")
                     .style("opacity", .05);
@@ -1830,7 +1800,6 @@
                         .transition() // make lines disappear
                             .duration(0)
                             .style("opacity", 0) 
-
                     })
                 }
 
@@ -1925,8 +1894,6 @@
                 
                 // Calls function for filtering by medal
                 filterMedals(data, plottingData, secondCircles, 'discus');
-                
-
             }
 
         </script>
@@ -2037,8 +2004,7 @@
             var max = d3.max(sportData);
             
             var resultScale = d3.scaleLinear().domain([min,max]).range([50,0]);
-        
-    
+         
             // Append the sport names
             var sportName = svgGroup.append('text').text(data["2016"].game)
                     .attr('class', 'hover-sport')
@@ -2207,19 +2173,13 @@
                     svgGroup.selectAll(".groupText").remove();
                     svgGroup.select(".hover-sport")
                     .style("font-weight", 200)
-                    .attr("fill", "black");
-                    
-                });
-                    
-                }
-            
+                    .attr("fill", "black"); 
+                });  
+                }            
                 counter += 1;
-
             }
                     
     </script>
-        
-
     
     </div>
     <div class = "bottomHeader">
